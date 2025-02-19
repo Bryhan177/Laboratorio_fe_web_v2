@@ -65,4 +65,4 @@ import { AppFloatingConfigurator } from '../../layout/component/app.floatingconf
             </div>
         </div>`
 })
-export class Notfound {}
+export default class Notfound {}

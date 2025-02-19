@@ -1,23 +1,23 @@
 import { Routes } from '@angular/router';
-import { AppLayout } from './app/layout/component/app.layout';
-import { Dashboard } from './app/pages/dashboard/dashboard';
-import { Documentation } from './app/pages/documentation/documentation';
-import { Landing } from './app/pages/landing/landing';
-import { Notfound } from './app/pages/notfound/notfound';
 
 export const appRoutes: Routes = [
     {
         path: '',
-        component: AppLayout,
+        loadComponent: () => import('./app/layout/component/app.layout'),
         children: [
-            { path: '', component: Dashboard },
+            { path: '', loadComponent: () => import('./app/dashboard/dashboard')},
+            { path: 'apps', loadChildren: () => import('./app/apps/apps.routes') },
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
-            { path: 'documentation', component: Documentation },
-            { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
+            { path: 'documentation', loadComponent: () => import('./app/documentation/documentation') },
         ]
     },
-    { path: 'landing', component: Landing },
-    { path: 'notfound', component: Notfound },
-    { path: 'auth', loadChildren: () => import('./app/auth/auth.routes') },
+    { path: '',
+        children: [
+            { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
+            { path: 'pages', loadChildren: () => import('./app/pages/pages.routes')},
+            { path: 'landing', loadComponent: () => import('./app/pages/landing/landing')},
+            { path: 'notfWound', loadComponent: () => import('./app/pages/notfound/notfound')},
+        ]
+    },
     { path: '**', redirectTo: '/notfound' }
 ];

@@ -70,4 +70,4 @@ ng serve</code></pre>
         }
     `
 })
-export class Documentation {}
+export default class Documentation {}
