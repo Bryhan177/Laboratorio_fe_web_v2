@@ -31,10 +31,19 @@ export class AppMenu {
                         label: 'Crud',
                         icon: 'pi pi-fw pi-pencil',
                         routerLink: ['/apps/crud']
-                    },
+                    }
                 ]
             },
-
+            {
+                label: 'Components',
+                items: [
+                    {
+                        label: 'Empty',
+                        icon: 'pi pi-fw pi-circle-off',
+                        routerLink: ['/empty']
+                    }
+                ]
+            },
             {
                 label: 'UI Components',
                 items: [
@@ -91,11 +100,6 @@ export class AppMenu {
                         icon: 'pi pi-fw pi-exclamation-circle',
                         routerLink: ['/pages/notfound']
                     },
-                    {
-                        label: 'Empty',
-                        icon: 'pi pi-fw pi-circle-off',
-                        routerLink: ['/pages/empty']
-                    }
                 ]
             },
             {
