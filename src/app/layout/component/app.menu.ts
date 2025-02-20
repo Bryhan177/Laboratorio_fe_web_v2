@@ -31,6 +31,11 @@ export class AppMenu {
                         label: 'Crud',
                         icon: 'pi pi-fw pi-pencil',
                         routerLink: ['/apps/crud']
+                    },
+                    {
+                        label: 'Calendar',
+                        icon: 'pi pi-fw pi-calendar',
+                        routerLink: ['/apps/calendar']
                     }
                 ]
             },
