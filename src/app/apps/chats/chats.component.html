@@ -1,0 +1,228 @@
+<!--
+  Estructura general:
+  1) Barra superior (solo visible en mobile) con botón hamburguesa.
+  2) Contenedor flex principal que incluye:
+     - Sidebar (deslizable en mobile)
+     - Área de chat
+-->
+
+<!-- TOP BAR: solo en pantallas pequeñas (md:hidden) -->
+<div class="md:hidden bg-surface-50 dark:bg-surface-950 p-4 flex items-center justify-between border-b border-surface-200 dark:border-surface-800">
+    <div class="font-bold text-surface-900 dark:text-surface-0">Chats</div>
+    <button (click)="toggleSidebar()" class="p-2">
+      <i class="pi pi-bars text-xl text-surface-600 dark:text-surface-300"></i>
+    </button>
+  </div>
+
+  <!-- Contenedor principal -->
+  <div class="h-[calc(100vh-64px)] md:h-screen flex overflow-hidden gap-3">
+    <!-- SIDEBAR -->
+    <!--
+      Usamos clases:
+      - fixed y transform para poder desplazarlo en mobile
+      - md:static y md:translate-x-0 para que se muestre fijo en pantallas medianas o mayores
+    -->
+    <div
+      class="fixed md:static inset-y-0 left-0 w-100 bg-surface-0 dark:bg-surface-900 border-r border-surface-200 dark:border-surface-800 transform transition-transform duration-300 z-50 flex flex-col"
+      [ngClass]="{
+        'translate-x-0': isSidebarOpen,
+        '-translate-x-full': !isSidebarOpen,
+        'md:translate-x-0': true
+      }"
+    >
+      <!-- Usuario Actual -->
+      <div class="p-4 flex items-center border-b border-surface-200 dark:border-surface-800 hidden md:flex">
+        <!-- Solo se muestra en md+ (pues en móvil lo muestra la top bar si quieres) -->
+        <img [src]="currentUser.avatar" class="w-10 h-10 rounded-full mr-3" />
+        <div>
+          <div class="font-bold text-surface-900 dark:text-surface-0">{{ currentUser.name }}</div>
+          <div class="text-sm text-surface-600 dark:text-surface-300">{{ currentUser.role }}</div>
+        </div>
+      </div>
+
+      <!-- Barra de Búsqueda -->
+      <div class="p-4 relative">
+        <i class="pi pi-search absolute left-5 top-1/2 -translate-y-1/2 text-surface-500 dark:text-surface-400"></i>
+        <input
+          [formControl]="searchControl"
+          type="text"
+          placeholder="Searching..."
+          class="w-full pl-10 pr-3 py-2 border border-surface-300 dark:border-surface-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface-50 dark:bg-surface-950 text-surface-900 dark:text-surface-0"
+        />
+      </div>
+
+      <!-- Tabs -->
+      <div class="px-4 flex space-x-4 border-b border-surface-200 dark:border-surface-800 overflow-hidden">
+        <button
+          [ngClass]="{
+            'border-b-2 border-blue-500 text-blue-500': activeTab === 'chats',
+            'text-surface-600 dark:text-surface-300': activeTab !== 'chats'
+          }"
+          class="pb-2 flex items-center space-x-1 text-sm"
+          (click)="setTab('chats')"
+        >
+          <i class="pi pi-fw pi-comments"></i>
+          <span>Chats</span>
+        </button>
+
+        <button
+          [ngClass]="{
+            'border-b-2 border-blue-500 text-blue-500': activeTab === 'calls',
+            'text-surface-600 dark:text-surface-300': activeTab !== 'calls'
+          }"
+          class="pb-2 flex items-center space-x-1 text-sm"
+          (click)="setTab('calls')"
+        >
+          <i class="pi pi-fw pi-phone"></i>
+          <span>Calls</span>
+        </button>
+
+        <button
+          [ngClass]="{
+            'border-b-2 border-blue-500 text-blue-500': activeTab === 'contacts',
+            'text-surface-600 dark:text-surface-300': activeTab !== 'contacts'
+          }"
+          class="pb-2 flex items-center space-x-1 text-sm"
+          (click)="setTab('contacts')"
+        >
+          <i class="pi pi-fw pi-users"></i>
+          <span>Contacts</span>
+        </button>
+
+        <button
+          [ngClass]="{
+            'border-b-2 border-blue-500 text-blue-500': activeTab === 'notifications',
+            'text-surface-600 dark:text-surface-300': activeTab !== 'notifications'
+          }"
+          class="pb-2 flex items-center space-x-1 text-sm"
+          (click)="setTab('notifications')"
+        >
+          <i class="pi pi-fw pi-bell"></i>
+          <span>Notifications</span>
+        </button>
+      </div>
+
+      <!-- Lista de Chats -->
+      @if (activeTab === 'chats') {
+        <div class="flex-1 overflow-y-auto">
+          <ul>
+            @for (chat of filteredChats; track chat.id) {
+              <li
+                class="p-4 border-b border-surface-200 dark:border-surface-800 hover:bg-surface-100 dark:hover:bg-surface-800 cursor-pointer flex items-center"
+                (click)="selectChat(chat)"
+                [ngClass]="{
+                  'bg-surface-100 dark:bg-surface-800': selectedChat && selectedChat.id === chat.id
+                }"
+              >
+                <img [src]="chat.avatar" class="w-10 h-10 rounded-full mr-3" />
+                <div class="flex-1">
+                  <div class="font-semibold text-surface-900 dark:text-surface-0">{{ chat.name }}</div>
+                  <div class="text-sm text-surface-600 dark:text-surface-300 truncate w-40">
+                    {{ chat.lastMessage }}
+                  </div>
+                </div>
+              </li>
+            } @empty {
+              <li class="p-4 text-surface-600 dark:text-surface-300">No chats found</li>
+            }
+          </ul>
+        </div>
+      } @else if (activeTab === 'calls') {
+        <div class="p-4 text-surface-600 dark:text-surface-300">
+          <p>Calls view (under construction)</p>
+        </div>
+      } @else if (activeTab === 'contacts') {
+        <div class="p-4 text-surface-600 dark:text-surface-300">
+          <p>Contacts view (under construction)</p>
+        </div>
+      } @else if (activeTab === 'notifications') {
+        <div class="p-4 text-surface-600 dark:text-surface-300">
+          <p>Notifications view (under construction)</p>
+        </div>
+      }
+    </div>
+
+    <!-- ÁREA PRINCIPAL DE CHAT -->
+    <div class="flex-1 flex flex-col">
+      @if (selectedChat) {
+        <!-- Barra Superior del Chat -->
+        <div class="flex items-center p-4 border-b border-surface-200 dark:border-surface-800 bg-surface-50 dark:bg-surface-950">
+          <img [src]="selectedChat.avatar" class="w-10 h-10 rounded-full mr-3" />
+          <div class="flex-1">
+            <div class="font-bold text-surface-900 dark:text-surface-0">{{ selectedChat.name }}</div>
+            <div class="text-sm text-surface-600 dark:text-surface-300">{{ selectedChat.status }}</div>
+          </div>
+          <!-- Iconos de llamada / info -->
+          <div class="space-x-4 text-surface-600 dark:text-surface-300 flex items-center">
+            <!-- Llamada de audio -->
+            <button class="hover:text-surface-800 dark:hover:text-surface-200" title="Audio Call">
+              <i class="pi pi-fw pi-phone"></i>
+            </button>
+            <!-- Videollamada -->
+            <button class="hover:text-surface-800 dark:hover:text-surface-200" title="Video Call">
+              <i class="pi pi-fw pi-video"></i>
+            </button>
+            <!-- Info del chat -->
+            <button class="hover:text-surface-800 dark:hover:text-surface-200" title="Chat Info">
+              <i class="pi pi-fw pi-info-circle"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mensajes agrupados por fecha -->
+        <div class="flex-1 overflow-y-auto p-4 bg-surface-50 dark:bg-surface-950">
+          @for (group of getGroupedMessages(); track group.date) {
+            <div class="text-center text-sm text-surface-600 dark:text-surface-300 my-2">
+              {{ group.date }}
+            </div>
+            @for (message of group.messages; track message.id) {
+              <div [ngClass]="{'text-right': message.sentByUser}" class="mb-4">
+                <div
+                  class="inline-block rounded-lg p-2"
+                  [ngClass]="message.sentByUser
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-surface-100 dark:bg-surface-800 text-surface-900 dark:text-surface-0'"
+                >
+                  <p>{{ message.text }}</p>
+                  <span class="text-xs block mt-1 opacity-75">
+                    {{ formatDate(message.timestamp) }}
+                  </span>
+                </div>
+              </div>
+            } @empty {
+              <p class="text-center text-surface-600 dark:text-surface-300">No messages</p>
+            }
+          }
+        </div>
+
+        <!-- Input para escribir / enviar -->
+        <div class="p-4 border-t border-surface-200 dark:border-surface-800 bg-surface-50 dark:bg-surface-950">
+          <div class="flex items-center space-x-2">
+            <input
+              [formControl]="messageControl"
+              type="text"
+              placeholder="Type a message..."
+              class="flex-1 px-3 py-2 border border-surface-300 dark:border-surface-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-surface-50 dark:bg-surface-950 text-surface-900 dark:text-surface-0"
+            />
+            <button
+              (click)="sendMessage()"
+              class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 flex items-center space-x-1"
+            >
+              <i class="pi pi-fw pi-send"></i>
+              <span>Send</span>
+            </button>
+          </div>
+        </div>
+      } @else {
+        <!-- Placeholder cuando no hay chat seleccionado -->
+        <div class="flex-1 flex flex-col items-center justify-center bg-surface-50 dark:bg-surface-950">
+          <img
+            src="https://picsum.photos/320/320"
+            alt="Random"
+            class="mb-6 opacity-80 max-w-xs"
+          />
+          <p class="text-surface-600 dark:text-surface-300 text-xl">Select a chat to start messaging</p>
+        </div>
+      }
+    </div>
+  </div>

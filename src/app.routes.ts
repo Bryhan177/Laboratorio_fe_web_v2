@@ -16,7 +16,7 @@ export const appRoutes: Routes = [
         children: [
             { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes')},
-            { path: 'landing', loadComponent: () => import('./app/pages/landing/landing')},
+            { path: 'landing', loadComponent: () => import('./app/pages/landing/landing.component')},
             { path: 'notfound', loadComponent: () => import('./app/pages/notfound/notfound.component')},
         ]
     },
