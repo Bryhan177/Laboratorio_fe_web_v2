@@ -1,0 +1,43 @@
+<div [ngClass]="colorThemes[currentTheme].background" class="min-h-screen py-16 px-6 sm:px-10 lg:px-16 flex flex-col items-center justify-center relative">
+    <!-- Botón para cambiar el tema en la esquina superior derecha -->
+    <button
+      (click)="changeTheme()"
+      class="absolute top-6 right-6 bg-white text-blue-700 px-5 py-2 rounded-lg shadow-md hover:bg-gray-200 transition">
+      🎨 Cambiar Tema
+    </button>
+
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <h1 class="text-6xl md:text-7xl font-extrabold text-white mb-4">
+          🌟 Selecciona una opción
+        </h1>
+        <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+          Explora nuestras categorías y descubre experiencias únicas en cada una de ellas.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <app-selection-card
+          title="Laboratorio de Metodologias participativas"
+          description="Explora nuestro laboratorio virtual con experimentos interactivos y aprendizaje práctico."
+          path="/landing"
+          [color]="colorThemes[currentTheme].laboratory"
+          [isSelected]="selectedCard === 'laboratory'"
+          icon="pi-flag"
+          imageUrl="https://loremflickr.com/1280/720"
+          (select)="handleSelect('laboratory')"
+        ></app-selection-card>
+
+        <app-selection-card
+          title="Concurso"
+          description="Participa en concursos y demuestra tus habilidades en diferentes desafíos."
+          path="/landing2"
+          [color]="colorThemes[currentTheme].contest"
+          [isSelected]="selectedCard === 'contest'"
+          icon="pi-star"
+          imageUrl="https://loremflickr.com/1280/720"
+          (select)="handleSelect('landing2')"
+        ></app-selection-card>
+      </div>
+    </div>
+  </div>

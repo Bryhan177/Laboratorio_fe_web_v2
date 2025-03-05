@@ -27,6 +27,7 @@
         "@fullcalendar/timegrid": "^6.1.15",
         "@primeng/themes": "^19.0.5",
         "chart.js": "4.4.2",
+        "lucide-angular": "^0.477.0",
         "primeclt": "^0.1.5",
         "primeicons": "^7.0.0",
         "primeng": "^19.0.5",
