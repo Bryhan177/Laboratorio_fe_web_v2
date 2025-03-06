@@ -1,0 +1,229 @@
+<form
+  [formGroup]="questionsForm"
+  (ngSubmit)="submitForm()"
+  class="w-full max-w-4xl mx-auto p-8 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 shadow-2xl rounded-3xl"
+>
+  <!-- Encabezado Principal -->
+  <header class="mb-8 text-center">
+    <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
+      ¡Comparte tu experiencia educativa!
+    </h1>
+    <p class="mt-2 text-lg text-gray-700">Tu opinión nos ayuda a innovar y mejorar</p>
+  </header>
+
+  <!-- Información Personal -->
+  <section class="mb-10">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-purple-300 pb-2">
+      Información Personal
+    </h2>
+    <div formGroupName="personalInfo" class="grid grid-cols-1 gap-6">
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Nombre y Apellidos</label>
+        <input
+          type="text"
+          formControlName="fullName"
+          required
+          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        />
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Institución Educativa</label>
+        <input
+          type="text"
+          formControlName="institution"
+          required
+          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        />
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Municipio</label>
+        <input
+          type="text"
+          formControlName="municipality"
+          required
+          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        />
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Zona</label>
+          <select
+            formControlName="educationType"
+            class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+          >
+            <option value="rural">Rural</option>
+            <option value="urbano">Urbano</option>
+            <option value="no sabe">No sabe</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Institución</label>
+          <select
+            formControlName="institutionType"
+            class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+          >
+            <option value="publica">Pública</option>
+            <option value="privada">Privada</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Grado y Año</label>
+        <input
+          type="text"
+         pTooltip="Piensa en un grado del colegio (primaria o segundaria) y año en el que estudiaste, para que los tengas en cuenta a la hora de responder la encuesta. Ejm: Grado 8° - Año 2011" tooltipPosition="top"
+           tooltipEvent="focus"
+          formControlName="gradeYear"
+          required
+          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Materias Favoritas -->
+  <section class="mb-10">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-purple-300 pb-2">
+        ¿Qué área / asignaturas disfrutabas o disfrutas más?
+    </h2>
+    <div formGroupName="favoriteSubjects" class="space-y-6">
+      <div class="grid grid-cols-2 gap-4">
+        <div *ngFor="let subject of subjects">
+          <label class="flex items-center space-x-2">
+            <input
+              type="radio"
+              formControlName="subject"
+              [value]="subject"
+              class="form-radio h-5 w-5 text-purple-600"
+            />
+            <span class="text-gray-700">{{ subject }}</span>
+          </label>
+        </div>
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">¿Por qué?</label>
+        <select
+          formControlName="reason"
+          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        >
+          <option *ngFor="let reason of reasonsToEnjoy" [value]="reason">
+            {{ reason }}
+          </option>
+        </select>
+      </div>
+      <div *ngIf="showFavoriteOtherReason">
+        <input
+          type="text"
+          formControlName="otherReason"
+          placeholder="Escribe tu otra razón"
+          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Materias Menos Favoritas -->
+  <section class="mb-10">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-purple-300 pb-2">
+        ¿Qué área / asignaturas no disfrutabas?
+    </h2>
+    <div formGroupName="leastFavoriteSubjects" class="space-y-6">
+      <div class="grid grid-cols-2 gap-4">
+        <div *ngFor="let subject of subjects">
+          <label class="flex items-center space-x-2">
+            <input
+              type="radio"
+              formControlName="subject"
+              [value]="subject"
+              class="form-radio h-5 w-5 text-purple-600"
+            />
+            <span class="text-gray-700">{{ subject }}</span>
+          </label>
+        </div>
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">¿Por qué?</label>
+        <select
+          formControlName="reason"
+          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        >
+          <option *ngFor="let reason of reasonsToDislike" [value]="reason">
+            {{ reason }}
+          </option>
+        </select>
+      </div>
+      <div *ngIf="showLeastFavoriteOtherReason">
+        <input
+          type="text"
+          formControlName="otherReason"
+          placeholder="Escribe tu otra razón"
+          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Recursos de Aprendizaje -->
+  <section class="mb-10">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-purple-300 pb-2">
+        ¿Qué tipo de actividades o recursos te ayudaban o ayudan a aprender?
+    </h2>
+    <div formGroupName="learningResources" class="grid grid-cols-2 gap-4">
+      <div *ngFor="let resource of learningResources">
+        <label class="flex items-center space-x-2">
+          <input
+            type="radio"
+            formControlName="resource"
+            [value]="resource"
+            class="form-radio h-5 w-5 text-purple-600"
+          />
+          <span class="text-gray-700">{{ resource }}</span>
+        </label>
+      </div>
+    </div>
+    <div *ngIf="showLearningOtherResource" class="mt-4">
+      <input
+        type="text"
+        formControlName="otherResource"
+        placeholder="Escribe tu otro recurso"
+        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+      />
+    </div>
+  </section>
+
+  <!-- Cambios en la Enseñanza -->
+  <section class="mb-10">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-purple-300 pb-2">
+        ¿Qué cambiarías de la manera que se enseña en las instituciones educativas?
+    </h2>
+    <div formGroupName="teachingChanges" class="grid grid-cols-2 gap-4">
+      <div *ngFor="let change of teachingChanges">
+        <label class="flex items-center space-x-2">
+          <input
+            type="radio"
+            formControlName="change"
+            [value]="change"
+            class="form-radio h-5 w-5 text-purple-600"
+          />
+          <span class="text-gray-700">{{ change }}</span>
+        </label>
+      </div>
+    </div>
+    <div *ngIf="showTeachingOtherChange" class="mt-4">
+      <input
+        type="text"
+        formControlName="otherChange"
+        placeholder="Escribe tu otro cambio"
+        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
+      />
+    </div>
+  </section>
+
+  <!-- Botón de Envío -->
+  <button
+    type="submit"
+    class="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full shadow-lg hover:shadow-xl focus:outline-none"
+  >
+    Enviar
+  </button>
+</form>
