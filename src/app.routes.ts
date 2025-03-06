@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
 
 export const appRoutes: Routes = [
+    { path: '', loadComponent: () => import('./app/pages/home/home.component')},
     {
-        path: '',
+        path: 'dashboard',
         loadComponent: () => import('./app/layout/component/app.layout'),
         children: [
-            { path: '', loadComponent: () => import('./app/dashboard/dashboard')},
+            { path: '', loadComponent: () => import('./app/empty/empty.component') },
             { path: 'apps', loadChildren: () => import('./app/apps/apps.routes') },
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', loadComponent: () => import('./app/documentation/documentation.component') },
-            { path: 'empty', loadComponent: () => import('./app/empty/empty.component') },
         ]
     },
     { path: '',
