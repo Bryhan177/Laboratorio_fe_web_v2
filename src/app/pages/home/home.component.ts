@@ -12,14 +12,12 @@ import { SelectionCardComponent } from '../../../shared/components/selection-car
 export default class HomeComponent {
   selectedCard: string = '';
 
-  // Paletas de colores para el fondo y las tarjetas:
-  // Modo Día: tonos suaves y menos intensos
-  // Modo Noche: tonos más profundos y oscuros
+
   colorThemes = [
     {
       laboratory: 'bg-gradient-to-br from-cyan-300 via-blue-400 to-blue-600',
       contest: 'bg-gradient-to-br from-purple-400 via-fuchsia-500 to-pink-600',
-      background: 'bg-gradient-to-br from-blue-500 to-blue-900'
+      background: 'bg-black'
     },
     {
       laboratory: 'bg-gradient-to-br from-cyan-800 via-blue-600 to-blue-900',
@@ -28,9 +26,8 @@ export default class HomeComponent {
     }
   ];
 
-  currentTheme = 0; // Tema actual (0: Día, 1: Noche)
+  currentTheme = 0;
 
-  // Cambia el tema de colores (fondo y tarjetas)
   changeTheme() {
     this.currentTheme = (this.currentTheme + 1) % this.colorThemes.length;
   }
