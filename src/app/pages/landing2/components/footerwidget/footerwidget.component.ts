@@ -8,5 +8,7 @@ selector: 'footer-widget',
   styleUrl: './footerwidget.component.scss'
 })
 export class FooterWidget {
+    currentYear: number = new Date().getFullYear();
+
     public router = inject(Router);
 }
