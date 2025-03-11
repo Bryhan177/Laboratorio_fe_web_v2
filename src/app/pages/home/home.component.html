@@ -1,45 +1,155 @@
-<div [ngClass]="colorThemes[currentTheme].background" class="min-h-screen py-16 px-6 sm:px-10 lg:px-16 flex flex-col items-center justify-center relative">
-    <!-- Botón para cambiar el tema en la esquina superior derecha -->
-    <button
-      (click)="changeTheme()"
-      class="absolute top-6 right-6 bg-white text-blue-700 px-5 py-2 rounded-lg shadow-md hover:bg-gray-200 transition">
-      🎨 Cambiar Tema
+<div [ngClass]="colorThemes[currentTheme].background"
+    class="min-h-screen relative flex flex-col items-center py-16 px-6 sm:px-10 lg:px-16">
+    <!-- Botón para cambiar el tema -->
+    <button (click)="changeTheme()"
+        class="absolute top-6 right-6 bg-white text-blue-700 px-5 py-2 rounded-lg shadow-md hover:bg-gray-200 transition duration-300 ease-in-out">
+        🎨 Cambiar Tema
     </button>
 
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-10">
-        <h1 class="text-6xl md:text-7xl font-extrabold text-white mb-4">
-          🌟 Selecciona una opción
+    <!-- Sección de Cabecera -->
+    <header class="text-center mb-16 animate-fadeIn">
+        <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4 tracking-widest drop-shadow-lg">
+            Bienvenidos al Laboratorio de Metodologías Participativas
         </h1>
-        <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-          Explora nuestras categorías y descubre experiencias únicas en cada una de ellas.
+        <p class="text-xl md:text-2xl text-gray-200 font-light italic">
+            “El lugar donde las ideas brillan”
         </p>
-      </div>
+    </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-        <app-selection-card
-          title="Laboratorio de Metodologias participativas"
-          description="Explora nuestro laboratorio virtual con experimentos interactivos y aprendizaje práctico."
-          path="/landing"
-          [color]="colorThemes[currentTheme].laboratory"
-          [isSelected]="selectedCard === 'laboratory'"
-          icon="pi-flag"
-          imageUrl="https://loremflickr.com/1280/720"
-          (select)="handleSelect('laboratory')"
-        ></app-selection-card>
-
-        <app-selection-card
-          title="Concurso de Innovaciónes Educativas"
-          description="Participa en concursos y demuestra tus habilidades en diferentes desafíos."
-          path="/landing2"
-          [color]="colorThemes[currentTheme].contest"
-          [isSelected]="selectedCard === 'contest'"
-          icon="pi-star"
-          imageUrl="https://loremflickr.com/1280/720"
-          (select)="handleSelect('landing2')"
-        ></app-selection-card>
-
-
-      </div>
+    <!-- Logo del Laboratorio -->
+    <div class="mb-12 animate-fadeIn">
+        <img src="assets/img/logo-blanco.png" alt="Logo del Laboratorio" class="mx-auto w-64 md:w-80" />
     </div>
-  </div>
+
+    <!-- Contenedor Principal -->
+    <main class="w-full max-w-fit space-y-12 sm:space-y-20">
+<!-- Sección "Quienes Somos" con Video -->
+<section>
+    <h3 class="text-4xl text-white font-bold text-center mb-8">Quienes Somos</h3>
+    <div class="flex justify-center">
+      <video controls class="w-full max-w-3xl rounded-xl shadow-lg transform transition hover:scale-105">
+        <source src="assets/mp4/Intro_Laboratorio.mov" type="video/mp4">
+        Tu navegador no soporta la etiqueta de video.
+      </video>
+    </div>
+  </section>
+
+        <!-- Sección Alternada de Contenido (Texto e Imagen) -->
+        <section class="space-y-20">
+            <!-- Alternancia 1: Texto a la Izquierda - Imagen a la Derecha -->
+            <div class="flex flex-col md:flex-row items-center gap-12 animate-fadeIn">
+                <div class="md:w-1/2 text-gray-300">
+                    <p class="text-lg md:text-xl text-justify">
+                        El laboratorio de metodologías participativas es el espacio donde confluyen seres de espíritus y
+                        mentes inquietas, quienes ven la educación como un portal para comprender otras realidades, es
+                        una juntanza de personas que ven en los finales nuevos comienzos, quienes se atreven aponerse
+                        gafas para vivir nuevas ideas, donde están los que accionan pensando en la imaginación de otros
+                        mundos, es el encuentro de almas que creen firmemente en la rigurosidad, la pasión, la humanidad,
+                        la creatividad y la coherencia con la realidad que requieren los procesos de aprendizaje y la
+                        enseñanza.
+                    </p>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="p-1 bg-gradient-to-r from-white/30 to-white/10 rounded-xl shadow-lg">
+                        <img src="assets/img/img1.png" alt="Imagen de la misión"
+                            class="w-full h-auto rounded-xl transform transition hover:scale-105" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alternancia 2: Imagen a la Izquierda - Texto a la Derecha -->
+            <div class="flex flex-col md:flex-row-reverse items-center gap-12 animate-fadeIn">
+                <div class="md:w-1/2 text-gray-300">
+                    <p class="text-lg md:text-xl text-justify">
+                        El laboratorio de metodologías participativas se enfoca en la exploración y el desarrollo de
+                        estrategias pedagógicas versátiles y adaptables para cualquier escenario, ya sea en contextos
+                        educativos, comunitarios u organizacionales.
+                    </p>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="p-1 bg-gradient-to-r from-white/30 to-white/10 rounded-xl shadow-lg">
+                        <img src="assets/img/img2.jpg" alt="Imagen del enfoque"
+                            class="w-full h-auto rounded-xl transform transition hover:scale-105" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alternancia 3: Texto a la Izquierda - Imagen a la Derecha -->
+            <div class="flex flex-col md:flex-row items-center gap-12 animate-fadeIn">
+                <div class="md:w-1/2 text-gray-300">
+                    <p class="text-lg md:text-xl text-justify">
+                        En este espacio para formación de formadores, se diseñan conjuntamente estrategias Innovadoras
+                        que se fundamentan en el trabajo en equipo, la discusión entre pares, el intercambio de experiencias
+                        y saberes. De esta manera posibilitan a quienes participan de esta experiencia adquirir y
+                        potencializar herramientas para guiar idóneamente procesos de transferencia de conocimientos.
+                    </p>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="p-1 bg-gradient-to-r from-white/30 to-white/10 rounded-xl shadow-lg">
+                        <img src="assets/img/img3.jpg" alt="Imagen de la visión"
+                            class="w-full h-auto rounded-xl transform transition hover:scale-105" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Invitación -->
+        <section class="text-center animate-fadeIn">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">🔑 Te invitamos a entrar</h2>
+        </section>
+
+        <!-- Sección de Cards (Botones) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 animate-fadeIn">
+            <!-- Cada card se envuelve en un contenedor para aplicar efecto hover y tiene el texto centrado -->
+            <div class="transition transform hover:scale-105">
+                <app-selection-card class="text-center" title="Procesos Formativos"
+                    description="Cursos, talleres, diplomados - Formación de prototipos - atributos"
+                    path="/procesos-formativos" [color]="colorThemes[currentTheme].card1"
+                    [isSelected]="selectedCard === 'procesos'" icon="pi-flag"
+                    imageUrl="https://http.cat/images/101.jpg" (select)="handleSelect('procesos')">
+                </app-selection-card>
+            </div>
+
+            <div class="transition transform hover:scale-105">
+                <app-selection-card class="text-center" title="Concursos de Innovaciones Educativas" description=""
+                    path="/landing2" [color]="colorThemes[currentTheme].card2"
+                    [isSelected]="selectedCard === 'concursos'" icon="pi-star"
+                    imageUrl="https://http.cat/images/201.jpg" (select)="handleSelect('concursos')">
+                </app-selection-card>
+            </div>
+
+            <div class="transition transform hover:scale-105">
+                <app-selection-card class="text-center" title="Galería de Innovadores educativos" description=""
+                    path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card3"
+                    [isSelected]="selectedCard === 'concursos'" icon="pi-star"
+                    imageUrl="https://http.cat/images/202.jpg" (select)="handleSelect('concursos')">
+                </app-selection-card>
+            </div>
+
+            <div class="transition transform hover:scale-105">
+                <app-selection-card class="text-center" title="Museo de dispositivos pedagógicos" description=""
+                    path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card4"
+                    [isSelected]="selectedCard === 'concursos'" icon="pi-star"
+                    imageUrl="https://http.cat/images/203.jpg" (select)="handleSelect('concursos')">
+                </app-selection-card>
+            </div>
+
+            <div class="transition transform hover:scale-105">
+                <app-selection-card class="text-center" title="Alianza por la educación"
+                    description="Entidades, organizaciones y empresas comprometidas con las transformaciones educativas."
+                    path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card5"
+                    [isSelected]="selectedCard === 'concursos'" icon="pi-star"
+                    imageUrl="https://http.cat/images/204.jpg" (select)="handleSelect('concursos')">
+                </app-selection-card>
+            </div>
+
+            <div class="transition transform hover:scale-105">
+                <app-selection-card class="text-center" title="Producciones" description="Análisis, reflexiones, resultados."
+                    path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card6"
+                    [isSelected]="selectedCard === 'concursos'" icon="pi-star"
+                    imageUrl="https://http.cat/images/404.jpg" (select)="handleSelect('concursos')">
+                </app-selection-card>
+            </div>
+        </section>
+    </main>
+</div>
