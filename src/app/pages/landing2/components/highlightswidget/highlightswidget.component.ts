@@ -1,76 +1,70 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
+import { CommonModule } from '@angular/common';
 import { FluidModule } from 'primeng/fluid';
 import { Chart } from 'chart.js';
 import { RouterModule } from '@angular/router';
+import { AppFloatingConfigurator } from "../../../../layout/component/app.floatingconfigurator";
 
 @Component({
   selector: 'highlights-widget',
   standalone: true,
-  imports: [ChartModule, FluidModule, RouterModule],
+  imports: [ChartModule, FluidModule, RouterModule, AppFloatingConfigurator, CommonModule],
   templateUrl: './highlightswidget.component.html',
   styleUrls: ['./highlightswidget.component.scss']
 })
 export class HighlightsWidget implements OnInit {
-  pieData: any;
+  pieData!: { labels: { id: string; nombre: string; color: string }[]; datasets: any[] };
   pieOptions: any;
 
   constructor() {}
 
   ngOnInit(): void {
-    // Obtenemos los estilos del documento para usar los colores definidos
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color') || '#000';
 
-    // Definimos un plugin para dibujar texto en el centro del gráfico
+    // Definimos un plugin para el texto en el centro del gráfico
     const centerTextPlugin = {
-        id: 'centerText',
-        beforeDraw: function(chart: any) {
-          const ctx = chart.ctx;
-          const width = chart.width;
-          const height = chart.height;
-          ctx.restore();
+      id: 'centerText',
+      beforeDraw: function (chart: any) {
+        const ctx = chart.ctx;
+        const width = chart.width;
+        const height = chart.height;
+        ctx.restore();
 
-          // Ajuste dinámico del tamaño de la fuente
-          let fontSize = (height / 150).toFixed(2);
-          ctx.font = fontSize + "em sans-serif";
-          ctx.textBaseline = "middle";
-          ctx.fillStyle = textColor;
+        let fontSize = (height / 150).toFixed(2);
+        ctx.font = fontSize + "em sans-serif";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = textColor;
 
-          // Texto dividido en dos líneas
-          const lines = ["ETAPAS", "DEL CONCURSO"];
-          lines.forEach((line, index) => {
-            const textX = Math.round((width - ctx.measureText(line).width) / 2);
-            const textY = height / 2 + (index * 70) - 30; // Ajusta el espaciado entre líneas
-            ctx.fillText(line, textX, textY);
-          });
+        const lines = ["ETAPAS", "DEL CONCURSO"];
+        lines.forEach((line, index) => {
+          const textX = Math.round((width - ctx.measureText(line).width) / 2);
+          const textY = height / 2 + index * 70 - 30;
+          ctx.fillText(line, textX, textY);
+        });
 
-          ctx.save();
-        }
-      };
+        ctx.save();
+      }
+    };
 
-
-    // Registramos el plugin globalmente
     Chart.register(centerTextPlugin);
 
-    // Configuración del gráfico, ajustamos el cutout para que el anillo sea más delgado
     this.pieOptions = {
-      cutout: '80%', // Aumenta este valor para un anillo más delgado
+      cutout: '80%',
       plugins: {
-        legend: {
-          display: false
-        }
+        legend: { display: false }
       }
     };
 
     this.pieData = {
       labels: [
-        'ETAPA #1 INVESTIGACIÓN',
-        'ETAPA #2 CONVOCATORIA',
-        'ETAPA #3 FORMACIÓN EN METODOLOGÍAS Y PROTOTIPADO',
-        'ETAPA #4 SISTEMATIZACIÓN DE DISPOSITIVOS',
-        'ETAPA #5 EXHIBICIÓN Y CEREMONIA',
-        'ETAPA #6 PRODUCCIÓN/IMPLEMENTACIÓN'
+        { id: 'ETAPA 1', nombre: 'INVESTIGACIÓN', color: '#FF5733' },
+        { id: 'ETAPA 2', nombre: 'CONVOCATORIA', color: '#33A1FF' },
+        { id: 'ETAPA 3', nombre: 'FORMACIÓN EN METODOLOGÍAS Y PROTOTIPADO', color: '#33FF57' },
+        { id: 'ETAPA 4', nombre: 'SISTEMATIZACIÓN DE DISPOSITIVOS', color: '#FFC300' },
+        { id: 'ETAPA 5', nombre: 'EXHIBICIÓN Y CEREMONIA', color: '#A633FF' },
+        { id: 'ETAPA 6', nombre: 'PRODUCCIÓN/IMPLEMENTACIÓN', color: '#FF33A1' }
       ],
       datasets: [
         {

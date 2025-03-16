@@ -1,17 +1,47 @@
-<div class="col-span-12 xl:col-span-6">
-    <div class="card flex flex-col items-center">
-      <p-chart
-        type="doughnut"
-        [data]="pieData"
-        [options]="pieOptions"
-        class="w-[90%] md:w-[75%] lg:w-[50%] max-w-full h-auto aspect-square">
-      </p-chart>
+<app-floating-configurator />
+<div class="absolute top-4 left-4">
+    <button
+        routerLink="/"
+        pButton
+        pRipple
+        class="p-button-rounded w-32 px-4 py-2 ml-4 text-lg font-medium
+               border-2 border-transparent shadow-lg transition-all duration-300
+               bg-blue-500 hover:bg-blue-600 active:scale-95 text-white
+               rounded-full flex items-center justify-center gap-2"
+    >
+        ⬅️ Volver
+    </button>
+</div>
 
-      <!-- Botón para ir al formulario -->
-      <a
-        routerLink="/pages/questions"
-        class="mt-6 cursor-pointer px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-all">
-        Cuéntanos tu experiencia
-      </a>
-    </div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8 items-center pt-14">
+  <!-- Contenedor del gráfico -->
+  <div class="flex justify-center">
+    <p-chart
+      type="doughnut"
+      [data]="pieData"
+      [options]="pieOptions"
+      class="w-[90%] md:w-[75%] lg:w-[50%] max-w-full h-auto aspect-square">
+    </p-chart>
   </div>
+
+  <!-- Contenedor de las etapas -->
+  <div class="card flex flex-col items-start">
+    <div class="flex flex-col gap-4">
+      <div *ngFor="let etapa of pieData.labels" class="flex items-center pb-4 gap-2">
+        <!-- Cuadro de color -->
+        <div class="w-4 h-4 rounded" [style.background-color]="etapa.color"></div>
+
+        <!-- Texto de la etapa -->
+        <span class="font-bold text-surface-900 dark:text-surface-0">{{ etapa.id }}</span>
+        <span class="text-surface-600 dark:text-surface-200">- {{ etapa.nombre }}</span>
+      </div>
+    </div>
+
+    <!-- Botón para ir al formulario -->
+    <a
+      routerLink="/pages/questions"
+      class="mt-6 cursor-pointer px-6 py-2 w-72 h-12 animate-pulse hover:bg-yellow-400 bg-indigo-600 text-center text-white font-semibold rounded-lg shadow-md transition-all">
+      Cuéntanos tu experiencia
+    </a>
+  </div>
+</div>

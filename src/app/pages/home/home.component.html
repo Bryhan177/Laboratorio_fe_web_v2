@@ -1,65 +1,48 @@
-<div [ngClass]="colorThemes[currentTheme].background"
-    class="min-h-screen relative flex flex-col items-center py-16 px-6 sm:px-10 lg:px-16">
-    <!-- Botón para cambiar el tema -->
-    <button (click)="changeTheme()"
-        class="absolute top-6 right-6 bg-white text-blue-700 px-5 py-2 rounded-lg shadow-md hover:bg-gray-200 transition duration-300 ease-in-out">
-        🎨 Cambiar Tema
-    </button>
+<div class="flex flex-col min-h-screen px-6 md:px-12 lg:px-20 py-10">
+    <app-floating-configurator />
 
-    <!-- Sección de Cabecera -->
-    <header class="text-center mb-16 animate-fadeIn">
-        <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4 tracking-widest drop-shadow-lg">
-            Bienvenidos al Laboratorio de Metodologías Participativas
+    <!-- Cabecera -->
+    <header class="text-center mb-16 pt-20 animate-fadeIn">
+        <h1 class="text-5xl md:text-7xl font-extrabold text-black dark:text-white tracking-widest drop-shadow-lg">
+            Laboratorio de Metodologías Participativas
         </h1>
-        <p class="text-xl md:text-2xl text-gray-200 font-light italic">
+        <p class="text-xl md:text-2xl font-light italic text-gray-700 dark:text-gray-300 mt-4">
             “El lugar donde las ideas brillan”
         </p>
     </header>
 
-    <!-- Logo del Laboratorio -->
-    <div class="mb-12 animate-fadeIn">
-        <img src="assets/img/logo-blanco.png" alt="Logo del Laboratorio" class="mx-auto w-64 md:w-80" />
+    <!-- Logo -->
+    <div class="flex justify-center mb-12 animate-fadeIn">
+        <img src="assets/img/logo-blanco.png" alt="Logo del Laboratorio" class="w-48 md:w-64 lg:w-80" />
     </div>
 
-    <!-- Contenedor Principal -->
-    <main class="w-full max-w-fit space-y-12 sm:space-y-20">
-<!-- Sección "Quienes Somos" con Video -->
-<section>
-    <h3 class="text-4xl text-white font-bold text-center mb-8">Quienes Somos</h3>
-    <div class="flex justify-center">
-      <video controls class="w-full max-w-3xl rounded-xl shadow-lg transform transition hover:scale-105">
-        <source src="assets/mp4/Intro_Laboratorio.mov" type="video/mp4">
-        Tu navegador no soporta la etiqueta de video.
-      </video>
+    <!-- Botón de video -->
+    <div class="text-center mb-12 animate-fadeIn">
+        <button class="bg-blue-600 hover:bg-blue-700 text-black font-bold py-3 px-8 rounded-full text-lg shadow-lg transition transform hover:scale-105" (click)="mostrarVideo()">
+            🎥 Ver Video
+        </button>
     </div>
-  </section>
 
-        <!-- Sección Alternada de Contenido (Texto e Imagen) -->
+    <!-- Sección de contenido -->
+    <main class="w-full max-w-5xl mx-auto space-y-16">
+        <!-- Bloques de contenido alternados -->
         <section class="space-y-20">
-            <!-- Alternancia 1: Texto a la Izquierda - Imagen a la Derecha -->
             <div class="flex flex-col md:flex-row items-center gap-12 animate-fadeIn">
-                <div class="md:w-1/2 text-gray-300">
-                    <p class="text-lg md:text-xl text-justify">
-                        El laboratorio de metodologías participativas es el espacio donde confluyen seres de espíritus y
-                        mentes inquietas, quienes ven la educación como un portal para comprender otras realidades, es
-                        una juntanza de personas que ven en los finales nuevos comienzos, quienes se atreven aponerse
-                        gafas para vivir nuevas ideas, donde están los que accionan pensando en la imaginación de otros
-                        mundos, es el encuentro de almas que creen firmemente en la rigurosidad, la pasión, la humanidad,
-                        la creatividad y la coherencia con la realidad que requieren los procesos de aprendizaje y la
-                        enseñanza.
+                <div class="md:w-1/2 text-gray-800 dark:text-gray-300 text-lg leading-relaxed">
+                    <p>
+                        El laboratorio de metodologías participativas es un espacio donde convergen mentes inquietas
+                        que ven la educación como un portal para comprender nuevas realidades.
                     </p>
                 </div>
                 <div class="md:w-1/2">
-                    <div class="p-1 bg-gradient-to-r from-white/30 to-white/10 rounded-xl shadow-lg">
-                        <img src="assets/img/img1.png" alt="Imagen de la misión"
-                            class="w-full h-auto rounded-xl transform transition hover:scale-105" />
-                    </div>
+                    <img src="assets/img/img1.png" alt="Imagen de la misión" class="w-full h-auto rounded-xl shadow-lg transform transition hover:scale-105" />
                 </div>
+
             </div>
 
             <!-- Alternancia 2: Imagen a la Izquierda - Texto a la Derecha -->
             <div class="flex flex-col md:flex-row-reverse items-center gap-12 animate-fadeIn">
-                <div class="md:w-1/2 text-gray-300">
+                <div class="md:w-1/2 text-black dark:text-gray-300">
                     <p class="text-lg md:text-xl text-justify">
                         El laboratorio de metodologías participativas se enfoca en la exploración y el desarrollo de
                         estrategias pedagógicas versátiles y adaptables para cualquier escenario, ya sea en contextos
@@ -76,7 +59,7 @@
 
             <!-- Alternancia 3: Texto a la Izquierda - Imagen a la Derecha -->
             <div class="flex flex-col md:flex-row items-center gap-12 animate-fadeIn">
-                <div class="md:w-1/2 text-gray-300">
+                <div class="md:w-1/2 text-black dark:text-gray-300">
                     <p class="text-lg md:text-xl text-justify">
                         En este espacio para formación de formadores, se diseñan conjuntamente estrategias Innovadoras
                         que se fundamentan en el trabajo en equipo, la discusión entre pares, el intercambio de experiencias
@@ -93,20 +76,21 @@
             </div>
         </section>
 
-        <!-- Sección de Invitación -->
+        <!-- Invitación -->
         <section class="text-center animate-fadeIn">
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">🔑 Te invitamos a entrar</h2>
+            <h2 class="text-4xl font-bold text-black dark:text-white">🔑 Te invitamos a explorar</h2>
         </section>
 
-        <!-- Sección de Cards (Botones) -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 animate-fadeIn">
+        <!-- Cards -->
+
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 animate-fadeIn">
             <!-- Cada card se envuelve en un contenedor para aplicar efecto hover y tiene el texto centrado -->
             <div class="transition transform hover:scale-105">
                 <app-selection-card class="text-center" title="Procesos Formativos"
                     description="Cursos, talleres, diplomados - Formación de prototipos - atributos"
                     path="/procesos-formativos" [color]="colorThemes[currentTheme].card1"
                     [isSelected]="selectedCard === 'procesos'" icon="pi-flag"
-                    imageUrl="https://http.cat/images/101.jpg" (select)="handleSelect('procesos')">
+                    imageUrl="https://www.crcit.es/wp-content/uploads/2014/05/soluciones-cursos-740x450.jpg" (select)="handleSelect('procesos')">
                 </app-selection-card>
             </div>
 
@@ -114,7 +98,7 @@
                 <app-selection-card class="text-center" title="Concursos de Innovaciones Educativas" description=""
                     path="/landing2" [color]="colorThemes[currentTheme].card2"
                     [isSelected]="selectedCard === 'concursos'" icon="pi-star"
-                    imageUrl="https://http.cat/images/201.jpg" (select)="handleSelect('concursos')">
+                    imageUrl="https://puertointerior.guanajuato.gob.mx/blog/wp-content/uploads/2023/09/1720762.jpg" (select)="handleSelect('concursos')">
                 </app-selection-card>
             </div>
 
@@ -122,7 +106,7 @@
                 <app-selection-card class="text-center" title="Galería de Innovadores educativos" description=""
                     path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card3"
                     [isSelected]="selectedCard === 'concursos'" icon="pi-star"
-                    imageUrl="https://http.cat/images/202.jpg" (select)="handleSelect('concursos')">
+                    imageUrl="https://play-lh.googleusercontent.com/yqobWiIMCWcgZctnuOD9CHM6xzNx59bxYLgyxlOHhK4g_1szaZd2YqS4G4V7UoOpy30" (select)="handleSelect('procesos')">
                 </app-selection-card>
             </div>
 
@@ -130,7 +114,7 @@
                 <app-selection-card class="text-center" title="Museo de dispositivos pedagógicos" description=""
                     path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card4"
                     [isSelected]="selectedCard === 'concursos'" icon="pi-star"
-                    imageUrl="https://http.cat/images/203.jpg" (select)="handleSelect('concursos')">
+                    imageUrl="https://grupogeard.com/ec/wp-content/uploads/sites/5/2022/09/pexels-oleksandr-pidvalnyi-2781814.jpg" (select)="handleSelect('concursos')">
                 </app-selection-card>
             </div>
 
@@ -139,7 +123,7 @@
                     description="Entidades, organizaciones y empresas comprometidas con las transformaciones educativas."
                     path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card5"
                     [isSelected]="selectedCard === 'concursos'" icon="pi-star"
-                    imageUrl="https://http.cat/images/204.jpg" (select)="handleSelect('concursos')">
+                    imageUrl="https://www.coldelvalle.edu.mx/wp-content/uploads/2023/11/12.Beneficios_de_la_calidad_en_la_educacion-min.jpg" (select)="handleSelect('concursos')">
                 </app-selection-card>
             </div>
 
@@ -147,9 +131,15 @@
                 <app-selection-card class="text-center" title="Producciones" description="Análisis, reflexiones, resultados."
                     path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card6"
                     [isSelected]="selectedCard === 'concursos'" icon="pi-star"
-                    imageUrl="https://http.cat/images/404.jpg" (select)="handleSelect('concursos')">
+                    imageUrl="https://www.educaciontrespuntocero.com/wp-content/uploads/2021/03/libros-sobre-el-placer-de-leer.jpg" (select)="handleSelect('concursos')">
                 </app-selection-card>
             </div>
         </section>
     </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 text-center text-gray-600 dark:text-gray-400 text-sm">
+        © 2024 Laboratorio de Metodologías Participativas. Todos los derechos reservados.
+    </footer>
 </div>
+

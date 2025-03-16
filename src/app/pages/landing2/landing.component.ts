@@ -14,7 +14,7 @@ import { FooterWidget } from './components/footerwidget/footerwidget.component';
     standalone: true,
     imports: [
     RouterModule,
-    TopbarWidget,
+    // TopbarWidget,
     HighlightsWidget,
     FooterWidget,
     RippleModule,

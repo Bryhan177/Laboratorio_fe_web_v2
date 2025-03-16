@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { Tooltip } from 'primeng/tooltip';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-questions-page',
@@ -50,7 +51,7 @@ export default class QuestionsComponent {
     'Implementar orientación vocacional', 'Fomentar capacidades para la vida', 'Otra'
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private location: Location) {
     this.questionsForm = this.fb.group({
       personalInfo: this.fb.group({
         fullName: ['', Validators.required],
@@ -83,7 +84,9 @@ export default class QuestionsComponent {
       }),
     });
   }
-
+  volverAtras() {
+    this.location.back(); // 🔥 Vuelve a la página anterior
+  }
   // Getters para mostrar condicionalmente el campo "Otra" si se selecciona esa opción
   get showFavoriteOtherReason() {
     return this.questionsForm.get('favoriteSubjects.reason')?.value === 'Otra';

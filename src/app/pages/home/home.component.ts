@@ -1,22 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SelectionCardComponent } from '../../../shared/components/selection-card/selection-card.component';
+import { AppFloatingConfigurator } from "../../layout/component/app.floatingconfigurator";
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, SelectionCardComponent],
+  imports: [CommonModule, SelectionCardComponent, AppFloatingConfigurator],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export default class HomeComponent {
   selectedCard: any = '';
 
-  // Paletas de colores para el fondo y las tarjetas:
-  // Modo Día: tonos suaves y menos intensos
-  // Modo Noche: tonos más profundos y oscuros
-  // Se mantienen los temas originales y se agregan nuevos.
-  // Además, se asigna un color distinto para cada card (card1 a card6)
+  constructor(private router: Router) { }
+
   colorThemes = [
     {
       laboratory: 'bg-gradient-to-br from-cyan-300 via-blue-400 to-blue-600',
@@ -64,13 +64,48 @@ export default class HomeComponent {
     }
   ];
 
-  currentTheme = 3; // Tema actual (0: Día, 1: Noche, 2 y 3: nuevos)
+  currentTheme = 3;
 
   changeTheme() {
     this.currentTheme = (this.currentTheme + 1) % this.colorThemes.length;
   }
 
+//   handleSelect(card: string) {
+//     this.selectedCard = card;
+//   }
+
+  mostrarVideo() {
+    Swal.fire({
+        toast: true,
+      title: '🎉 Inscribete ahora 🎉',
+      html: `
+        <video width="100%" controls autoplay>
+          <source src="assets/mp4/Concurso_de_Innovaciones_Educativas.mov" type="video/mp4">
+          Tu navegador no soporta el formato de video.
+        </video>
+      `,
+      width: '600px',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      },
+      showCloseButton: true,
+      showConfirmButton: false
+    });
+  }
   handleSelect(card: string) {
-    this.selectedCard = card;
+    if (card === 'concursos') {
+      console.log('Navegando a /landing2');
+      this.router.navigate(['/landing2']);
+    } else {
+      Swal.fire({
+        icon: 'info',
+        title: 'Contenido no disponible',
+        text: 'En este momento, esta sección no tiene contenido disponible.',
+        confirmButtonText: 'Entendido'
+      });
+    }
   }
 }
