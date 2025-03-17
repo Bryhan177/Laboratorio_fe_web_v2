@@ -14,7 +14,6 @@ import { QuestionsService } from './questions.service';
 })
 export default class QuestionsComponent {
   questionsForm: FormGroup;
-
   private questionsService = inject(QuestionsService);
 
   // Opciones para la sección de Información Personal (para selects)
@@ -108,6 +107,66 @@ export default class QuestionsComponent {
         otherChange: ['']
       }),
     });
+
+    // Validación condicional para favoriteSubjects.otherSubject
+    this.questionsForm.get('favoriteSubjects.subject')?.valueChanges.subscribe(value => {
+      const otherSubjectControl = this.questionsForm.get('favoriteSubjects.otherSubject');
+      if (value === 'Otra') {
+        otherSubjectControl?.setValidators(Validators.required);
+      } else {
+        otherSubjectControl?.clearValidators();
+        otherSubjectControl?.setValue('');
+      }
+      otherSubjectControl?.updateValueAndValidity();
+    });
+
+    // Validación condicional para favoriteSubjects.otherReason
+    this.questionsForm.get('favoriteSubjects.reason')?.valueChanges.subscribe(value => {
+      const otherReasonControl = this.questionsForm.get('favoriteSubjects.otherReason');
+      if (value === 'Otra – ¿cuál?') {
+        otherReasonControl?.setValidators(Validators.required);
+      } else {
+        otherReasonControl?.clearValidators();
+        otherReasonControl?.setValue('');
+      }
+      otherReasonControl?.updateValueAndValidity();
+    });
+
+    // Validación condicional para leastFavoriteSubjects.otherReason
+    this.questionsForm.get('leastFavoriteSubjects.reason')?.valueChanges.subscribe(value => {
+      const otherReasonControl = this.questionsForm.get('leastFavoriteSubjects.otherReason');
+      if (value === 'Otro ¿Cuál?') {
+        otherReasonControl?.setValidators(Validators.required);
+      } else {
+        otherReasonControl?.clearValidators();
+        otherReasonControl?.setValue('');
+      }
+      otherReasonControl?.updateValueAndValidity();
+    });
+
+    // Validación condicional para learningResources.otherResource
+    this.questionsForm.get('learningResources.resource')?.valueChanges.subscribe(value => {
+      const otherResourceControl = this.questionsForm.get('learningResources.otherResource');
+      if (value === 'Otro ¿Cuál?') {
+        otherResourceControl?.setValidators(Validators.required);
+      } else {
+        otherResourceControl?.clearValidators();
+        otherResourceControl?.setValue('');
+      }
+      otherResourceControl?.updateValueAndValidity();
+    });
+
+    // Validación condicional para teachingChanges.otherChange
+    this.questionsForm.get('teachingChanges.change')?.valueChanges.subscribe(value => {
+      const otherChangeControl = this.questionsForm.get('teachingChanges.otherChange');
+      if (value === 'Otra') {
+        otherChangeControl?.setValidators(Validators.required);
+      } else {
+        otherChangeControl?.clearValidators();
+        otherChangeControl?.setValue('');
+      }
+      otherChangeControl?.updateValueAndValidity();
+    });
   }
 
   // Método para retroceder a la página anterior
@@ -126,14 +185,8 @@ export default class QuestionsComponent {
     this.questionsForm.markAllAsTouched();
 
     if (this.questionsForm.valid) {
-      // Opcional: establecer un estado de "enviando" para deshabilitar el botón o mostrar un spinner
-      // Por ejemplo: this.isSubmitting = true;
-
-      // Extraer los datos del formulario
       const formData = this.questionsForm.value;
-
       try {
-        // Insertar los datos en Supabase usando el QuestionsService
         const response = await this.questionsService.insertSurveyResponse({
           institution: formData.personalInfo.institution,
           education_zone: formData.personalInfo.educationZone,
@@ -153,20 +206,14 @@ export default class QuestionsComponent {
           teaching_change: formData.teachingChanges.change,
           teaching_other_change: formData.teachingChanges.otherChange,
         });
-
         console.log('Datos insertados:', response);
         Swal.fire({
           icon: 'success',
           title: '¡Éxito!',
           text: 'Tu respuesta ha sido guardada correctamente.'
         });
-
-        // Reiniciar el formulario a sus valores iniciales y limpiar los estados (dirty, touched, etc.)
+        // Resetear el formulario para dejarlo limpio para nuevos datos
         this.questionsForm.reset();
-
-        // Opcional: si tienes valores por defecto, vuelve a asignarlos aquí.
-        // Por ejemplo: this.questionsForm.patchValue({ personalInfo: { educationZone: '' } });
-
       } catch (error) {
         console.error('Error al insertar los datos:', error);
         Swal.fire({
@@ -174,12 +221,8 @@ export default class QuestionsComponent {
           title: 'Error',
           text: 'Ocurrió un error al guardar tu respuesta. Inténtalo de nuevo.'
         });
-      } finally {
-        // Opcional: restablecer el estado de "enviando"
-        // this.isSubmitting = false;
       }
     } else {
-      // Si el formulario no es válido, mostrar un mensaje de error
       Swal.fire({
         icon: 'error',
         title: 'Error en el formulario',
@@ -187,5 +230,4 @@ export default class QuestionsComponent {
       });
     }
   }
-
 }
