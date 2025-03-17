@@ -16,7 +16,7 @@ import { FooterWidget } from './components/footerwidget/footerwidget.component';
     RouterModule,
     // TopbarWidget,
     HighlightsWidget,
-    FooterWidget,
+    // FooterWidget,
     RippleModule,
     StyleClassModule,
     ButtonModule,

@@ -80,7 +80,7 @@ export default class HomeComponent {
       title: '🎉 Inscribete ahora 🎉',
       html: `
         <video width="100%" controls autoplay>
-          <source src="assets/mp4/Concurso_de_Innovaciones_Educativas.mov" type="video/mp4">
+          <source src="assets/mp4/Concurso.mov" type="video/mp4">
           Tu navegador no soporta el formato de video.
         </video>
       `,
