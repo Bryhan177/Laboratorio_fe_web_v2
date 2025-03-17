@@ -4,23 +4,51 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { InputTextModule } from 'primeng/inputtext';
 import Swal from 'sweetalert2';
 import { QuestionsService } from './questions.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-questions-page',
   templateUrl: './questions.component.html',
   imports: [ReactiveFormsModule, CommonModule, InputTextModule],
   standalone: true,
-  styleUrls: ['./questions.component.scss']
+  styleUrls: ['./questions.component.scss'],
+  animations: [
+    trigger('selectedAnimation', [
+      transition(':enter', [
+        // Se parte de opacidad 0
+        style({ opacity: 0 }),
+        // Se anima a opacidad 1 y se aplica la transformación final
+        animate('{{ enterTime }} ease-in', style({ opacity: 1, transform: '{{ enterTransform }}' }))
+      ], { params: { enterTime: '300ms', enterTransform: 'translateX(0)' } }),
+      transition(':leave', [
+        // Se anima a opacidad 0 y se aplica la transformación de salida
+        animate('{{ leaveTime }} ease-out', style({ opacity: 0, transform: '{{ leaveTransform }}' }))
+      ], { params: { leaveTime: '300ms', leaveTransform: 'translateX(100%)' } })
+    ])
+  ]
 })
 export default class QuestionsComponent {
   questionsForm: FormGroup;
+  currentStep = 0;
+  totalSteps = 5;
+
+  // Array de opciones de animación (parámetros)
+  animationOptions = [
+    { enterTime: '300ms', enterTransform: 'translateX(0)', leaveTime: '300ms', leaveTransform: 'translateX(-100%)' },
+    { enterTime: '400ms', enterTransform: 'translateY(0)', leaveTime: '400ms', leaveTransform: 'translateY(100%)' },
+    { enterTime: '300ms', enterTransform: 'scale(1)', leaveTime: '300ms', leaveTransform: 'scale(0.5)' },
+    { enterTime: '500ms', enterTransform: 'rotate(0)', leaveTime: '500ms', leaveTransform: 'rotate(20deg)' }
+  ];
+  // Inicialmente se asigna la primera opción
+  currentAnimationParams = this.animationOptions[0];
+
   private questionsService = inject(QuestionsService);
 
-  // Opciones para la sección de Información Personal (para selects)
+  // Opciones para la sección de Información Personal (selects)
   educationZones = ['rural', 'urbana', 'no se'];
   institutionTypes = ['publico', 'privado', 'no se'];
 
-  // Opciones para la sección de asignaturas y áreas
+  // Opciones para las secciones de asignaturas, razones, recursos y cambios
   favoriteSubjectsOptions = [
     'Geometría', 'Trigonometría', 'Estadística', 'Calculo', 'Algebra', 'Contabilidad',
     'Matemáticas', 'Biología', 'Química', 'Física', 'Ciencias naturales', 'Humanidades',
@@ -169,7 +197,7 @@ export default class QuestionsComponent {
     });
   }
 
-  // Método para retroceder a la página anterior
+  // Método para regresar a la página anterior
   volverAtras() {
     this.location.back();
   }
@@ -180,8 +208,30 @@ export default class QuestionsComponent {
     return control ? control.touched && control.invalid : false;
   }
 
+  // Función para seleccionar una animación aleatoria
+  private selectRandomAnimation() {
+    const randomIndex = Math.floor(Math.random() * this.animationOptions.length);
+    this.currentAnimationParams = this.animationOptions[randomIndex];
+  }
+
+  // Navegar al siguiente paso y seleccionar una animación aleatoria
+  nextStep() {
+    if (this.currentStep < this.totalSteps - 1) {
+      this.currentStep++;
+      this.selectRandomAnimation();
+    }
+  }
+
+  // Navegar al paso anterior y seleccionar una animación aleatoria
+  previousStep() {
+    if (this.currentStep > 0) {
+      this.currentStep--;
+      this.selectRandomAnimation();
+    }
+  }
+
   async submitForm() {
-    // Marcar todos los controles como tocados para activar los mensajes de error
+    // Marcar todos los controles como tocados
     this.questionsForm.markAllAsTouched();
 
     if (this.questionsForm.valid) {
@@ -212,8 +262,9 @@ export default class QuestionsComponent {
           title: '¡Éxito!',
           text: 'Tu respuesta ha sido guardada correctamente.'
         });
-        // Resetear el formulario para dejarlo limpio para nuevos datos
+        // Resetear el formulario y volver al primer paso
         this.questionsForm.reset();
+        this.currentStep = 0;
       } catch (error) {
         console.error('Error al insertar los datos:', error);
         Swal.fire({
