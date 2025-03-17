@@ -97,7 +97,6 @@ export default class HomeComponent {
   }
   handleSelect(card: string) {
     if (card === 'concursos') {
-      console.log('Navegando a /landing2');
       this.router.navigate(['/landing2']);
     } else {
       Swal.fire({

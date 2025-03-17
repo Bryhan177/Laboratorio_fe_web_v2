@@ -51,6 +51,7 @@ export class SelectionCardComponent {
 
   handleClick(): void {
     this.select.emit();
+    if (this.path === '') return;
     setTimeout(() => {
       this.router.navigate([this.path]);
     }, 500);

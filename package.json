@@ -26,6 +26,7 @@
         "@fullcalendar/list": "^6.1.15",
         "@fullcalendar/timegrid": "^6.1.15",
         "@primeng/themes": "^19.0.5",
+        "@supabase/supabase-js": "^2.49.1",
         "animate.css": "^4.1.1",
         "chart.js": "4.4.2",
         "lucide-angular": "^0.477.0",
