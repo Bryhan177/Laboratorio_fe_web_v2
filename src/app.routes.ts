@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { ListRespComponent } from './shared/components/list-resp/list-resp.component';
 
 export const appRoutes: Routes = [
     { path: '', loadComponent: () => import('./app/pages/home/home.component')},
@@ -21,5 +22,6 @@ export const appRoutes: Routes = [
             { path: 'notfound', loadComponent: () => import('./app/pages/notfound/notfound.component')},
         ]
     },
+    { path: 'list', component: ListRespComponent },
     { path: '**', redirectTo: '/notfound' }
 ];

@@ -17,11 +17,11 @@
     </div>
 
     <!-- Botón de video -->
-    <div class="text-center mb-12 animate-pulse border-green-500">
+    <!-- <div class="text-center mb-12 animate-pulse border-green-500">
         <button class="bg-blue-600 hover:bg-blue-700 text-black dark:text-white dark:hover:bg-blue-800 dark:bg-gray-900 font-bold py-3 px-8 rounded-full text-lg shadow-lg transition transform hover:scale-105" (click)="mostrarVideo()">
             🎥 Ver Video
         </button>
-    </div>
+    </div> -->
 
     <!-- Sección de contenido -->
     <main class="w-full max-w-5xl mx-auto space-y-16">
@@ -88,7 +88,7 @@
             <div class="transition transform hover:scale-105">
                 <app-selection-card class="text-center" title="Procesos Formativos"
                     description="Cursos, talleres, diplomados - Formación de prototipos - atributos"
-                    path="/procesos-formativos" [color]="colorThemes[currentTheme].card1"
+                    path="" [color]="colorThemes[currentTheme].card1"
                     [isSelected]="selectedCard === 'procesos'" icon="pi-flag"
                     imageUrl="https://blogs.iadb.org/educacion/wp-content/uploads/sites/22/2017/02/iStock-640032752-1.jpg" (select)="handleSelect('procesos')">
                 </app-selection-card>
@@ -104,7 +104,7 @@
 
             <div class="transition transform hover:scale-105">
                 <app-selection-card class="text-center" title="Galería de Innovadores educativos" description=""
-                    path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card3"
+                    path="" [color]="colorThemes[currentTheme].card3"
                     [isSelected]="selectedCard === 'concursos'" icon="pi-star"
                     imageUrl="https://play-lh.googleusercontent.com/yqobWiIMCWcgZctnuOD9CHM6xzNx59bxYLgyxlOHhK4g_1szaZd2YqS4G4V7UoOpy30" (select)="handleSelect('procesos')">
                 </app-selection-card>
@@ -112,7 +112,7 @@
 
             <div class="transition transform hover:scale-105">
                 <app-selection-card class="text-center" title="Museo de dispositivos pedagógicos" description=""
-                    path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card4"
+                    path="" [color]="colorThemes[currentTheme].card4"
                     [isSelected]="selectedCard === 'concursos'" icon="pi-star"
                     imageUrl="https://grupogeard.com/ec/wp-content/uploads/sites/5/2022/09/pexels-oleksandr-pidvalnyi-2781814.jpg" (select)="handleSelect('concursos')">
                 </app-selection-card>
@@ -121,7 +121,7 @@
             <div class="transition transform hover:scale-105">
                 <app-selection-card class="text-center" title="Alianza por la educación"
                     description="Entidades, organizaciones y empresas comprometidas con las transformaciones educativas."
-                    path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card5"
+                    path="" [color]="colorThemes[currentTheme].card5"
                     [isSelected]="selectedCard === 'concursos'" icon="pi-star"
                     imageUrl="https://www.coldelvalle.edu.mx/wp-content/uploads/2023/11/12.Beneficios_de_la_calidad_en_la_educacion-min.jpg" (select)="handleSelect('concursos')">
                 </app-selection-card>
@@ -129,7 +129,7 @@
 
             <div class="transition transform hover:scale-105">
                 <app-selection-card class="text-center" title="Producciones" description="Análisis, reflexiones, resultados."
-                    path="/concursos-innovaciones" [color]="colorThemes[currentTheme].card6"
+                    path="" [color]="colorThemes[currentTheme].card6"
                     [isSelected]="selectedCard === 'concursos'" icon="pi-star"
                     imageUrl="https://www.educaciontrespuntocero.com/wp-content/uploads/2021/03/libros-sobre-el-placer-de-leer.jpg" (select)="handleSelect('concursos')">
                 </app-selection-card>

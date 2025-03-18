@@ -1,243 +1,244 @@
 <div class="absolute top-4 left-4">
-    <button
-        (click)="volverAtras()"
-        pButton
-        pRipple
-        class="p-button-rounded w-32 px-4 py-2 ml-4 text-lg font-medium
-               border-2 border-transparent shadow-lg transition-all duration-300
-               bg-blue-500 hover:bg-blue-600 active:scale-95 text-white
-               rounded-full flex items-center justify-center gap-2"
-    >
-        ⬅️ Volver
+    <button (click)="volverAtras()" pButton pRipple
+      class="p-button-rounded w-32 px-4 py-2 text-lg font-medium border-2 border-transparent shadow-lg transition-all duration-300 bg-blue-500 hover:bg-blue-600 active:scale-95 text-white rounded-full flex items-center justify-center gap-2">
+      ⬅️ Volver
     </button>
-</div>
+  </div>
 
-<form
-  [formGroup]="questionsForm"
-  (ngSubmit)="submitForm()"
-  class="w-full max-w-4xl mx-auto p-8 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 shadow-2xl rounded-3xl"
->
-  <!-- Encabezado Principal -->
-  <header class="mb-8 text-center">
-    <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
-      ¡Comparte tu experiencia educativa!
-    </h1>
-    <p class="mt-2 text-lg text-gray-700">Tu opinión nos ayuda a innovar y mejorar</p>
-  </header>
+  <form [formGroup]="questionsForm" (ngSubmit)="submitForm()"
+    class="w-full max-w-4xl mx-auto p-8 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 shadow-2xl rounded-3xl">
+    <!-- Mensaje Informativo -->
+    <header class="mb-8 text-center">
+      <h1 class="text-3xl font-bold">FORMULARIO PÁGINA WEB</h1>
+      <p class="mt-2 text-gray-700">
+        Tus datos serán tratados de acuerdo a la Ley 1581 de 2012 y el Decreto 1377 de 2013 sobre protección de datos personales,
+        los cuales serán usados solo para este estudio y no serán compartidos sin tu consentimiento.<br>
+        ¡Gracias por participar!
+      </p>
+    </header>
 
-  <!-- Información Personal -->
-  <section class="mb-10">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-purple-300 pb-2">
-      Información Personal
-    </h2>
-    <div formGroupName="personalInfo" class="grid grid-cols-1 gap-6">
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Nombre y Apellidos</label>
-        <input
-          type="text"
-          formControlName="fullName"
-          required
-          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-        />
-      </div>
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Institución Educativa</label>
-        <input
-          type="text"
-          formControlName="institution"
-          required
-          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-        />
-      </div>
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Municipio</label>
-        <input
-          type="text"
-          formControlName="municipality"
-          required
-          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-        />
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label class="block text-gray-700 font-medium mb-1">Zona</label>
-          <select
-            formControlName="educationType"
-            class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-          >
-            <option value="rural">Rural</option>
-            <option value="urbano">Urbano</option>
-            <option value="no sabe">No sabe</option>
-          </select>
+    <!-- Paso 0: Información Personal -->
+    <div *ngIf="currentStep === 0" [@selectedAnimation]="currentAnimationParams">
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-purple-300 pb-2 mb-4">Información Personal</h2>
+        <div formGroupName="personalInfo" class="grid grid-cols-1 gap-6">
+          <!-- Institución educativa -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">Institución educativa</label>
+            <input type="text" formControlName="institution"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+            <div *ngIf="isInvalid('personalInfo', 'institution')">
+              <small class="text-red-500">Este campo es obligatorio.</small>
+            </div>
+          </div>
+          <!-- Zona de la institución -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">Zona en la que se ubica la institución educativa</label>
+            <select formControlName="educationZone"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400">
+              <option value="">Seleccione</option>
+              <option *ngFor="let zone of educationZones" [value]="zone">{{ zone | titlecase }}</option>
+            </select>
+            <div *ngIf="isInvalid('personalInfo', 'educationZone')">
+              <small class="text-red-500">Este campo es obligatorio.</small>
+            </div>
+          </div>
+          <!-- Tipo de institución -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">Tipo de institución</label>
+            <select formControlName="institutionType"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400">
+              <option value="">Seleccione</option>
+              <option *ngFor="let type of institutionTypes" [value]="type">{{ type | titlecase }}</option>
+            </select>
+            <div *ngIf="isInvalid('personalInfo', 'institutionType')">
+              <small class="text-red-500">Este campo es obligatorio.</small>
+            </div>
+          </div>
+          <!-- País -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">País</label>
+            <input type="text" formControlName="country"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+            <div *ngIf="isInvalid('personalInfo', 'country')">
+              <small class="text-red-500">Este campo es obligatorio.</small>
+            </div>
+          </div>
+          <!-- Municipio/ciudad -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">Municipio/ciudad</label>
+            <input type="text" formControlName="municipality"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+            <div *ngIf="isInvalid('personalInfo', 'municipality')">
+              <small class="text-red-500">Este campo es obligatorio.</small>
+            </div>
+          </div>
+          <!-- Grado y año -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">Grado y año en el que ubicas tu experiencia escolar</label>
+            <input type="text" formControlName="gradeYear" placeholder="Ej: grado 8°, año 2004"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+            <div *ngIf="isInvalid('personalInfo', 'gradeYear')">
+              <small class="text-red-500">Este campo es obligatorio.</small>
+            </div>
+          </div>
         </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-1">Institución</label>
-          <select
-            formControlName="institutionType"
-            class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-          >
-            <option value="publica">Pública</option>
-            <option value="privada">Privada</option>
-          </select>
+      </section>
+      <div class="flex justify-end">
+        <button type="button" (click)="nextStep()"
+          class="py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Siguiente</button>
+      </div>
+    </div>
+
+    <!-- Paso 1: ¿Qué área o asignatura disfrutabas más? -->
+    <div *ngIf="currentStep === 1" [@selectedAnimation]="currentAnimationParams">
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-purple-300 pb-2 mb-4">¿QUÉ ÁREA O ASIGNATURA DISFRUTABAS MÁS?</h2>
+        <div formGroupName="favoriteSubjects" class="space-y-6">
+          <div class="grid grid-cols-2 gap-4">
+            <div *ngFor="let subject of favoriteSubjectsOptions">
+              <label class="flex items-center space-x-2">
+                <input type="radio" formControlName="subject" [value]="subject" class="form-radio h-5 w-5 text-purple-600" />
+                <span class="text-gray-700">{{ subject }}</span>
+              </label>
+            </div>
+          </div>
+          <!-- Campo condicional para 'Otra' asignatura -->
+          <div *ngIf="questionsForm.get('favoriteSubjects.subject')?.value === 'Otra'" class="mt-4">
+            <input type="text" formControlName="otherSubject" placeholder="Escribe tu otra área/asignatura"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+            <div *ngIf="isInvalid('favoriteSubjects', 'otherSubject')">
+              <small class="text-red-500">Este campo es obligatorio cuando selecciona Otra.</small>
+            </div>
+          </div>
+          <!-- Selección de motivo -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">¿Por qué?</label>
+            <select formControlName="reason"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400">
+              <option value="">Seleccione</option>
+              <option *ngFor="let reason of favoriteReasonsOptions" [value]="reason">{{ reason }}</option>
+            </select>
+            <div *ngIf="isInvalid('favoriteSubjects', 'reason')">
+              <small class="text-red-500">Este campo es obligatorio.</small>
+            </div>
+          </div>
+          <!-- Campo condicional para 'Otra – ¿cuál?' motivo -->
+          <div *ngIf="questionsForm.get('favoriteSubjects.reason')?.value === 'Otra – ¿cuál?'" class="mt-4">
+            <input type="text" formControlName="otherReason" placeholder="Escribe tu otra razón"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+            <div *ngIf="isInvalid('favoriteSubjects', 'otherReason')">
+              <small class="text-red-500">Este campo es obligatorio cuando selecciona Otra.</small>
+            </div>
+          </div>
         </div>
-      </div>
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Grado y Año</label>
-        <input
-          type="text"
-         pTooltip="Piensa en un grado del colegio (primaria o segundaria) y año en el que estudiaste, para que los tengas en cuenta a la hora de responder la encuesta. Ejm: Grado 8° - Año 2011" tooltipPosition="top"
-           tooltipEvent="focus"
-          formControlName="gradeYear"
-          required
-          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-        />
+      </section>
+      <div class="flex justify-between">
+        <button type="button" (click)="previousStep()"
+          class="py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700 transition">Anterior</button>
+        <button type="button" (click)="nextStep()"
+          class="py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Siguiente</button>
       </div>
     </div>
-  </section>
 
-  <!-- Materias Favoritas -->
-  <section class="mb-10">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-purple-300 pb-2">
-        ¿Qué área / asignaturas disfrutabas o disfrutas más?
-    </h2>
-    <div formGroupName="favoriteSubjects" class="space-y-6">
-      <div class="grid grid-cols-2 gap-4">
-        <div *ngFor="let subject of subjects">
-          <label class="flex items-center space-x-2">
-            <input
-              type="radio"
-              formControlName="subject"
-              [value]="subject"
-              class="form-radio h-5 w-5 text-purple-600"
-            />
-            <span class="text-gray-700">{{ subject }}</span>
-          </label>
+    <!-- Paso 2: ¿Qué área o asignatura no disfrutabas? -->
+    <div *ngIf="currentStep === 2" [@selectedAnimation]="currentAnimationParams">
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-purple-300 pb-2 mb-4">¿QUÉ ÁREA O ASIGNATURA NO DISFRUTABAS?</h2>
+        <div formGroupName="leastFavoriteSubjects" class="space-y-6">
+          <div class="grid grid-cols-2 gap-4">
+            <div *ngFor="let subject of leastFavoriteSubjectsOptions">
+              <label class="flex items-center space-x-2">
+                <input type="radio" formControlName="subject" [value]="subject" class="form-radio h-5 w-5 text-purple-600" />
+                <span class="text-gray-700">{{ subject }}</span>
+              </label>
+            </div>
+          </div>
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">¿Por qué?</label>
+            <select formControlName="reason"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400">
+              <option value="">Seleccione</option>
+              <option *ngFor="let reason of leastFavoriteReasonsOptions" [value]="reason">{{ reason }}</option>
+            </select>
+            <div *ngIf="isInvalid('leastFavoriteSubjects', 'reason')">
+              <small class="text-red-500">Este campo es obligatorio.</small>
+            </div>
+          </div>
+          <div *ngIf="questionsForm.get('leastFavoriteSubjects.reason')?.value === 'Otro ¿Cuál?'" class="mt-4">
+            <input type="text" formControlName="otherReason" placeholder="Escribe tu otra razón"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+            <div *ngIf="isInvalid('leastFavoriteSubjects', 'otherReason')">
+              <small class="text-red-500">Este campo es obligatorio cuando selecciona Otro.</small>
+            </div>
+          </div>
         </div>
-      </div>
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">¿Por qué?</label>
-        <select
-          formControlName="reason"
-          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-        >
-          <option *ngFor="let reason of reasonsToEnjoy" [value]="reason">
-            {{ reason }}
-          </option>
-        </select>
-      </div>
-      <div *ngIf="showFavoriteOtherReason">
-        <input
-          type="text"
-          formControlName="otherReason"
-          placeholder="Escribe tu otra razón"
-          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-        />
+      </section>
+      <div class="flex justify-between">
+        <button type="button" (click)="previousStep()"
+          class="py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700 transition">Anterior</button>
+        <button type="button" (click)="nextStep()"
+          class="py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Siguiente</button>
       </div>
     </div>
-  </section>
 
-  <!-- Materias Menos Favoritas -->
-  <section class="mb-10">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-purple-300 pb-2">
-        ¿Qué área / asignaturas no disfrutabas?
-    </h2>
-    <div formGroupName="leastFavoriteSubjects" class="space-y-6">
-      <div class="grid grid-cols-2 gap-4">
-        <div *ngFor="let subject of subjects">
-          <label class="flex items-center space-x-2">
-            <input
-              type="radio"
-              formControlName="subject"
-              [value]="subject"
-              class="form-radio h-5 w-5 text-purple-600"
-            />
-            <span class="text-gray-700">{{ subject }}</span>
-          </label>
+    <!-- Paso 3: ¿Qué tipo de actividades o recursos te ayudaban a aprender? -->
+    <div *ngIf="currentStep === 3" [@selectedAnimation]="currentAnimationParams">
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-purple-300 pb-2 mb-4">¿QUÉ TIPO DE ACTIVIDADES O RECURSOS TE AYUDABAN O AYUDAN A APRENDER?</h2>
+        <div formGroupName="learningResources" class="space-y-6">
+          <div class="grid grid-cols-2 gap-4">
+            <div *ngFor="let resource of learningResourcesOptions">
+              <label class="flex items-center space-x-2">
+                <input type="radio" formControlName="resource" [value]="resource" class="form-radio h-5 w-5 text-purple-600" />
+                <span class="text-gray-700">{{ resource }}</span>
+              </label>
+            </div>
+          </div>
+          <div *ngIf="questionsForm.get('learningResources.resource')?.value === 'Otro ¿Cuál?'" class="mt-4">
+            <input type="text" formControlName="otherResource" placeholder="Escribe tu otro recurso"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+            <div *ngIf="isInvalid('learningResources', 'otherResource')">
+              <small class="text-red-500">Este campo es obligatorio cuando selecciona Otro.</small>
+            </div>
+          </div>
         </div>
-      </div>
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">¿Por qué?</label>
-        <select
-          formControlName="reason"
-          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-        >
-          <option *ngFor="let reason of reasonsToDislike" [value]="reason">
-            {{ reason }}
-          </option>
-        </select>
-      </div>
-      <div *ngIf="showLeastFavoriteOtherReason">
-        <input
-          type="text"
-          formControlName="otherReason"
-          placeholder="Escribe tu otra razón"
-          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-        />
+      </section>
+      <div class="flex justify-between">
+        <button type="button" (click)="previousStep()"
+          class="py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700 transition">Anterior</button>
+        <button type="button" (click)="nextStep()"
+          class="py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Siguiente</button>
       </div>
     </div>
-  </section>
 
-  <!-- Recursos de Aprendizaje -->
-  <section class="mb-10">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-purple-300 pb-2">
-        ¿Qué tipo de actividades o recursos te ayudaban o ayudan a aprender?
-    </h2>
-    <div formGroupName="learningResources" class="grid grid-cols-2 gap-4">
-      <div *ngFor="let resource of learningResources">
-        <label class="flex items-center space-x-2">
-          <input
-            type="radio"
-            formControlName="resource"
-            [value]="resource"
-            class="form-radio h-5 w-5 text-purple-600"
-          />
-          <span class="text-gray-700">{{ resource }}</span>
-        </label>
+    <!-- Paso 4: ¿Qué cambiarías de la manera que se enseña en las instituciones educativas? -->
+    <div *ngIf="currentStep === 4" [@selectedAnimation]="currentAnimationParams">
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-purple-300 pb-2 mb-4">¿QUÉ CAMBIARÍAS DE LA MANERA QUE SE ENSEÑA EN LAS INSTITUCIONES EDUCATIVAS?</h2>
+        <div formGroupName="teachingChanges" class="space-y-6">
+          <div class="grid grid-cols-2 gap-4">
+            <div *ngFor="let change of teachingChangesOptions">
+              <label class="flex items-center space-x-2">
+                <input type="radio" formControlName="change" [value]="change" class="form-radio h-5 w-5 text-purple-600" />
+                <span class="text-gray-700">{{ change }}</span>
+              </label>
+            </div>
+          </div>
+          <div *ngIf="questionsForm.get('teachingChanges.change')?.value === 'Otra'" class="mt-4">
+            <input type="text" formControlName="otherChange" placeholder="Escribe tu otro cambio"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+            <div *ngIf="isInvalid('teachingChanges', 'otherChange')">
+              <small class="text-red-500">Este campo es obligatorio cuando selecciona Otra.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="flex justify-between">
+        <button type="button" (click)="previousStep()"
+          class="py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700 transition">Anterior</button>
+        <button type="submit"
+          class="py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700 transition">Enviar</button>
       </div>
     </div>
-    <div *ngIf="showLearningOtherResource" class="mt-4">
-      <input
-        type="text"
-        formControlName="otherResource"
-        placeholder="Escribe tu otro recurso"
-        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-      />
-    </div>
-  </section>
-
-  <!-- Cambios en la Enseñanza -->
-  <section class="mb-10">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-purple-300 pb-2">
-        ¿Qué cambiarías de la manera que se enseña en las instituciones educativas?
-    </h2>
-    <div formGroupName="teachingChanges" class="grid grid-cols-2 gap-4">
-      <div *ngFor="let change of teachingChanges">
-        <label class="flex items-center space-x-2">
-          <input
-            type="radio"
-            formControlName="change"
-            [value]="change"
-            class="form-radio h-5 w-5 text-purple-600"
-          />
-          <span class="text-gray-700">{{ change }}</span>
-        </label>
-      </div>
-    </div>
-    <div *ngIf="showTeachingOtherChange" class="mt-4">
-      <input
-        type="text"
-        formControlName="otherChange"
-        placeholder="Escribe tu otro cambio"
-        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400"
-      />
-    </div>
-  </section>
-
-  <!-- Botón de Envío -->
-  <button
-    type="submit"
-    class="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full shadow-lg hover:shadow-xl focus:outline-none"
-  >
-    Enviar
-  </button>
-</form>
+  </form>

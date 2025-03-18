@@ -5,6 +5,8 @@ import { FluidModule } from 'primeng/fluid';
 import { Chart } from 'chart.js';
 import { RouterModule } from '@angular/router';
 import { AppFloatingConfigurator } from "../../../../layout/component/app.floatingconfigurator";
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'highlights-widget',
@@ -17,7 +19,7 @@ export class HighlightsWidget implements OnInit {
   pieData!: { labels: { id: string; nombre: string; color: string }[]; datasets: any[] };
   pieOptions: any;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     const documentStyle = getComputedStyle(document.documentElement);
@@ -89,4 +91,28 @@ export class HighlightsWidget implements OnInit {
       ]
     };
   }
+  mostrarVideo() {
+      Swal.fire({
+          toast: true,
+        title: '🎉 Inscribete ahora 🎉',
+        html: `
+          <video width="100%" controls autoplay>
+            <source src="assets/mp4/Concurso.mov" type="video/mp4">
+            Tu navegador no soporta el formato de video.
+          </video>
+        `,
+        width: '600px',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        showCloseButton: true,
+        showConfirmButton: false
+      });
+    }
+    verRespuestas() {
+        this.router.navigate(['/list']);
+      }
 }
