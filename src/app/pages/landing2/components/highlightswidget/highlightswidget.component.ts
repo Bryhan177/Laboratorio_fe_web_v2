@@ -112,7 +112,48 @@ export class HighlightsWidget implements OnInit {
         showConfirmButton: false
       });
     }
-    verRespuestas() {
-        this.router.navigate(['/list']);
+      volverAtras() {
+        this.router.navigate(['/']);
+      }
+      validarUsuario() {
+        Swal.fire({
+          title: 'Iniciar sesión',
+          html: `
+            <input id="swal-usuario" class="swal2-input" placeholder="Usuario">
+            <input id="swal-password" type="password" class="swal2-input" placeholder="Contraseña">
+          `,
+          confirmButtonText: 'Ingresar',
+          focusConfirm: false,
+          preConfirm: () => {
+            const usuario = (document.getElementById('swal-usuario') as HTMLInputElement).value;
+            const password = (document.getElementById('swal-password') as HTMLInputElement).value;
+
+            if (usuario === 'admin' && password === 'admin123') {
+              return { success: true };
+            } else {
+              return { success: false, message: 'Usuario o contraseña incorrectos' };
+            }
+          }
+        }).then((result) => {
+          if (result.value?.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Acceso concedido',
+              text: 'Redirigiendo...',
+              timer: 1500,
+              showConfirmButton: false
+            });
+
+            setTimeout(() => {
+              this.router.navigate(['/list']); // Redirigir a localhost:4200/list
+            }, 1500);
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: result.value?.message || 'Algo salió mal',
+            });
+          }
+        });
       }
 }
