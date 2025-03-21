@@ -112,7 +112,4 @@ export class HighlightsWidget implements OnInit {
         showConfirmButton: false
       });
     }
-    verRespuestas() {
-        this.router.navigate(['/list']);
-      }
 }

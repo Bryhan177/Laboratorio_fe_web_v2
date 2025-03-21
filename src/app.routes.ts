@@ -7,10 +7,11 @@ export const appRoutes: Routes = [
         path: 'dashboard',
         loadComponent: () => import('./app/layout/component/app.layout'),
         children: [
-            { path: '', loadComponent: () => import('./app/empty/empty.component') },
+            { path: '', loadComponent: () => import('./app/dashboard/dashboard') },
             { path: 'apps', loadChildren: () => import('./app/apps/apps.routes') },
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', loadComponent: () => import('./app/documentation/documentation.component') },
+            { path: 'list', component: ListRespComponent },
         ]
     },
     { path: '',
@@ -22,6 +23,6 @@ export const appRoutes: Routes = [
             { path: 'notfound', loadComponent: () => import('./app/pages/notfound/notfound.component')},
         ]
     },
-    { path: 'list', component: ListRespComponent },
+
     { path: '**', redirectTo: '/notfound' }
 ];

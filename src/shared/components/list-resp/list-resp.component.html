@@ -1,40 +1,67 @@
-<div class="overflow-x-auto p-4">
-    <table class="min-w-full border border-gray-300 shadow-lg rounded-lg">
-      <thead class="bg-blue-600 text-white">
-        <tr>
-          <th class="px-4 py-2">ID</th>
-          <th class="px-4 py-2">País</th>
-          <th class="px-4 py-2">Municipio</th>
-          <th class="px-4 py-2">Institución</th>
-          <th class="px-4 py-2">Tipo</th>
-          <th class="px-4 py-2">Zona Educativa</th>
-          <th class="px-4 py-2">Grado</th>
-          <th class="px-4 py-2">Favorita</th>
-          <th class="px-4 py-2">Motivo</th>
-          <th class="px-4 py-2">Menos Favorita</th>
-          <th class="px-4 py-2">Motivo</th>
-          <th class="px-4 py-2">Recurso</th>
-          <th class="px-4 py-2">Cambio Enseñanza</th>
-          <th class="px-4 py-2">Creación</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users" class="odd:bg-gray-100 even:bg-gray-50 hover:bg-blue-100">
-          <td class="border px-4 py-2 text-center">{{ user.id }}</td>
-          <td class="border px-4 py-2">{{ user.country }}</td>
-          <td class="border px-4 py-2">{{ user.municipality }}</td>
-          <td class="border px-4 py-2 font-semibold">{{ user.institution }}</td>
-          <td class="border px-4 py-2 text-gray-700">{{ user.institution_type }}</td>
-          <td class="border px-4 py-2">{{ user.education_zone }}</td>
-          <td class="border px-4 py-2 font-semibold text-blue-700">{{ user.grade_year }}</td>
-          <td class="border px-4 py-2 text-green-600 font-bold">{{ user.favorite_subject }}</td>
-          <td class="border px-4 py-2 italic">{{ user.favorite_reason }}</td>
-          <td class="border px-4 py-2 text-red-600 font-bold">{{ user.least_favorite_subject }}</td>
-          <td class="border px-4 py-2 italic">{{ user.least_favorite_reason }}</td>
-          <td class="border px-4 py-2">{{ user.learning_resource }}</td>
-          <td class="border px-4 py-2">{{ user.teaching_change }}</td>
-          <td class="border px-4 py-2 text-sm text-gray-500">{{ user.created_at | date:'yyyy-MM-dd HH:mm' }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div class="p-4">
+    <p-table #dt [value]="users" [paginator]="true" [rows]="10" [globalFilterFields]="[
+        'id',
+        'country',
+        'municipality',
+        'institution',
+        'institution_type',
+        'education_zone',
+        'grade_year',
+        'favorite_subject',
+        'favorite_reason',
+        'least_favorite_subject',
+        'least_favorite_reason',
+        'learning_resource',
+        'teaching_change'
+      ]" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} usuarios"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 20, 30]" [tableStyle]="{ 'min-width': '75rem' }">
+
+        <ng-template pTemplate="caption">
+            <div class="flex items-center justify-between">
+                <h5 class="m-0">Lista de respuestas</h5>
+                <p-iconfield>
+                    <p-inputicon styleClass="pi pi-search" />
+                    <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Buscar..." />
+                </p-iconfield>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>País</th>
+                <th>Municipio</th>
+                <th>Institución</th>
+                <th>Tipo</th>
+                <th>Zona Educativa</th>
+                <th>Grado</th>
+                <th>Favorita</th>
+                <th>Motivo</th>
+                <th>Menos Favorita</th>
+                <th>Motivo</th>
+                <th>Recurso</th>
+                <th>Cambio Enseñanza</th>
+                <th>Creación</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.country }}</td>
+                <td>{{ user.municipality }}</td>
+                <td>{{ user.institution }}</td>
+                <td>{{ user.institution_type }}</td>
+                <td>{{ user.education_zone }}</td>
+                <td>{{ user.grade_year }}</td>
+                <td>{{ user.favorite_subject }}</td>
+                <td>{{ user.favorite_reason }}</td>
+                <td>{{ user.least_favorite_subject }}</td>
+                <td>{{ user.least_favorite_reason }}</td>
+                <td>{{ user.learning_resource }}</td>
+                <td>{{ user.teaching_change }}</td>
+                <td>{{ user.created_at | date:'yyyy-MM-dd HH:mm' }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
