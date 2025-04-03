@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
 import { ListRespComponent } from './shared/components/list-resp/list-resp.component';
+import { authGuard } from './app/guards/auth.guard';
 
 export const appRoutes: Routes = [
-    { path: '', loadComponent: () => import('./app/pages/home/home.component')},
+    { path: '', loadComponent: () => import('./app/pages/home/home.component'), },
     {
         path: 'dashboard',
         loadComponent: () => import('./app/layout/component/app.layout'),
+        canActivate: [authGuard],
         children: [
             { path: '', loadComponent: () => import('./app/dashboard/dashboard') },
             { path: 'apps', loadChildren: () => import('./app/apps/apps.routes') },

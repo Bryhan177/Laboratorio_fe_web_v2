@@ -65,7 +65,7 @@ export default class QuestionsComponent {
     'Ejecución de habilidades teóricas o practicas (Poner en práctica lo que sabes)',
     'Desarrollo del ser (Crecer como persona y mejorar en todos los aspectos de tu vida)',
     'Metodológico/didáctico (Los métodos o formas de enseñar y aprender, cómo organizar las cosas para entenderlas mejor)',
-    'Entorno ambiental (El lugar y las condiciones del entorno)', 'Otra – ¿cuál?'
+    'Entorno ambiental (El lugar y las condiciones del entorno)', 'Otra ¿Cuál?'
   ];
 
   leastFavoriteSubjectsOptions = [
@@ -151,7 +151,7 @@ export default class QuestionsComponent {
     // Validación condicional para favoriteSubjects.otherReason
     this.questionsForm.get('favoriteSubjects.reason')?.valueChanges.subscribe(value => {
       const otherReasonControl = this.questionsForm.get('favoriteSubjects.otherReason');
-      if (value === 'Otra – ¿cuál?') {
+      if (value === 'Otra ¿Cuál?') {
         otherReasonControl?.setValidators(Validators.required);
       } else {
         otherReasonControl?.clearValidators();

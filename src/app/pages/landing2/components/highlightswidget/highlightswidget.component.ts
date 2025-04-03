@@ -16,8 +16,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./highlightswidget.component.scss']
 })
 export class HighlightsWidget implements OnInit {
-  pieData!: { labels: { id: string; nombre: string; color: string }[]; datasets: any[] };
+  pieData!: { labels: string[]; datasets: any[] };
   pieOptions: any;
+  etapas!: { id: string; nombre: string; color: string }[];
 
   constructor(private router: Router) {}
 
@@ -25,7 +26,7 @@ export class HighlightsWidget implements OnInit {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color') || '#000';
 
-    // Definimos un plugin para el texto en el centro del gráfico
+    // Plugin para texto en el centro del gráfico
     const centerTextPlugin = {
       id: 'centerText',
       beforeDraw: function (chart: any) {
@@ -52,64 +53,78 @@ export class HighlightsWidget implements OnInit {
 
     Chart.register(centerTextPlugin);
 
-    this.pieOptions = {
-      cutout: '80%',
-      plugins: {
-        legend: { display: false }
-      }
-    };
+    // Definición de etapas con ID, nombre y color
+    this.etapas = [
+      { id: 'ETAPA 1', nombre: 'INVESTIGACIÓN', color: '#FF5733' },
+      { id: 'ETAPA 2', nombre: 'CONVOCATORIA', color: '#33A1FF' },
+      { id: 'ETAPA 3', nombre: 'FORMACIÓN EN METODOLOGÍAS Y PROTOTIPADO', color: '#33FF57' },
+      { id: 'ETAPA 4', nombre: 'SISTEMATIZACIÓN DE DISPOSITIVOS', color: '#FFC300' },
+      { id: 'ETAPA 5', nombre: 'EXHIBICIÓN Y CEREMONIA', color: '#A633FF' },
+      { id: 'ETAPA 6', nombre: 'PRODUCCIÓN/IMPLEMENTACIÓN', color: '#FF33A1' }
+    ];
 
     this.pieData = {
-      labels: [
-        { id: 'ETAPA 1', nombre: 'INVESTIGACIÓN', color: '#FF5733' },
-        { id: 'ETAPA 2', nombre: 'CONVOCATORIA', color: '#33A1FF' },
-        { id: 'ETAPA 3', nombre: 'FORMACIÓN EN METODOLOGÍAS Y PROTOTIPADO', color: '#33FF57' },
-        { id: 'ETAPA 4', nombre: 'SISTEMATIZACIÓN DE DISPOSITIVOS', color: '#FFC300' },
-        { id: 'ETAPA 5', nombre: 'EXHIBICIÓN Y CEREMONIA', color: '#A633FF' },
-        { id: 'ETAPA 6', nombre: 'PRODUCCIÓN/IMPLEMENTACIÓN', color: '#FF33A1' }
-      ],
+      labels: this.etapas.map(etapa => etapa.nombre), // Extraemos solo los nombres
       datasets: [
         {
-          data: [1, 1, 1, 1, 1, 1],
-          backgroundColor: [
-            documentStyle.getPropertyValue('--p-indigo-500') || '#5a67d8',
-            documentStyle.getPropertyValue('--p-purple-500') || '#9f7aea',
-            documentStyle.getPropertyValue('--p-teal-500') || '#38b2ac',
-            documentStyle.getPropertyValue('--p-blue-500') || '#4299e1',
-            documentStyle.getPropertyValue('--p-red-500') || '#f56565',
-            documentStyle.getPropertyValue('--p-green-500') || '#48bb78'
-          ],
-          hoverBackgroundColor: [
-            documentStyle.getPropertyValue('--p-indigo-400') || '#667eea',
-            documentStyle.getPropertyValue('--p-purple-400') || '#b794f4',
-            documentStyle.getPropertyValue('--p-teal-400') || '#4fd1c5',
-            documentStyle.getPropertyValue('--p-blue-400') || '#63b3ed',
-            documentStyle.getPropertyValue('--p-red-400') || '#fc8181',
-            documentStyle.getPropertyValue('--p-green-400') || '#68d391'
-          ]
+          data: this.etapas.map(() => 1), // Todas las etapas con el mismo peso
+          backgroundColor: this.etapas.map(etapa => etapa.color),
+          hoverBackgroundColor: this.etapas.map(etapa => this.darkenColor(etapa.color, 0.2))
         }
       ]
     };
+
+    this.pieOptions = {
+      cutout: '80%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (tooltipItem: any) => {
+              const index = tooltipItem.dataIndex;
+              return `${this.etapas[index].id}: ${this.etapas[index].nombre}`;
+            }
+          }
+        }
+      }
+    };
   }
+
   mostrarVideo() {
-      Swal.fire({
-          toast: true,
-        title: '🎉 Inscribete ahora 🎉',
-        html: `
-          <video width="100%" controls autoplay>
-            <source src="assets/mp4/Concurso.mov" type="video/mp4">
-            Tu navegador no soporta el formato de video.
-          </video>
-        `,
-        width: '600px',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        showCloseButton: true,
-        showConfirmButton: false
-      });
-    }
+    Swal.fire({
+        toast: true,
+      title: '🎉 Inscribete ahora 🎉',
+      html: `
+        <video width="100%" controls autoplay>
+          <source src="assets/mp4/Concurso.mov" type="video/mp4">
+          Tu navegador no soporta el formato de video.
+        </video>
+      `,
+      width: '600px',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      },
+      showCloseButton: true,
+      showConfirmButton: false
+    });
+  }
+
+
+  // Función para oscurecer el color en hover
+  private darkenColor(color: string, amount: number): string {
+    const usePound = color[0] === "#";
+    let num = parseInt(color.slice(1), 16);
+    let r = (num >> 16) - (amount * 255);
+    let g = ((num >> 8) & 0x00FF) - (amount * 255);
+    let b = (num & 0x0000FF) - (amount * 255);
+
+    r = Math.max(0, Math.min(255, r));
+    g = Math.max(0, Math.min(255, g));
+    b = Math.max(0, Math.min(255, b));
+
+    return (usePound ? "#" : "") + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
 }
