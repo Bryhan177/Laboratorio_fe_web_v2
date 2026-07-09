@@ -3,3 +3,16 @@
 @use './assets/layout/layout.scss';
 @use 'primeicons/primeicons.css';
 @use './assets/demo/demo.scss';
+
+:root {
+
+  --font-poppins: 'Poppins', sans-serif;
+  --font-fredoka: 'Fredoka', sans-serif;
+
+  --font-sans: var(--font-poppins), 'Poppins Fallback', sans-serif;
+  --font-heading: var(--font-fredoka), 'Fredoka Fallback', sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+}
