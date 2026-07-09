@@ -5,7 +5,6 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { TopbarWidget } from './components/topbarwidget/topbarwidget.component';
-import { HeroWidget } from './components/herowidget/herowidget.component';
 import { FeaturesWidget } from './components/featureswidget/featureswidget.component';
 // import { HighlightsWidget } from './components/highlightswidget/highlightswidget.component';
 import { PricingWidget } from './components/pricingwidget/pricingwidget.component';
@@ -17,9 +16,7 @@ import { FooterWidget } from './components/footerwidget/footerwidget.component';
     imports: [
         RouterModule,
         TopbarWidget,
-        HeroWidget,
         FeaturesWidget,
-        // HighlightsWidget,
         PricingWidget,
         FooterWidget,
         RippleModule,
