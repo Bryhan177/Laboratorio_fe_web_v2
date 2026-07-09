@@ -6,10 +6,8 @@ export const appRoutes: Routes = [
         path: 'dashboard',
         loadComponent: () => import('./app/layout/component/app.layout'),
         children: [
-            { path: '', loadComponent: () => import('./app/empty/empty.component') },
             { path: 'apps', loadChildren: () => import('./app/apps/apps.routes') },
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
-            { path: 'documentation', loadComponent: () => import('./app/documentation/documentation.component') },
         ]
     },
     { path: '',
