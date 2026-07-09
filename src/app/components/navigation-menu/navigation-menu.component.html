@@ -1,0 +1,37 @@
+<div class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" [class.bg-white]="isScrolled" [class.shadow-md]="isScrolled">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <img src="./assets/img/logo-Photoroom.png" alt="Logo" class="h-12 w-12">
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-8">
+                <a *ngFor="let item of menuItems" 
+                   (click)="scrollTo(item.target)" 
+                   class="cursor-pointer text-gray-600 hover:text-primary transition-colors duration-200 font-medium">
+                    {{ item.label }}
+                </a>
+                <p-button label="Donar Ahora" icon="pi pi-heart" styleClass="p-button-rounded p-button-primary" (onClick)="scrollTo('donar')"></p-button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button (click)="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <i class="pi" [class.pi-bars]="!mobileMenuOpen" [class.pi-times]="mobileMenuOpen" style="font-size: 1.5rem;"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div *ngIf="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-100">
+            <div class="flex flex-col gap-3">
+                <a *ngFor="let item of menuItems" 
+                   (click)="scrollTo(item.target); closeMobileMenu()" 
+                   class="cursor-pointer text-gray-600 hover:text-primary transition-colors duration-200 font-medium px-2 py-2">
+                    {{ item.label }}
+                </a>
+                <p-button label="Donar Ahora" icon="pi pi-heart" styleClass="p-button-rounded bg-[#28a0ae] w-full" (onClick)="scrollTo('donar'); closeMobileMenu()"></p-button>
+            </div>
+        </div>
+    </div>
+</div>
