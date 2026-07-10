@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { LandingPageComponent } from './app/components/landing-page/landing-page.componen';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [LandingPageComponent],
-    template: `
-        <app-landing-page />
-    `
+    imports: [RouterOutlet],
+    template: `<router-outlet />`
 })
 export class AppComponent {}

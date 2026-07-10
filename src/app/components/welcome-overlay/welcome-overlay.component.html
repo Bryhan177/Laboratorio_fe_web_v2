@@ -1,0 +1,103 @@
+<div
+    class="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-[#0f2a3d] to-teal-950 px-4 transition-opacity duration-500"
+    [class.opacity-0]="phase() === 'exit'"
+    [class.pointer-events-none]="phase() === 'exit'"
+>
+    <!-- Fondo decorativo -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+        <div class="absolute -left-20 top-20 h-72 w-72 rounded-full bg-[#28a0ae]/20 blur-3xl"></div>
+        <div class="absolute -right-16 bottom-16 h-80 w-80 rounded-full bg-[#f87e06]/15 blur-3xl"></div>
+        <div class="absolute left-1/2 top-1/3 h-64 w-64 -translate-x-1/2 rounded-full bg-[#830479]/10 blur-3xl"></div>
+    </div>
+
+    <!-- Orbitas alrededor del logo -->
+    @if (!reducedMotion()) {
+        @for (orbit of [0, 1, 2, 3]; track orbit) {
+            <div
+                class="pointer-events-none absolute left-1/2 top-[28%] h-0 w-0 -translate-x-1/2 -translate-y-1/2 animate-welcome-orbit"
+                [style.animationDuration]="(6 + orbit * 2) + 's'"
+                [style.animationDelay]="orbit * 0.5 + 's'"
+            >
+                <span
+                    class="flex h-3 w-3 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
+                    [class]="orbit % 2 === 0 ? 'bg-[#28a0ae]' : 'bg-[#f87e06]'"
+                ></span>
+            </div>
+        }
+    }
+
+    <div class="relative z-10 w-full max-w-2xl text-center">
+        <!-- Logo mundo -->
+        <div
+            class="mx-auto mb-8 flex h-28 w-28 items-center justify-center rounded-full bg-white/10 p-2 shadow-2xl ring-2 ring-white/20 backdrop-blur-sm transition-transform duration-700"
+            [class.scale-110]="phase() === 'celebration'"
+            [class.animate-welcome-pulse]="phase() === 'question' && !reducedMotion()"
+        >
+            <img
+                src="./assets/img/logo-Photoroom.png"
+                alt="Laboratorio"
+                class="h-full w-full rounded-full object-contain"
+            />
+        </div>
+
+        @if (phase() === 'question') {
+            <h2
+                class="mb-2 font-heading text-3xl font-bold text-white sm:text-4xl"
+                [class.animate-hero-fade-up]="!reducedMotion()"
+            >
+                ¿Qué te trae hoy al laboratorio?
+            </h2>
+            <p
+                class="mb-8 text-slate-300"
+                [class.animate-hero-fade-up]="!reducedMotion()"
+                [style.animation-delay]="'0.1s'"
+            >
+                Elige una opción para personalizar tu experiencia
+            </p>
+
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+                @for (option of roleOptions; track option.id; let i = $index) {
+                    <button
+                        type="button"
+                        (click)="selectRole(option.id)"
+                        class="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition hover:-translate-y-1 hover:border-white/30 hover:bg-white/10 hover:shadow-xl sm:p-5"
+                        [class.animate-hero-fade-up]="!reducedMotion()"
+                        [style.animation-delay]="(0.15 + i * 0.08) + 's'"
+                    >
+                        <span
+                            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-lg transition group-hover:scale-110"
+                            [class]="option.gradient"
+                        >
+                            <i [class]="'pi ' + option.icon + ' text-xl'" aria-hidden="true"></i>
+                        </span>
+                        <span class="font-semibold text-white">{{ option.label }}</span>
+                    </button>
+                }
+            </div>
+        }
+
+        @if (phase() === 'celebration') {
+            <div [class.animate-welcome-scale-in]="!reducedMotion()">
+                <div class="mb-4 flex justify-center">
+                    <span class="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#28a0ae] to-[#f87e06] text-3xl shadow-lg">
+                        ✨
+                    </span>
+                </div>
+                <h2 class="mb-3 font-heading text-3xl font-bold text-white sm:text-4xl">
+                    {{ getCelebrationMessage() }}
+                </h2>
+                <p class="text-slate-300">Preparando tu experiencia...</p>
+            </div>
+        }
+
+        @if (phase() === 'question') {
+            <button
+                type="button"
+                (click)="skip()"
+                class="mt-8 text-sm text-slate-400 underline-offset-4 transition hover:text-white hover:underline"
+            >
+                Entrar directo
+            </button>
+        }
+    </div>
+</div>
