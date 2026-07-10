@@ -45,18 +45,18 @@ export class FooterComponent {
 
     collaborators: Collaborator[] = [
         {
-            name: 'Colaborador 1',
-            logoUrl: './assets/img/collaborators/colaborador-1.png',
+            name: 'Retazos',
+            logoUrl: './assets/img/collaborators/retazos.jpeg',
             website: '#'
         },
         {
-            name: 'Colaborador 2',
-            logoUrl: './assets/img/collaborators/colaborador-2.png',
+            name: 'Laboratorio',
+            logoUrl: './assets/img/logo.jpg',
             website: '#'
         },
         {
-            name: 'Colaborador 3',
-            logoUrl: './assets/img/collaborators/colaborador-3.png',
+            name: 'Department of Methodology',
+            logoUrl: './assets/img/collaborators/lse.jpeg',
             website: '#'
         }
     ];
