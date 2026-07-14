@@ -40,19 +40,19 @@
     </p>
 
     <h1
-      class="mx-auto max-w-4xl text-balance text-center font-heading text-5xl font-bold leading-[0.95] tracking-tight text-foreground sm:text-6xl lg:text-7xl transition-all duration-700"
+      class="mx-auto max-w-4xl text-balance text-center font-black text-5xl leading-[0.95] tracking-tight text-foreground sm:text-6xl lg:text-7xl transition-all duration-700"
       [class.opacity-0]="!heroReady()"
       [class.translate-y-6]="!heroReady()"
       [class.animate-hero-fade-up]="heroReady() && !reducedMotion()"
       [style.animation-delay]="'0.15s'"
     >
       Transformando<br class="hidden sm:block" />
-      <span class="bg-gradient-to-r from-[#28a0ae] to-[#f87e06] bg-clip-text text-7xl font-extrabold text-transparent">
+      <span class="bg-gradient-to-r from-[#28a0ae] to-[#f87e06] bg-clip-text text-7xl font-serif italic text-transparent">
         vidas
       </span>
-      a través del <span class="bg-gradient-to-r from-[#28a0ae] to-[#f87e06] bg-clip-text text-7xl font-extrabold text-transparent">
+      a través del <span class="bg-gradient-to-r from-[#28a0ae] to-[#f87e06] bg-clip-text text-7xl font-serif italic text-transparent">
         juego
-      </span> y la <span class="bg-gradient-to-r from-[#28a0ae] to-[#f87e06] bg-clip-text text-7xl font-extrabold text-transparent">
+      </span> y la <span class="bg-gradient-to-r from-[#28a0ae] to-[#f87e06] bg-clip-text text-7xl font-serif italic text-transparent">
         recreación
       </span>
     </h1>
@@ -104,38 +104,6 @@
         </div>
       }
     </div>
-  </div>
-
-  <!-- CTAs desktop -->
-  <div
-    class="relative z-10 mx-auto mt-10 hidden justify-center gap-4 px-5 lg:flex transition-all duration-700"
-    [class.opacity-0]="!heroReady()"
-    [class.translate-y-4]="!heroReady()"
-    [class.animate-hero-fade-up]="heroReady() && !reducedMotion()"
-    [style.animation-delay]="'0.85s'"
-  >
-    <button
-      type="button"
-      (click)="scrollTo('servicios')"
-      class="group flex items-center gap-2 rounded-full bg-gradient-to-r from-[#28a0ae] to-[#1d8a96] px-7 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-teal-500/30"
-    >
-      <i class="pi pi-star transition group-hover:rotate-12" aria-hidden="true"></i>
-      Ver talleres
-    </button>
-    <button
-      type="button"
-      (click)="scrollTo('equipo')"
-      class="rounded-full border-2 border-foreground/15 bg-white/80 px-7 py-3 text-sm font-semibold text-foreground backdrop-blur-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md"
-    >
-      Conócenos
-    </button>
-    <button
-      type="button"
-      (click)="scrollTo('contacto')"
-      class="rounded-full border-2 border-[#f87e06]/30 bg-[#f87e06]/10 px-7 py-3 text-sm font-semibold text-[#c45f00] transition hover:-translate-y-0.5 hover:bg-[#f87e06]/20"
-    >
-      Contáctanos
-    </button>
   </div>
 
   <!-- Mobile layout -->

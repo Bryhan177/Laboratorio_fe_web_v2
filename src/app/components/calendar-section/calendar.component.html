@@ -1,0 +1,205 @@
+
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6 p-6 bg-gray-200">
+    <div class="col-span-1 lg:col-span-3">
+        <div class="w-full max-w-full md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-sm min-h-[950px]">
+        <!-- BARRA LATERAL: MES E ILUSTRACIÓN -->
+
+        <!-- SECCIÓN DEL CALENDARIO PRINCIPAL -->
+        <div class="w-full p-6 md:p-12 flex flex-col justify-between relative bg-white">
+            <div class="px-10">
+                <h1 class="">Calendario de eventos</h1>
+            </div>
+            <!-- AÑO FLOTANTE SUPERIOR -->
+            <div class="absolute top-4 right-12 md:top-6 md:right-16 select-none pointer-events-none hidden sm:block">
+                <span class="text-7xl md:text-8xl lg:text-9xl font-black text-[#f87e06]/50 tracking-tighter">2026</span>
+            </div>
+
+            <!-- ENCABEZADO DÍAS DE LA SEMANA -->
+            <div class="mt-8 md:mt-12">
+                <div class="grid grid-cols-7 gap-2 md:gap-4 mb-4 text-center font-bold text-xs md:text-sm text-slate-700 tracking-wider">
+                    <div>DOM</div>
+                    <div>LUN</div>
+                    <div>MAR</div>
+                    <div>MIÉ</div>
+                    <div>JUE</div>
+                    <div>VIE</div>
+                    <div>SÁB</div>
+                </div>
+
+                <!-- CUADRÍCULA CON LOS 31 DÍAS DEL MES -->
+                <div class="grid grid-cols-7 gap-2 md:gap-4 auto-rows-[90px] md:auto-rows-[115px]">
+                    
+                    <!-- Desfase inicial: Enero de 2026 empieza en Jueves (4 días vacíos: Dom, Lun, Mar, Mié) -->
+                    <div class="bg-transparent"></div>
+                    <div class="bg-transparent"></div>
+                    <div class="bg-transparent"></div>
+                    <div class="bg-transparent"></div>
+
+                    <!-- Día 1: Evento Destacado Rosa -->
+                    <div class="bg-white border-2 border-pink-400 rounded-xl md:rounded-2xl p-2 flex flex-col justify-between shadow-sm">
+                        <span class="text-right text-xs md:text-sm font-bold text-pink-500">1</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-pink-600 line-clamp-2">Año Nuevo de Sonrisas</p>
+                            <span class="text-[8px] md:text-[10px] text-pink-400 block font-medium">#Bienvenidos</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 2: Evento Crema -->
+                    <div class="bg-[#F4ECE1] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-500">2</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Planeación de Parques</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-500 block">#Equipo</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 3: Sin evento -->
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">3</span></div>
+
+                    <!-- Día 4 -->
+                    <div class="bg-[#F4ECE1] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-500">4</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Taller Infantil de Pintura</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-500 block">#Arte</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 5 -->
+                    <div class="bg-[#F4ECE1] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-500">5</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Reunión con Donantes</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-500 block">#Alianzas</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 6 -->
+                    <div class="bg-[#F4ECE1] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-500">6</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Entrega de Juguetes</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-500 block">#Risas</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 7 -->
+                    <div class="bg-[#F4ECE1] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-500">7</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Cine al Aire Libre</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-500 block">#Comunidad</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 8: Evento Azul Pastel -->
+                    <div class="bg-[#D4E2EC] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-600">8</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Semana de la Recreación</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-600 block">#Actívate</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 9 -->
+                    <div class="bg-[#F4ECE1] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-500">9</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Mantenimiento de Parques</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-500 block">#EspacioSeguro</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 10 a 13: Sin eventos -->
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">10</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">11</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">12</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">13</span></div>
+
+                    <!-- Día 14 -->
+                    <div class="bg-[#F4ECE1] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-500">14</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Taller de Globoflexia</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-500 block">#Creatividad</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 15 -->
+                    <div class="bg-[#F4ECE1] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-500">15</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Show de Títeres</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-500 block">#Sonrisas</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 16: Evento Destacado Rosa -->
+                    <div class="bg-white border-2 border-pink-400 rounded-xl md:rounded-2xl p-2 flex flex-col justify-between shadow-sm">
+                        <span class="text-right text-xs md:text-sm font-bold text-pink-500">16</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-pink-600 line-clamp-2">Día de Juegos Tradicionales</p>
+                            <span class="text-[8px] md:text-[10px] text-pink-400 block font-medium">#Integración</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 17 a 21: Sin eventos -->
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">17</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">18</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">19</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">20</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">21</span></div>
+
+                    <!-- Día 22 -->
+                    <div class="bg-[#F4ECE1] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-500">22</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Búsqueda del Tesoro</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-500 block">#Aventura</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 23 -->
+                    <div class="bg-[#F4ECE1] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-500">23</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Reunión de Voluntarios</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-500 block">#Logística</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 24 a 26: Sin eventos -->
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">24</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">25</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">26</span></div>
+
+                    <!-- Día 27: Evento Azul Pastel -->
+                    <div class="bg-[#D4E2EC] rounded-xl md:rounded-2xl p-2 flex flex-col justify-between">
+                        <span class="text-right text-xs md:text-sm font-bold text-slate-600">27</span>
+                        <div class="leading-tight">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-800 line-clamp-2">Clausura de Talleres</p>
+                            <span class="text-[8px] md:text-[10px] text-slate-600 block">#Festa</span>
+                        </div>
+                    </div>
+
+                    <!-- Día 28 a 31: Fin de mes -->
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">28</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">29</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">30</span></div>
+                    <div class="p-2 flex flex-col justify-start items-end"><span class="text-xs md:text-sm font-bold text-slate-400">31</span></div>
+
+                </div>
+            </div>
+            <!-- LOGO INFERIOR -->
+            <div class="flex justify-end items-center mt-6">
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <div class="col-span-1 lg:col-span-1 flex flex-col items-center justify-center">
+        <h1>Proximo</h1>
+        <img src="./assets/img/events.png" class="w-full h-auto object-contain rounded-2xl" alt="Events" />
+    </div>
+
+</div>
