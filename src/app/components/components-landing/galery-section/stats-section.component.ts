@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 
 @Component({
-    selector: 'app-services-section',
+    selector: 'app-galery-section',
     standalone: true,
     imports: [AnimateOnScrollModule],
-    templateUrl: './services-section.component.html'
+    templateUrl: './stats-section.components.html'
 })
-export class ServicesSectionComponent {}
+export class GalerySectionComponent {}

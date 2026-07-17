@@ -2,7 +2,7 @@ import { Component, OnInit, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 import { ButtonModule } from 'primeng/button';
-import { VisitorContextService } from '../../service/visitor-context.service';
+import { VisitorContextService } from '../../../service/visitor-context.service';
 
 interface Card {
     src: string;

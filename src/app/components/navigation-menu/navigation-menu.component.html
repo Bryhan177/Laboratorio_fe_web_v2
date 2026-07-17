@@ -1,37 +1,70 @@
-<div class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" [class.bg-white]="isScrolled" [class.shadow-md]="isScrolled">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <!-- Logo -->
-            <div class="flex items-center gap-2">
-                <img src="./assets/img/logo-Photoroom.png" alt="Logo" class="h-12 w-12">
-            </div>
+<div class="flex items-center justify-between px-6 py-3 bg-white dark:bg-surface-900  fixed top-0 left-0 right-0 z-50">
+    <!-- Logo izquierdo -->
+    <div class="flex-shrink-0">
+        <img src="assets/img/logo.jpg" class="h-12 w-12" alt="Logo">
+    </div>
 
-            <!-- Desktop Navigation -->
-            <div class="hidden md:flex items-center gap-8">
-                <a *ngFor="let item of menuItems" 
-                   (click)="scrollTo(item.target)" 
-                   class="cursor-pointer text-gray-600 hover:text-primary transition-colors duration-200 font-medium">
-                    {{ item.label }}
+    <!-- Menú central -->
+    <p-megamenu [model]="items" [style]="{ 'display': 'flex' }" class="p-0">
+        <!-- Personalización de los items -->
+        <ng-template #item let-item>
+            @if (item.root) {
+                    <a pRipple class="flex items-center cursor-pointer px-3 py-2 overflow-hidden relative font-semibold uppercase" style="border-radius: 2rem">
+                        <i [ngClass]="item.icon"></i>
+                        <span class="ml-2">{{ item.label }}</span>
+                    </a>
+            } @else if (!item.image) {
+                <a class="flex items-center p-3 cursor-pointer mb-2 gap-2">
+                    <span class="inline-flex items-center justify-center rounded-full bg-primary text-primary-contrast w-12 h-12">
+                        <i [ngClass]="item.icon"></i>
+                    </span>
+                    <span class="inline-flex flex-col gap-1">
+                        <span class="font-medium text-surface-900 dark:text-surface-0">{{ item.label }}</span>
+                        <span class="whitespace-nowrap text-sm">{{ item.subtext }}</span>
+                    </span>
                 </a>
-                <p-button label="Donar Ahora" icon="pi pi-heart" styleClass="p-button-rounded p-button-primary" (onClick)="scrollTo('donar')"></p-button>
-            </div>
+            } @else {
+                <div class="flex flex-col items-center gap-4">
+                    <div class="w-full h-64 overflow-hidden rounded-lg bg-cover bg-center" [style]="'background-image: url(assets/img/donate.jpg)'">
+                    </div>
+                    <span class="text-base">{{ item.subtext }}</span>
+                    <button class="bg-[#f87e06] text-white p-4 px-5 rounded-md" type="button">{{ item.label }}</button>
+                </div>
+            }
+        </ng-template>
+    </p-megamenu>
 
-            <!-- Mobile Menu Button -->
-            <button (click)="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <i class="pi" [class.pi-bars]="!mobileMenuOpen" [class.pi-times]="mobileMenuOpen" style="font-size: 1.5rem;"></i>
-            </button>
-        </div>
-
-        <!-- Mobile Navigation -->
-        <div *ngIf="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-100">
-            <div class="flex flex-col gap-3">
-                <a *ngFor="let item of menuItems" 
-                   (click)="scrollTo(item.target); closeMobileMenu()" 
-                   class="cursor-pointer text-gray-600 hover:text-primary transition-colors duration-200 font-medium px-2 py-2">
-                    {{ item.label }}
-                </a>
-                <p-button label="Donar Ahora" icon="pi pi-heart" styleClass="p-button-rounded bg-[#28a0ae] w-full" (onClick)="scrollTo('donar'); closeMobileMenu()"></p-button>
-            </div>
-        </div>
+    <!-- Avatar derecho -->
+    <div class="flex-shrink-0">
+       <div class="relative inline-flex items-center justify-center gap-4 group">
+  <div
+    class="absolute inset-0 duration-1000 opacity-60 transitiona-all bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 rounded-xl blur-lg filter group-hover:opacity-100 group-hover:duration-200"
+  ></div>
+  <a
+    role="button"
+    class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30"
+    title="payment"
+    href="#"
+    >
+    Iniciar Sesion
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 10 10"
+      height="10"
+      width="10"
+      fill="none"
+      class="mt-0.5 ml-2 -mr-1 stroke-white stroke-2"
+    >
+      <path
+        d="M0 5h7"
+        class="transition opacity-0 group-hover:opacity-100"
+      ></path>
+      <path
+        d="M1 1l4 4-4 4"
+        class="transition group-hover:translate-x-[3px]"
+      ></path>
+    </svg>
+  </a>
+</div>
     </div>
 </div>

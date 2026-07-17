@@ -1,0 +1,75 @@
+<div class="min-h-screen bg-gray-100 p-8 pt-32">
+    <div class="border-b border-border p-5 rounded-lg border-gray-300 pb-10">
+        <h1 class="text-4xl font-bold text-start">
+            <a class="underline decoration-[#28a0ae]">Cursos</a>
+            y
+            <a class="underline decoration-[#f87e06]">talleres</a>
+             para todas las edades
+        </h1>
+        <p class="text-start text-lg text-gray-600">Programas diseñados para despertar el talento, fortalecer el cuerpo y unir a la comunidad. La mayoría son totalmente gratuitos gracias a nuestros aliados.</p>
+        <div class="flex flex-wrap gap-5">
+            <span class="border p-5 rounded-xl">Danza y musica</span>
+            <span class="border p-5 rounded-xl">Arte y cultura</span>
+            <span class="border p-5 rounded-xl">Aire Libre</span>
+            <span class="border p-5 rounded-xl">Bienestar</span>
+            <span class="border p-5 rounded-xl">Infantil</span>
+        </div>
+    </div>
+
+    <section class="mx-auto max-w-full px-4 py-16 sm:px-6">
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            @for (course of courses; track course.title) {
+                <article class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-md">
+                    <!-- Contenedor de la Imagen con NgOptimizedImage para optimización automática -->
+                    <div class="relative aspect-[16/10] overflow-hidden">
+                        <img [ngSrc]="course.image || '/placeholder.svg'" [alt]="course.title" fill priority class="object-cover transition-transform duration-300 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
+                        <span class="absolute left-3 top-3 rounded-full bg-[#830479] px-3 py-1 text-lg font-medium text-white backdrop-blur">
+                                {{ course.tag }}
+                        </span>
+                    </div>
+
+                    <div class="flex flex-1 flex-col p-5">
+                        <h3 class="font-heading text-lg font-semibold leading-snug">
+                            {{ course.title }}
+                        </h3>
+                        <p class="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                            {{ course.desc }}
+                        </p>
+
+                        <!-- Listado de detalles utilizando clases de PrimeIcons (pi) -->
+                        <ul class="mt-4 grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                            <li class="flex items-center gap-1.5">
+                                <i class="pi pi-clock text-[#28a0ae] text-[14px]"></i>
+                                {{ course.duration }}
+                            </li>
+                            <li class="flex items-center gap-1.5">
+                                <i class="pi pi-users text-[#28a0ae] text-[14px]"></i>
+                                {{ course.cupos }}
+                            </li>
+                            <li class="flex items-center gap-1.5">
+                                <i class="pi pi-map-marker text-[#28a0ae] text-[14px]"></i>
+                                {{ course.level }}
+                            </li>
+                            <li class="flex items-center gap-1.5">
+                                <i class="pi pi-calendar text-[#28a0ae] text-[14px]"></i>
+                                Inscripción abierta
+                            </li>
+                        </ul>
+
+                        <!-- Footer de la Card con precio y redirección en Angular (routerLink) -->
+                        <div class="mt-5 flex items-center justify-between border-t border-border pt-4">
+                            <span class="font-heading text-sm font-bold text-[#830479]">
+                                {{ course.price }}
+                            </span>
+
+                            <button routerLink="/contacto" class="bg-[#ff7f00] flex items-center gap-2 text-white px-4 py-2 rounded-lg">
+                                Inscribirme
+                                <i class="pi pi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    </section>
+</div>

@@ -3,11 +3,31 @@
         <app-welcome-overlay (completed)="onWelcomeComplete()" />
     }
     <app-navigation-menu />
-    <div id="inicio" class="w-full"><app-hero-section /></div>
-    <div id="servicios" class="w-full"><app-services-section /></div>
-    <div id="equipo" class="w-full"><app-team-section /></div>
-    <div id="estadisticas" class="w-full"><app-stats-section /></div>
-    <div id="calendario" class="w-full"><app-calendar-section /></div>
-    <div id="part-team" class="w-full"><app-part-team /></div>
+
+    @switch (navigationService.currentView()) {
+        @case ('landing') {
+            <div id="inicio" class="w-full"><app-hero-section /></div>
+            <div id="equipo" class="w-full"><app-team-section /></div>
+            <div id="galeria" class="w-full"><app-galery-section /></div>
+            <div id="calendario" class="w-full"><app-calendar-section /></div>
+            <div id="part-team" class="w-full"><app-part-team /></div>
+        }
+        @case ('courses') {
+            <app-courses-section />
+        }
+        @case ('articles') {
+            <app-articles-section />
+        }
+        @case ('participate') {
+            <app-teams-section />
+        }
+        @case ('contact') {
+            <app-contact-section />
+        }
+        @case ('donate') {
+            <app-donate-section />
+        }
+    }
+
     <app-footer class="w-full" />
 </div>
