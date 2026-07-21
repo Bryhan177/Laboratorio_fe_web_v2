@@ -1,0 +1,108 @@
+<div class="min-h-screen bg-gray-100 p-8 pt-32">
+  <div class="p-5">
+    <button class="hover:text-gray-500" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
+  </div>
+     <section class="border-b border-border bg-secondary/30">
+        <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
+          <span class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-primary">
+            Hablemos
+          </span>
+          <h1 class="mt-5 max-w-3xl text-balance font-heading text-4xl font-extrabold tracking-tight sm:text-5xl">
+            Estamos aquí para escucharte
+          </h1>
+          <p class="mt-4 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground">
+            ¿Tienes preguntas sobre nuestros cursos, quieres proponer una alianza o
+            necesitas más información? Escríbenos y con gusto te ayudamos.
+          </p>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-full px-4 py-16 sm:px-6">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            @for (info of info; track $index) {
+                <div class="rounded-lg border border-border bg-white p-6 shadow-sm">
+                    <h3 class="text-lg font-semibold text-foreground">{{ info.title }}</h3>
+                    <p class="mt-2 text-sm text-muted-foreground">{{ info.desc }}</p>
+                    <p class="mt-1 text-xs text-muted-foreground">{{ info.ubic }}</p>
+                </div>
+            }
+        </div>
+      </section>
+
+      <section class="mt-12 grid gap-8 lg:grid-cols-2">
+         <form
+      class="rounded-2xl border border-border bg-white p-6 sm:p-8"
+    >
+      <h2 class="font-heading text-xl font-bold">Envíanos un mensaje</h2>
+      <p class="mt-1 text-sm text-muted-foreground">
+        Completa el formulario y te responderemos pronto.
+      </p>
+
+      <div class="mt-6 grid gap-4">
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="grid gap-2">
+            <label htmlFor="nombre" class="text-sm font-medium">
+              Nombre
+            </label>
+            <input
+              id="nombre"
+              name="nombre"
+              required
+              placeholder="Tu nombre"
+              class="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none ring-ring/40 focus:ring-2"
+            />
+          </div>
+          <div class="grid gap-2">
+            <label htmlFor="email" class="text-sm font-medium">
+              Correo electrónico
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              placeholder="tu@correo.com"
+              class="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none ring-ring/40 focus:ring-2"
+            />
+          </div>
+        </div>
+
+        <div class="grid gap-2">
+          <span class="text-sm font-medium">Asunto</span>
+          <div class="flex flex-wrap gap-2">
+          </div>
+        </div>
+
+        <div class="grid gap-2">
+          <label htmlFor="mensaje" class="text-sm font-medium">
+            Mensaje
+          </label>
+        </div>
+
+        <Button type="submit" size="lg" class="mt-2">
+          Enviar mensaje
+        </Button>
+      </div>
+    </form>
+
+        <div class="flex flex-col gap-6">
+            <div class="overflow-hidden rounded-2xl border border-border">
+                <img
+                src="assets/img/courses/contacto-equipo.png"
+                alt="Equipo de recepción de la fundación dando la bienvenida a los visitantes"
+                class="h-56 w-full object-cover sm:h-64"
+              />
+            </div>
+            <div class="overflow-hidden rounded-2xl border border-border">
+                <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-74.08%2C4.62%2C-74.04%2C4.66&layer=mapnik" 
+                width="100%" 
+                height="450" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+        </div>
+      </section>
+</div>

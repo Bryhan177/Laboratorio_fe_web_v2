@@ -1,7 +1,33 @@
-<div class="flex flex-col items-center overflow-hidden">
+<div class="flex w-full flex-col items-stretch overflow-x-hidden">
+    @if (showWelcome()) {
+        <app-welcome-overlay (completed)="onWelcomeComplete()" />
+    }
     <app-navigation-menu />
-    <app-hero-section />
-    <app-services-section />
-    <app-team-section />
-    <app-stats-section />
+
+    @switch (navigationService.currentView()) {
+        @case ('landing') {
+            <div id="inicio" class="w-full"><app-hero-section /></div>
+            <div id="equipo" class="w-full"><app-team-section /></div>
+            <div id="galeria" class="w-full"><app-galery-section /></div>
+            <div id="calendario" class="w-full"><app-calendar-section /></div>
+            <div id="part-team" class="w-full"><app-part-team /></div>
+        }
+        @case ('courses') {
+            <app-courses-section (back)="onBack()" />
+        }
+        @case ('articles') {
+            <app-articles-section (back)="onBack()" />
+        }
+        @case ('participate') {
+            <app-teams-section (back)="onBack()" />
+        }
+        @case ('contact') {
+            <app-contact-section (back)="onBack()" />
+        }
+        @case ('donate') {
+            <app-donate-section (back)="onBack()" />
+        }
+    }
+
+    <app-footer class="w-full" />
 </div>

@@ -1,0 +1,116 @@
+<div class="min-h-screen bg-gray-100 p-8 pt-32">
+  <div class="p-5">
+    <button class="hover:text-gray-500" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
+  </div>
+    <div class="border-b border-border p-5 rounded-lg border-gray-300 pb-10">
+        <h1 class="text-4xl font-bold text-start">
+            <a class="underline decoration-[#830479]">Articulos</a> que
+           <a class="underline decoration-[#28a0ae]">inspiran</a>
+             bienestar
+        </h1>
+        <p class="text-start text-lg text-gray-600">Programas diseñados para despertar el talento, fortalecer el cuerpo y unir a la comunidad. La mayoría son totalmente gratuitos gracias a nuestros aliados.</p>
+    </div>
+
+   <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+  <article class="grid overflow-hidden rounded-3xl border border-border bg-card lg:grid-cols-2">
+    
+    <!-- Imagen destacada -->
+    <div class="relative min-h-64 lg:min-h-full">
+      <img
+        [ngSrc]="feactured[0].image || '/placeholder.svg'"
+        [alt]="feactured[0].title"
+        fill
+        priority
+        class="object-cover"
+        sizes="(max-width: 1024px) 100vw, 50vw"
+      />
+    </div>
+
+    <!-- Contenido destacado -->
+    <div class="flex flex-col justify-center p-8 sm:p-10">
+      <span class="w-fit rounded-full bg-accent/20 py-1 text-lg font-medium text-[#830479]">
+        {{ feactured[0].category }}
+      </span>
+      
+      <h2 class="mt-4 text-balance font-heading text-2xl font-bold leading-tight tracking-tight sm:text-3xl">
+        {{ feactured[0].title }}
+      </h2>
+      
+      <p class="mt-4 text-pretty leading-relaxed text-muted-foreground">
+        {{ feactured[0].desc }}
+      </p>
+      
+      <div class="mt-6 pb-5 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+        <span class="flex items-center gap-1.5">
+          <i class="pi pi-calendar text-[#830479] text-[14px]"></i>
+          {{ feactured[0].date }}
+        </span>
+        <span class="flex items-center gap-1.5">
+          <i class="pi pi-clock text-[#830479] text-[14px]"></i>
+          {{ feactured[0].read }}
+        </span>
+        <span>Por {{ feactured[0].author }}</span>
+      </div>
+
+      <!-- Botón de PrimeNG adaptado -->
+      <button class="p-5 bg-[#ff7f00] rounded-lg text-white">
+      Leer articulo
+      </button>
+    </div>
+
+  </article>
+</section>
+
+<!-- Sección: Últimas Publicaciones -->
+<section class="mx-auto max-w-full px-4 pb-20 sm:px-6">
+  <h2 class="font-heading text-2xl font-bold tracking-tight">
+    Últimas publicaciones
+  </h2>
+  
+  <div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    
+    @for (article of articles; track article.title) {
+      <article class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-md">
+        
+        <!-- Imagen del artículo -->
+        <div class="relative aspect-[16/10] overflow-hidden">
+          <img
+            [ngSrc]="article.image || '/placeholder.svg'"
+            [alt]="article.title"
+            fill
+            class="object-cover transition-transform duration-300 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+          <span class="absolute left-3 top-3 rounded-full bg-[#830479] px-3 py-1 text-md font-medium text-white backdrop-blur">
+            {{ article.category }}
+          </span>
+        </div>
+
+        <!-- Contenido del artículo -->
+        <div class="flex flex-1 flex-col p-5">
+          <h3 class="font-heading text-xl font-semibold leading-snug">
+            {{ article.title }}
+          </h3>
+          
+          <p class="mt-2 flex-1 text-lg leading-relaxed text-muted-foreground">
+            {{ article.desc }}
+          </p>
+          
+          <div class="mt-4 flex items-center gap-4 border-t border-border pt-4 text-xs text-muted-foreground">
+            <span class="flex items-center gap-1.5">
+              <i class="pi pi-calendar text-[#830479] text-lg"></i>
+              {{ article.date }}
+            </span>
+            <span class="flex items-center gap-1.5">
+              <i class="pi pi-clock text-[#830479] text-lg"></i>
+              {{ article.read }}
+            </span>
+          </div>
+        </div>
+
+      </article>
+    }
+
+  </div>
+</section>
+</div>
