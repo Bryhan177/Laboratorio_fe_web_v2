@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
@@ -26,6 +26,12 @@ export interface Course {
     templateUrl: './courses-section.component.html'
 })
 export class CoursesSectionComponent {
+    @Output() back = new EventEmitter<void>();
+
+    goBack() {
+        this.back.emit();
+    }
+
     courses: Course[] = [
     {
       image: 'assets/img/courses/curso-danza.png',

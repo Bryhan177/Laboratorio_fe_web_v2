@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { HandHeart, Handshake, Gift, Megaphone } from 'lucide-angular';
 
 interface ways {
@@ -17,6 +17,12 @@ interface impact {
     templateUrl: './teams-section.component.html'
 })
 export class TeamsSectionComponent {
+    @Output() back = new EventEmitter<void>();
+
+    goBack() {
+        this.back.emit();
+    }
+    
     ways: ways[] = [
         {
             title: 'Voluntariado',

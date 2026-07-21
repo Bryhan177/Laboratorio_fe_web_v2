@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
@@ -34,6 +34,12 @@ export interface Article {
     templateUrl: './articles-section.component.html'
 })
 export class ArticlesSectionComponent {
+
+  @Output() back = new EventEmitter<void>();
+
+  goBack() {
+    this.back.emit();
+  }
 
     feactured: Feacture[] = [
         {

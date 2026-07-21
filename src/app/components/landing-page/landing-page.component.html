@@ -13,19 +13,19 @@
             <div id="part-team" class="w-full"><app-part-team /></div>
         }
         @case ('courses') {
-            <app-courses-section />
+            <app-courses-section (back)="onBack()" />
         }
         @case ('articles') {
-            <app-articles-section />
+            <app-articles-section (back)="onBack()" />
         }
         @case ('participate') {
-            <app-teams-section />
+            <app-teams-section (back)="onBack()" />
         }
         @case ('contact') {
-            <app-contact-section />
+            <app-contact-section (back)="onBack()" />
         }
         @case ('donate') {
-            <app-donate-section />
+            <app-donate-section (back)="onBack()" />
         }
     }
 

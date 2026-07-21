@@ -1,85 +1,177 @@
 <div class="bg-white min-h-screen flex items-center justify-center p-4 md:p-8 overflow-x-hidden select-none">
 
-    <!-- CONTENEDOR PRINCIPAL GIGANTE -->
-    <div class="relative w-full max-w-[1400px] h-[750px] md:h-[650px] flex items-center justify-center bg-white">
+      <!-- Main Section Container -->
+      <main class="max-w-full mx-auto px-6 sm:px-8 lg:px-12 py-12 lg:py-16">
         
-        <!-- =========================================================
-             CARRUSEL FLOTANTE: IMÁGENES ALREDEDOR (CON ROTACIONES)
-             ========================================================= -->
-        
-        <!-- Fila Superior -->
-        <div class="absolute top-2 left-2 md:top-4 md:left-6 w-32 h-24 md:w-60 md:h-44 rounded-2xl overflow-hidden -rotate-12 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10">
-            <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=500&q=80" alt="Juegos" class="w-full h-full object-cover">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 lg:mb-14 gap-6">
+          <div>
+            <!-- Main Title -->
+            <h1 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-medium tracking-tight text-black leading-[1.15]">
+              Expora nuestra galeria
+            </h1>
+          </div>
+
+          <!-- Top Right Action Link -->
+          <div class="flex items-center gap-6">
+            <a 
+              href="#all" 
+              (click)="$event.preventDefault()" 
+              class="group inline-flex items-center gap-1.5 text-sm font-normal text-black hover:text-black transition-colors">
+              <span>Ir ha galeria</span>
+              <svg class="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H8M17 7V16" />
+              </svg>
+            </a>
+          </div>
         </div>
 
-        <div class="absolute top-6 left-1/4 w-28 h-20 md:w-44 md:h-32 rounded-2xl overflow-hidden rotate-6 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10 hidden sm:block">
-            <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=500&q=80" alt="Risas" class="w-full h-full object-cover">
-        </div>
-
-        <div class="absolute top-2 left-1/2 -translate-x-1/2 w-32 h-24 md:w-60 md:h-44 rounded-2xl overflow-hidden -rotate-3 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10">
-            <img src="https://images.unsplash.com/photo-1473177104440-ffee2f376098?auto=format&fit=crop&w=500&q=80" alt="Saltos" class="w-full h-full object-cover">
-        </div>
-
-        <div class="absolute top-8 right-1/4 w-28 h-20 md:w-44 md:h-32 rounded-2xl overflow-hidden rotate-12 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10 hidden sm:block">
-            <img src="https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=500&q=80" alt="Equipo" class="w-full h-full object-cover">
-        </div>
-
-        <div class="absolute top-2 right-2 md:top-4 md:right-6 w-32 h-24 md:w-60 md:h-44 rounded-2xl overflow-hidden -rotate-6 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10">
-            <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=500&q=80" alt="Sonrisas" class="w-full h-full object-cover">
-        </div>
-
-        <!-- Laterales Centro -->
-        <div class="absolute top-1/3 left-[-20px] md:left-4 w-32 h-24 md:w-48 md:h-36 rounded-2xl overflow-hidden rotate-12 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10">
-            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=500&q=80" alt="Recreación al aire libre" class="w-full h-full object-cover">
-        </div>
-
-        <div class="absolute top-1/3 right-[-20px] md:right-4 w-32 h-24 md:w-48 md:h-36 rounded-2xl overflow-hidden -rotate-12 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10">
-            <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&w=500&q=80" alt="Talleres recreativos" class="w-full h-full object-cover">
-        </div>
-
-        <!-- Fila Inferior -->
-        <div class="absolute bottom-4 left-2 md:bottom-6 md:left-10 w-32 h-24 md:w-60 md:h-44 rounded-2xl overflow-hidden rotate-6 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10">
-            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=500&q=80" alt="Niños felices" class="w-full h-full object-cover">
-        </div>
-
-        <div class="absolute bottom-12 left-1/4 w-28 h-20 md:w-44 md:h-32 rounded-2xl overflow-hidden -rotate-12 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10 hidden sm:block">
-            <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&w=500&q=80" alt="Diversión grupal" class="w-full h-full object-cover">
-        </div>
-
-        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-24 md:w-60 md:h-44 rounded-2xl overflow-hidden rotate-3 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10">
-            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=500&q=80" alt="Música y juegos" class="w-full h-full object-cover">
-        </div>
-
-        <div class="absolute bottom-10 right-1/4 w-28 h-20 md:w-44 md:h-32 rounded-2xl overflow-hidden -rotate-6 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10 hidden sm:block">
-            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=500&q=80" alt="Dinámicas comunitarias" class="w-full h-full object-cover">
-        </div>
-
-        <div class="absolute bottom-4 right-2 md:bottom-6 md:right-10 w-32 h-24 md:w-60 md:h-44 rounded-2xl overflow-hidden rotate-12 shadow-2xl transition duration-300 hover:rotate-0 hover:scale-105 z-10">
-            <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&w=500&q=80" alt="Parque infantil" class="w-full h-full object-cover">
-        </div>
-
-
-        <!-- =========================================================
-             BLOQUE CENTRAL DE TEXTO (LLAMADO A LA ACCIÓN)
-             ========================================================= -->
-        <div class="text-center z-20 px-6 max-w-2xl mt-12 md:mt-0">
-            <!-- Texto Script/Cursivo Superior -->
-            <p class="font-serif italic text-2xl md:text-3xl text-violet-500 tracking-wide mb-2">
-                Creamos
-            </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+          @for (article of filteredArticles(); track article.id) {
             
-            <!-- Título Principal Impactante -->
-            <h2 class="text-5xl md:text-7xl font-black text-foreground tracking-tight uppercase mb-6 drop-shadow-md">
-                Recuerdos
+            <article class="group flex flex-col h-full cursor-pointer" (click)="openArticle(article)">
+              
+              <!-- Date above image (Exact match with photo) -->
+              <div class="font-serif text-gray-400 italic tracking-widest uppercase text-base md:text-md mb-3">
+                {{ article.date }}
+              </div>
+
+              <!-- Image Container with Subtle Hover Effects -->
+              <div class="relative aspect-[4/5] w-full rounded-xl overflow-hidden bg-neutral-900 border border-neutral-800/80 mb-5">
+                <img 
+                  [src]="article.imageUrl" 
+                  [alt]="article.imageAlt"
+                  class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out brightness-[0.92] group-hover:brightness-100"
+                  loading="lazy"
+                />
+
+                <!-- Bookmark Button Overlay -->
+                <button 
+                  (click)="toggleBookmark(article.id, $event)"
+                  class="absolute top-3 right-3 p-2 rounded-full bg-neutral-950/60 backdrop-blur-md text-white/80 hover:text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                  title="Save article">
+                  <svg class="w-3.5 h-3.5" [class.fill-white]="isBookmarked(article.id)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Article Category Tag -->
+              <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-neutral-400 mb-2 block">
+                {{ article.category }}
+              </span>
+
+              <!-- Title -->
+              <h2 class="text-xl font-bold text-black tracking-tight leading-snug group-hover:text-neutral-200 transition-colors mb-3">
+                {{ article.title }}
+              </h2>
+
+              <!-- Description -->
+              <p class="text-sm text-neutral-500 leading-relaxed font-normal mb-6 flex-grow line-clamp-3">
+                {{ article.description }}
+              </p>
+
+              <!-- Read More CTA Link -->
+              <div class="inline-flex items-center gap-1.5 text-[11px] font-extrabold tracking-widest uppercase text-black group-hover:text-neutral-300 transition-colors mt-auto">
+                <span>Ver mas</span>
+                <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H8M17 7V16" />
+                </svg>
+              </div>
+
+            </article>
+
+          } @empty {
+            <div class="col-span-full py-20 text-center">
+              <p class="text-neutral-500 text-base">No articles found matching your criteria.</p>
+              <button 
+                (click)="resetFilters()" 
+                class="mt-4 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-neutral-900 border border-neutral-800 rounded-lg hover:bg-neutral-800 transition-colors">
+                Reset Filters
+              </button>
+            </div>
+          }
+        </div>
+
+      </main>
+
+      @if (activeArticle(); as article) {
+        <div 
+          class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in"
+          (click)="closeArticle()">
+          
+          <div 
+            class="bg-[#121215] border border-neutral-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl"
+            (click)="$event.stopPropagation()">
+            
+            <!-- Close Modal Button -->
+            <button 
+              (click)="closeArticle()" 
+              class="absolute top-4 right-4 p-2 rounded-full bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <!-- Modal Header Content -->
+            <div class="flex items-center gap-3 text-xs text-neutral-400 mb-4 font-mono">
+              <span class="px-2 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-white font-sans font-semibold uppercase tracking-wider text-[10px]">
+                {{ article.category }}
+              </span>
+              <span>•</span>
+              <span>{{ article.date }}</span>
+              <span>•</span>
+              <span>{{ article.readTime }} read</span>
+            </div>
+
+            <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight mb-4">
+              {{ article.title }}
             </h2>
-            
-            <!-- Párrafo Descriptivo Estilo Código (font-mono) -->
-            <p class="font-thin text-xs md:text-lg text-slate-700 leading-relaxed max-w-md mx-auto mb-8">
-                Un espacio dedicado a compartir nuestras vivencias diarias, el detrás de escena de las actividades y las sonrisas que construimos juntos.
-            </p>
-            
-            <!-- Botón de Acción Ovalado -->
-            <button class="bg-[#f87e06]/80 text-white px-10 py-5 rounded-lg">Explora mas</button>
+
+            <div class="aspect-video w-full rounded-xl overflow-hidden mb-6 bg-neutral-900 border border-neutral-800">
+              <img [src]="article.imageUrl" [alt]="article.imageAlt" class="w-full h-full object-cover" />
+            </div>
+
+            <!-- Author Info -->
+            <div class="flex items-center gap-3 pb-6 border-b border-neutral-800/80 mb-6">
+              <img [src]="article.author.avatar" [alt]="article.author.name" class="w-10 h-10 rounded-full object-cover border border-neutral-700" />
+              <div>
+                <p class="text-xs font-semibold text-white">{{ article.author.name }}</p>
+                <p class="text-[11px] text-neutral-500">Design & Technology Strategist</p>
+              </div>
+            </div>
+
+            <!-- Full Article Paragraphs -->
+            <div class="prose prose-invert max-w-none text-neutral-300 text-sm leading-relaxed space-y-4">
+              <p class="text-base text-neutral-200 font-medium">
+                {{ article.description }}
+              </p>
+              <p>
+                {{ article.fullContent }}
+              </p>
+              <p>
+                When building modern web applications, every millisecond and visual micro-interaction matters. Design systems must harmoniously combine aesthetics, layout grid consistency, and purposeful whitespace to foster trust and engagement.
+              </p>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="mt-8 pt-6 border-t border-neutral-800/80 flex items-center justify-between">
+              <button 
+                (click)="toggleBookmark(article.id, $event)"
+                class="px-4 py-2 rounded-lg bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-xs text-white font-medium flex items-center gap-2 transition-colors">
+                <svg class="w-4 h-4" [class.fill-white]="isBookmarked(article.id)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                </svg>
+                <span>{{ isBookmarked(article.id) ? 'Saved in Bookmarks' : 'Save for later' }}</span>
+              </button>
+
+              <button 
+                (click)="closeArticle()" 
+                class="px-5 py-2 rounded-lg bg-white text-black hover:bg-neutral-200 text-xs font-semibold transition-colors">
+                Done Reading
+              </button>
+            </div>
+
+          </div>
         </div>
-    </div>
+      }
 </div>

@@ -50,4 +50,8 @@ export default class LandingPageComponent implements OnInit {
     onWelcomeComplete(): void {
         this.showWelcome.set(false);
     }
+
+    onBack(): void {
+        this.navigationService.navigateTo('landing');
+    }
 }

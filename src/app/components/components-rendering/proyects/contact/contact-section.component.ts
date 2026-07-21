@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 export interface info {
     title: string;
@@ -12,6 +12,12 @@ export interface info {
     templateUrl: './contact-section.component.html'
 })
 export class ContactSectionComponent {
+    @Output() back = new EventEmitter<void>();
+
+    goBack() {
+        this.back.emit();
+    }
+    
     info: info[] = [
         {
             title: 'Dirección',
