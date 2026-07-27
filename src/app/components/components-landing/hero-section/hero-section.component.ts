@@ -1,40 +1,28 @@
-import { Component, OnInit, signal, effect } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AnimateOnScrollModule } from 'primeng/animateonscroll';
-import { ButtonModule } from 'primeng/button';
 import { VisitorContextService } from '../../../service/visitor-context.service';
-
-interface Card {
-    src: string;
-    alt: string;
-    w: string;
-    h: string;
-    rotate: number;
-    z: number;
-}
 
 @Component({
     selector: 'app-hero-section',
     standalone: true,
-    imports: [CommonModule, AnimateOnScrollModule, ButtonModule],
+    imports: [CommonModule],
     templateUrl: './hero-section.component.html'
 })
-export class HeroSectionComponent implements OnInit {
+export class HeroSectionComponent implements OnInit, OnDestroy {
     readonly heroReady = signal(false);
-    readonly badgeFastSpin = signal(true);
     readonly reducedMotion = signal(false);
+    readonly currentSlide = signal(0);
 
-    arcCards: Card[] = [
-        { src: './assets/img/hero/rec-1.png', alt: 'Card 1', w: 'w-44', h: 'h-64', rotate: 15, z: 10 },
-        { src: './assets/img/hero/rec-2.png', alt: 'Card 2', w: 'w-44', h: 'h-64', rotate: 10, z: 20 },
-        { src: './assets/img/hero/rec-3.png', alt: 'Card 3', w: 'w-44', h: 'h-64', rotate: 5, z: 30 },
-        { src: './assets/img/hero/rec-4.png', alt: 'Card 4', w: 'w-44', h: 'h-64', rotate: -5, z: 30 },
-        { src: './assets/img/hero/rec-5.png', alt: 'Card 5', w: 'w-44', h: 'h-64', rotate: -10, z: 20 },
-        { src: './assets/img/hero/rec-6.png', alt: 'Card 6', w: 'w-44', h: 'h-64', rotate: -15, z: 10 }
+    readonly slides = [
+        { src: 'assets/img/hero/herochild.jpg', alt: 'Niños en actividades recreativas' },
+        { src: 'assets/img/children.jpg', alt: 'Juego y aprendizaje en comunidad' },
+        { src: 'assets/img/team.jpg', alt: 'Equipo del laboratorio' },
+        { src: 'assets/img/events.png', alt: 'Eventos y encuentros' },
+        { src: 'assets/img/donate.jpg', alt: 'Espacios de participación' }
     ];
 
-    leftArcCards: Card[] = [];
-    rightArcCards: Card[] = [];
+    private carouselTimer: ReturnType<typeof setInterval> | null = null;
+    private readonly slideIntervalMs = 5000;
 
     constructor(public visitorContext: VisitorContextService) {
         effect(() => {
@@ -45,13 +33,24 @@ export class HeroSectionComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.leftArcCards = this.arcCards.slice(0, 3);
-        this.rightArcCards = this.arcCards.slice(3);
         this.reducedMotion.set(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
         if (this.visitorContext.welcomeDismissed()) {
             this.startHeroAnimation();
         }
+    }
+
+    ngOnDestroy(): void {
+        this.stopCarousel();
+    }
+
+    goToSlide(index: number): void {
+        this.currentSlide.set(index);
+        this.restartCarousel();
+    }
+
+    nextSlide(): void {
+        this.currentSlide.set((this.currentSlide() + 1) % this.slides.length);
     }
 
     private startHeroAnimation(): void {
@@ -60,23 +59,29 @@ export class HeroSectionComponent implements OnInit {
         }
 
         const readyDelay = this.reducedMotion() ? 0 : 150;
-        setTimeout(() => this.heroReady.set(true), readyDelay);
-
-        if (!this.reducedMotion()) {
-            setTimeout(() => this.badgeFastSpin.set(false), 2200);
-        }
+        setTimeout(() => {
+            this.heroReady.set(true);
+            this.startCarousel();
+        }, readyDelay);
     }
 
-    scrollTo(target: string): void {
-        const element = document.getElementById(target);
-        if (element) {
-            const navHeight = 64;
-            const offset = element.getBoundingClientRect().top + window.pageYOffset - navHeight;
-            window.scrollTo({ top: offset, behavior: 'smooth' });
+    private startCarousel(): void {
+        if (this.reducedMotion() || this.carouselTimer !== null) {
+            return;
         }
+
+        this.carouselTimer = setInterval(() => this.nextSlide(), this.slideIntervalMs);
     }
 
-    cardDelay(index: number): string {
-        return `${0.3 + index * 0.1}s`;
+    private restartCarousel(): void {
+        this.stopCarousel();
+        this.startCarousel();
+    }
+
+    private stopCarousel(): void {
+        if (this.carouselTimer !== null) {
+            clearInterval(this.carouselTimer);
+            this.carouselTimer = null;
+        }
     }
 }
