@@ -1,7 +1,7 @@
 <div class="flex w-full flex-col items-stretch overflow-x-hidden">
-    @if (showWelcome()) {
+    <!-- @if (showWelcome()) {
         <app-welcome-overlay (completed)="onWelcomeComplete()" />
-    }
+    } -->
     <app-navigation-menu />
 
     @switch (navigationService.currentView()) {
@@ -30,4 +30,8 @@
     }
 
     <app-footer class="w-full" />
+
+    @if (showCoursesPromo()) {
+        <app-courses-promo-modal (closed)="onCoursesPromoClosed()" />
+    }
 </div>
