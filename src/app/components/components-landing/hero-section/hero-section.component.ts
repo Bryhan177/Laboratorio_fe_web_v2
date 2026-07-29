@@ -16,8 +16,8 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
     readonly slides = [
         { src: 'assets/img/hero/herochild.jpg', alt: 'Niños en actividades recreativas' },
         { src: 'assets/img/children.jpg', alt: 'Juego y aprendizaje en comunidad' },
-        { src: 'assets/img/team.jpg', alt: 'Equipo del laboratorio' },
-        { src: 'assets/img/events.png', alt: 'Eventos y encuentros' },
+        { src: 'assets/img/img6.jpg', alt: 'Equipo del laboratorio' },
+        { src: 'assets/img/img1.png', alt: 'Eventos y encuentros' },
         { src: 'assets/img/donate.jpg', alt: 'Espacios de participación' }
     ];
 

@@ -37,8 +37,8 @@ export class GalerySectionComponent {
     const bookmarks = this.bookmarkedIds();
 
     if (query) {
-      result = result.filter(a => 
-        a.title.toLowerCase().includes(query) || 
+      result = result.filter(a =>
+        a.title.toLowerCase().includes(query) ||
         a.description.toLowerCase().includes(query) ||
         a.category.toLowerCase().includes(query)
       );
@@ -141,7 +141,7 @@ export class GalerySectionComponent {
       category: 'Detalles',
       title: 'Small Details That Make Websites Feel Premium',
       description: 'Spacing, motion, colors, and interface details often decide whether a website feels average or carefully designed.',
-      imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop',
+      imageUrl: 'assets/img/img5.jpg',
       imageAlt: 'Atmospheric close up portrait of a woman with moody lighting',
       readTime: '3 min',
       fullContent: 'The difference between good software and memorable software lies in the details that users do not consciously name, but feel intuitively—crisp typography kerning, deliberate padding, dark mode contrast harmony, and fluid transitions.',
