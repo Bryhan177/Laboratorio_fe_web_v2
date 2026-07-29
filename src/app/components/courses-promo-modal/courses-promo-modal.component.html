@@ -1,0 +1,72 @@
+<div
+    class="fixed inset-0 z-[90] flex items-center justify-center bg-black/55 p-4 backdrop-blur-[2px] transition-opacity duration-200"
+    [class.opacity-0]="exiting()"
+    [class.pointer-events-none]="exiting()"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="courses-promo-title"
+    (click)="close()"
+>
+    <div
+        class="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl transition-all duration-200 dark:bg-surface-900"
+        [class.scale-95]="exiting()"
+        [class.opacity-0]="exiting()"
+        [class.animate-welcome-scale-in]="!reducedMotion() && !exiting()"
+        (click)="$event.stopPropagation()"
+    >
+        <button
+            type="button"
+            class="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-surface-700 transition hover:bg-black/10 dark:bg-white/10 dark:text-surface-0"
+            aria-label="Cerrar"
+            (click)="close()"
+        >
+            <i class="pi pi-times text-sm"></i>
+        </button>
+
+        <div class="px-6 pb-6 pt-8 sm:px-8 sm:pt-10">
+            <p class="mb-1 text-center text-sm font-semibold uppercase tracking-wider text-[#830479]">
+                Inscripciones abiertas
+            </p>
+            <h2
+                id="courses-promo-title"
+                class="mb-2 text-center text-2xl font-bold text-surface-900 dark:text-surface-0 sm:text-3xl"
+            >
+                ¡Cursos activos!
+            </h2>
+            <p class="mx-auto mb-6 max-w-lg text-center text-sm text-surface-600 dark:text-surface-300 sm:text-base">
+                Participa en nuestros cursos activos. Inicia sesión para unirte e inscribirte.
+            </p>
+
+            <div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+                @for (course of courses; track course.src) {
+                    <figure class="overflow-hidden rounded-xl bg-surface-100 dark:bg-surface-800">
+                        <img
+                            [src]="course.src"
+                            [alt]="course.alt"
+                            class="h-72 w-full object-cover sm:h-80"
+                            loading="lazy"
+                        />
+                    </figure>
+                }
+            </div>
+
+            <div class="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+                <a
+                    routerLink="/auth/login"
+                    class="inline-flex w-full items-center justify-center rounded-md bg-[#830479] px-8 py-3 text-base font-semibold text-white transition hover:bg-[#6a0362] hover:shadow-lg sm:w-auto"
+                    (click)="close()"
+                >
+                    Iniciar sesión
+                    <i class="pi pi-arrow-right ml-2 text-sm"></i>
+                </a>
+                <button
+                    type="button"
+                    class="w-full rounded-md px-6 py-3 text-base font-medium text-surface-600 transition hover:text-surface-900 dark:text-surface-300 dark:hover:text-surface-0 sm:w-auto"
+                    (click)="close()"
+                >
+                    Ahora no
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

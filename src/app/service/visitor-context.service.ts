@@ -4,6 +4,7 @@ export type VisitorRole = 'docente' | 'estudiante' | 'comunidad' | 'explorar';
 
 const ROLE_KEY = 'lab_visitor_role';
 const WELCOME_KEY = 'lab_welcome_seen';
+const COURSES_PROMO_KEY = 'lab_courses_promo_seen';
 
 const PERSONALIZED_MESSAGES: Record<VisitorRole, string> = {
     docente: 'Descubre metodologías participativas para transformar tu aula.',
@@ -49,6 +50,14 @@ export class VisitorContextService {
 
     dismissWelcome(): void {
         this.welcomeDismissed.set(true);
+    }
+
+    hasSeenCoursesPromo(): boolean {
+        return sessionStorage.getItem(COURSES_PROMO_KEY) === 'true';
+    }
+
+    markCoursesPromoSeen(): void {
+        sessionStorage.setItem(COURSES_PROMO_KEY, 'true');
     }
 
     private loadRole(): void {
