@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { ButtonModule } from 'primeng/button';
@@ -13,6 +14,7 @@ import { NavigationService } from '../../service/navigation.service';
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     AvatarModule,
     MegaMenuModule,
     ButtonModule,

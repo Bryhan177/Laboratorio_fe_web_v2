@@ -1,7 +1,7 @@
 <div class="flex w-full flex-col items-stretch overflow-x-hidden">
-    @if (showWelcome()) {
+    <!-- @if (showWelcome()) {
         <app-welcome-overlay (completed)="onWelcomeComplete()" />
-    }
+    } -->
     <app-navigation-menu />
 
     @switch (navigationService.currentView()) {
@@ -11,6 +11,7 @@
             <div id="galeria" class="w-full"><app-galery-section /></div>
             <div id="calendario" class="w-full"><app-calendar-section /></div>
             <div id="part-team" class="w-full"><app-part-team /></div>
+            <div class="w-full"><app-testimonials /></div>
         }
         @case ('courses') {
             <app-courses-section (back)="onBack()" />
@@ -33,4 +34,8 @@
     }
 
     <app-footer class="w-full" />
+
+    @if (showCoursesPromo()) {
+        <app-courses-promo-modal (closed)="onCoursesPromoClosed()" />
+    }
 </div>

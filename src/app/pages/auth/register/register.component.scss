@@ -9,6 +9,7 @@
     min-width: 100vw;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     background: linear-gradient(145deg, #0f2a3d 0%, #1a0f2e 45%, #0d3a40 100%);
 }
