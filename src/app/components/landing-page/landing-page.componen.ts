@@ -14,6 +14,7 @@ import { HeroSectionComponent } from '../components-landing/hero-section/hero-se
 import { TeamsSectionComponent } from "../components-rendering/proyects/teams-section/teams-section.component";
 import { ContactSectionComponent } from "../components-rendering/proyects/contact/contact-section.component";
 import { DonateSectionComponent } from "../components-rendering/proyects/donate-section/donate-section.component";
+import { CursosUsersSectionComponent } from "../components-rendering/proyects/cursos_users-section/cursos_users-section.component";
 
 @Component({
     selector: 'app-landing-page',
@@ -31,7 +32,8 @@ import { DonateSectionComponent } from "../components-rendering/proyects/donate-
     ArticlesSectionComponent,
     TeamsSectionComponent,
     ContactSectionComponent,
-    DonateSectionComponent
+    DonateSectionComponent,
+    CursosUsersSectionComponent
 ],
     templateUrl: './landing-page.component.html'
 })

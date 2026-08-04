@@ -81,7 +81,13 @@ export class NavigationMenuComponent implements OnInit {
               ]
             }
           ],
-          
+           [
+            {
+              items: [
+                { label: 'Curso Usuarios', icon: 'pi pi-question', subtext: 'Subtext of item', command: () => this.navigationService.navigateTo('cursos-users') },
+              ]
+            }
+          ],
           [
             {
               items: [
