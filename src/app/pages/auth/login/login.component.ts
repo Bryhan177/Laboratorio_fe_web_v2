@@ -1,33 +1,13 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
+import { AuthService } from '../../../core/auth.service';
 import { NavigationService } from '../../../service/navigation.service';
-
-type HardcodedRole = 'admin' | 'user';
-
-interface HardcodedUser {
-    email: string;
-    password: string;
-    role: HardcodedRole;
-}
-
-const HARDCODED_USERS: HardcodedUser[] = [
-    {
-        email: 'cristian.cordoba@gmail.com',
-        password: '123456789',
-        role: 'admin'
-    },
-    {
-        email: 'mari.piedad@gmail.com',
-        password: '123456789',
-        role: 'user'
-    }
-];
 
 @Component({
     selector: 'app-login',
@@ -49,37 +29,44 @@ export class LoginComponent implements OnInit {
     password = '';
     rememberMe = false;
     errorMessage = '';
+    successMessage = '';
+    readonly loading = signal(false);
     readonly reducedMotion = signal(false);
 
     constructor(
         private router: Router,
-        private navigationService: NavigationService
+        private route: ActivatedRoute,
+        private navigationService: NavigationService,
+        private authService: AuthService
     ) {}
 
     ngOnInit(): void {
         this.reducedMotion.set(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+        if (this.route.snapshot.queryParamMap.get('registered') === '1') {
+            this.successMessage = 'Cuenta creada. Inicia sesión con tu correo y contraseña.';
+        }
     }
 
-    onSubmit(): void {
+    async onSubmit(): Promise<void> {
         this.errorMessage = '';
+        this.successMessage = '';
+        this.loading.set(true);
 
-        const email = this.email.trim().toLowerCase();
-        const password = this.password;
-        const user = HARDCODED_USERS.find(
-            (entry) => entry.email === email && entry.password === password
-        );
+        try {
+            const profile = await this.authService.login(this.email, this.password);
 
-        if (!user) {
-            this.errorMessage = 'Correo o contraseña incorrectos.';
-            return;
+            if (profile.role === 'administrador') {
+                await this.router.navigate(['/admin']);
+                return;
+            }
+
+            this.navigationService.navigateTo('cursos-users');
+            await this.router.navigate(['/']);
+        } catch (error) {
+            this.errorMessage = error instanceof Error ? error.message : 'No se pudo iniciar sesión.';
+        } finally {
+            this.loading.set(false);
         }
-
-        if (user.role === 'admin') {
-            void this.router.navigate(['/admin']);
-            return;
-        }
-
-        this.navigationService.navigateTo('cursos-users');
-        void this.router.navigate(['/']);
     }
 }

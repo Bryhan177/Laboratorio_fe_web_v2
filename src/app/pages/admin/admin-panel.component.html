@@ -28,7 +28,7 @@
 
         <div class="admin-sidebar__footer">
             <a routerLink="/" class="admin-link">Ver sitio</a>
-            <a routerLink="/auth/login" class="admin-link admin-link--accent">Cerrar sesión</a>
+            <button type="button" class="admin-link admin-link--accent" (click)="logout()">Cerrar sesión</button>
         </div>
     </aside>
 
@@ -44,15 +44,36 @@
                 </div>
             </div>
             <div class="admin-header__user">
-                <div class="admin-avatar">CC</div>
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-refresh"
+                    [rounded]="true"
+                    [text]="true"
+                    [loading]="loading()"
+                    (click)="loadAll()"
+                    aria-label="Actualizar"
+                ></button>
+                <div class="admin-avatar">{{ adminInitials() }}</div>
                 <div class="hidden sm:block">
-                    <p class="admin-header__name">Cristian Córdoba</p>
+                    <p class="admin-header__name">{{ adminName() }}</p>
                     <p class="admin-header__role">Administrador</p>
                 </div>
             </div>
         </header>
 
         <main class="admin-content">
+            @if (errorMessage) {
+                <div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {{ errorMessage }}
+                </div>
+            }
+
+            @if (loading()) {
+                <p class="text-sm text-[#28A0AE]">Cargando datos desde Supabase...</p>
+            }
+
             @switch (activeSection()) {
                 @case ('dashboard') {
                     <section class="space-y-6">
@@ -81,19 +102,19 @@
 
                         <div class="panel-grid">
                             <article class="panel-card">
-                                <h3 class="panel-card__title">Actividad reciente</h3>
+                                <h3 class="panel-card__title">Estado del panel</h3>
                                 <ul class="activity-list">
                                     <li>
                                         <span class="dot dot--teal"></span>
-                                        Mari Piedad avanzó en la ruta de aprendizaje
+                                        Datos conectados a Supabase en tiempo real de consulta
                                     </li>
                                     <li>
                                         <span class="dot dot--orange"></span>
-                                        Nuevo artículo en borrador: Voluntariado que transforma
+                                        Crea cursos, artículos y eventos desde cada sección
                                     </li>
                                     <li>
                                         <span class="dot dot--purple"></span>
-                                        Curso “Yoga y mindfulness” casi lleno
+                                        Gestiona roles y estado de usuarios registrados
                                     </li>
                                 </ul>
                             </article>
@@ -102,7 +123,7 @@
                                 <h3 class="panel-card__title">Resumen rápido</h3>
                                 <p class="panel-card__text">
                                     Administra cursos, usuarios, artículos y eventos del Laboratorio de juego y recreación
-                                    desde un solo lugar. Los datos actuales son de demostración.
+                                    desde un solo lugar.
                                 </p>
                                 <button
                                     pButton
@@ -150,7 +171,7 @@
                                             <td class="font-semibold text-gray-900">{{ course.title }}</td>
                                             <td>{{ course.category }}</td>
                                             <td>{{ course.cupos }}</td>
-                                            <td>{{ course.inscritos }}</td>
+                                            <td>{{ course.inscritos || 0 }}</td>
                                             <td>
                                                 <p-tag [value]="course.status" [severity]="courseSeverity(course.status)" />
                                             </td>
@@ -176,6 +197,12 @@
                                                 ></button>
                                             </td>
                                         </tr>
+                                    } @empty {
+                                        <tr>
+                                            <td colspan="6" class="py-6 text-center text-sm text-gray-500">
+                                                No hay cursos todavía. Crea el primero.
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -194,16 +221,42 @@
                                         <th>Correo</th>
                                         <th>Rol</th>
                                         <th>Estado</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @for (user of users(); track user.id) {
                                         <tr>
-                                            <td class="font-semibold text-gray-900">{{ user.name }}</td>
+                                            <td class="font-semibold text-gray-900">{{ user.full_name || 'Sin nombre' }}</td>
                                             <td>{{ user.email }}</td>
-                                            <td>{{ user.role }}</td>
+                                            <td>
+                                                <p-select
+                                                    [options]="roleOptions"
+                                                    optionLabel="label"
+                                                    optionValue="value"
+                                                    [ngModel]="user.role"
+                                                    (ngModelChange)="onUserRoleChange(user, $event)"
+                                                    [style]="{ minWidth: '10rem' }"
+                                                />
+                                            </td>
                                             <td>
                                                 <p-tag [value]="user.status" [severity]="userSeverity(user.status)" />
+                                            </td>
+                                            <td class="actions">
+                                                <button
+                                                    pButton
+                                                    pRipple
+                                                    type="button"
+                                                    [label]="user.status === 'activo' ? 'Desactivar' : 'Activar'"
+                                                    [text]="true"
+                                                    (click)="toggleUserStatus(user)"
+                                                ></button>
+                                            </td>
+                                        </tr>
+                                    } @empty {
+                                        <tr>
+                                            <td colspan="5" class="py-6 text-center text-sm text-gray-500">
+                                                No hay usuarios registrados.
                                             </td>
                                         </tr>
                                     }
@@ -215,7 +268,18 @@
 
                 @case ('articulos') {
                     <section class="space-y-4">
-                        <p class="section-toolbar__text">Contenidos y publicaciones del laboratorio.</p>
+                        <div class="section-toolbar">
+                            <p class="section-toolbar__text">Contenidos y publicaciones del laboratorio.</p>
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                label="Nuevo artículo"
+                                icon="pi pi-plus"
+                                class="!border-none !bg-[#FF7F00]"
+                                (click)="openCreateArticle()"
+                            ></button>
+                        </div>
                         <div class="table-wrap">
                             <table class="admin-table">
                                 <thead>
@@ -224,16 +288,44 @@
                                         <th>Autor</th>
                                         <th>Fecha</th>
                                         <th>Estado</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @for (article of articles(); track article.id) {
                                         <tr>
                                             <td class="font-semibold text-gray-900">{{ article.title }}</td>
-                                            <td>{{ article.author }}</td>
-                                            <td>{{ article.date }}</td>
+                                            <td>{{ article.author_name }}</td>
+                                            <td>{{ article.published_at || '—' }}</td>
                                             <td>
                                                 <p-tag [value]="article.status" [severity]="articleSeverity(article.status)" />
+                                            </td>
+                                            <td class="actions">
+                                                <button
+                                                    pButton
+                                                    pRipple
+                                                    type="button"
+                                                    icon="pi pi-pencil"
+                                                    [rounded]="true"
+                                                    [text]="true"
+                                                    (click)="openEditArticle(article)"
+                                                ></button>
+                                                <button
+                                                    pButton
+                                                    pRipple
+                                                    type="button"
+                                                    icon="pi pi-trash"
+                                                    severity="danger"
+                                                    [rounded]="true"
+                                                    [text]="true"
+                                                    (click)="deleteArticle(article.id)"
+                                                ></button>
+                                            </td>
+                                        </tr>
+                                    } @empty {
+                                        <tr>
+                                            <td colspan="5" class="py-6 text-center text-sm text-gray-500">
+                                                No hay artículos todavía.
                                             </td>
                                         </tr>
                                     }
@@ -245,13 +337,24 @@
 
                 @case ('eventos') {
                     <section class="space-y-4">
-                        <p class="section-toolbar__text">Agenda de actividades y encuentros.</p>
+                        <div class="section-toolbar">
+                            <p class="section-toolbar__text">Agenda de actividades y encuentros.</p>
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                label="Nuevo evento"
+                                icon="pi pi-plus"
+                                class="!border-none !bg-[#FF7F00]"
+                                (click)="openCreateEvent()"
+                            ></button>
+                        </div>
                         <div class="cards-grid">
                             @for (event of events(); track event.id) {
                                 <article class="event-card">
                                     <div class="event-card__top">
                                         <p-tag [value]="event.status" [severity]="eventSeverity(event.status)" />
-                                        <span class="event-card__date">{{ event.date }}</span>
+                                        <span class="event-card__date">{{ event.event_date }}</span>
                                     </div>
                                     <h3 class="event-card__title">{{ event.title }}</h3>
                                     <p class="event-card__meta">
@@ -260,7 +363,30 @@
                                     <p class="event-card__meta">
                                         <i class="pi pi-users"></i> {{ event.cupos }} cupos
                                     </p>
+                                    <div class="mt-3 flex gap-2">
+                                        <button
+                                            pButton
+                                            pRipple
+                                            type="button"
+                                            icon="pi pi-pencil"
+                                            [rounded]="true"
+                                            [text]="true"
+                                            (click)="openEditEvent(event)"
+                                        ></button>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            type="button"
+                                            icon="pi pi-trash"
+                                            severity="danger"
+                                            [rounded]="true"
+                                            [text]="true"
+                                            (click)="deleteEvent(event.id)"
+                                        ></button>
+                                    </div>
                                 </article>
+                            } @empty {
+                                <p class="text-sm text-gray-500">No hay eventos todavía.</p>
                             }
                         </div>
                     </section>
@@ -271,43 +397,100 @@
 </div>
 
 <p-dialog
-    [header]="dialogMode() === 'create' ? 'Nuevo curso' : 'Editar curso'"
+    [header]="dialogTitle()"
     [modal]="true"
-    [style]="{ width: '28rem' }"
+    [style]="{ width: '30rem' }"
     [(visible)]="dialogVisible"
 >
-    <div class="flex flex-col gap-4 pt-2">
-        <div>
-            <label class="mb-2 block text-sm font-semibold" for="course-title">Título</label>
-            <input pInputText id="course-title" class="w-full" [(ngModel)]="courseForm.title" />
+    @if (dialogKind() === 'course') {
+        <div class="flex flex-col gap-4 pt-2">
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="course-title">Título</label>
+                <input pInputText id="course-title" class="w-full" [(ngModel)]="courseForm.title" />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="course-category">Categoría</label>
+                <input pInputText id="course-category" class="w-full" [(ngModel)]="courseForm.category" />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="course-cupos">Cupos</label>
+                <input pInputText id="course-cupos" type="number" min="1" class="w-full" [(ngModel)]="courseForm.cupos" />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="course-status">Estado</label>
+                <p-select
+                    inputId="course-status"
+                    [options]="statusOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    class="w-full"
+                    [(ngModel)]="courseForm.status"
+                />
+            </div>
         </div>
-        <div>
-            <label class="mb-2 block text-sm font-semibold" for="course-category">Categoría</label>
-            <input pInputText id="course-category" class="w-full" [(ngModel)]="courseForm.category" />
+    }
+
+    @if (dialogKind() === 'article') {
+        <div class="flex flex-col gap-4 pt-2">
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="article-title">Título</label>
+                <input pInputText id="article-title" class="w-full" [(ngModel)]="articleForm.title" />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="article-content">Contenido</label>
+                <textarea
+                    pTextarea
+                    id="article-content"
+                    rows="5"
+                    class="w-full"
+                    [(ngModel)]="articleForm.content"
+                ></textarea>
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="article-status">Estado</label>
+                <p-select
+                    inputId="article-status"
+                    [options]="articleStatusOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    class="w-full"
+                    [(ngModel)]="articleForm.status"
+                />
+            </div>
         </div>
-        <div>
-            <label class="mb-2 block text-sm font-semibold" for="course-cupos">Cupos</label>
-            <input
-                pInputText
-                id="course-cupos"
-                type="number"
-                min="1"
-                class="w-full"
-                [(ngModel)]="courseForm.cupos"
-            />
+    }
+
+    @if (dialogKind() === 'event') {
+        <div class="flex flex-col gap-4 pt-2">
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="event-title">Título</label>
+                <input pInputText id="event-title" class="w-full" [(ngModel)]="eventForm.title" />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="event-date">Fecha</label>
+                <input pInputText id="event-date" type="date" class="w-full" [(ngModel)]="eventForm.event_date" />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="event-place">Lugar</label>
+                <input pInputText id="event-place" class="w-full" [(ngModel)]="eventForm.place" />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="event-cupos">Cupos</label>
+                <input pInputText id="event-cupos" type="number" min="1" class="w-full" [(ngModel)]="eventForm.cupos" />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="event-status">Estado</label>
+                <p-select
+                    inputId="event-status"
+                    [options]="eventStatusOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    class="w-full"
+                    [(ngModel)]="eventForm.status"
+                />
+            </div>
         </div>
-        <div>
-            <label class="mb-2 block text-sm font-semibold" for="course-status">Estado</label>
-            <p-select
-                inputId="course-status"
-                [options]="statusOptions"
-                optionLabel="label"
-                optionValue="value"
-                class="w-full"
-                [(ngModel)]="courseForm.status"
-            />
-        </div>
-    </div>
+    }
 
     <ng-template #footer>
         <button pButton pRipple type="button" label="Cancelar" [text]="true" (click)="dialogVisible = false"></button>
@@ -317,7 +500,9 @@
             type="button"
             label="Guardar"
             class="!border-none !bg-[#830479]"
-            (click)="saveCourse()"
+            [loading]="saving()"
+            [disabled]="saving()"
+            (click)="saveDialog()"
         ></button>
     </ng-template>
 </p-dialog>

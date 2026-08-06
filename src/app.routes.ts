@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { adminGuard } from './app/core/auth.guard';
 
 export const appRoutes: Routes = [
     { path: '', loadComponent: () => import('./app/components/landing-page/landing-page.componen') },
@@ -11,7 +12,11 @@ export const appRoutes: Routes = [
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
         ]
     },
-    { path: 'admin', loadComponent: () => import('./app/pages/admin/admin-panel.component') },
+    {
+        path: 'admin',
+        canActivate: [adminGuard],
+        loadComponent: () => import('./app/pages/admin/admin-panel.component')
+    },
     { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
     { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') },
     { path: 'landing', loadComponent: () => import('./app/pages/landing/landing.component') },

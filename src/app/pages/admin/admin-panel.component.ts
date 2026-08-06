@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -9,47 +9,19 @@ import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
+import { AuthService, UserRole } from '../../core/auth.service';
+import { Article, ArticleStatus, ArticlesService } from '../../service/articles.service';
+import { Course, CourseStatus, CoursesService } from '../../service/courses.service';
+import { AppEvent, EventStatus, EventsService } from '../../service/events.service';
+import { AdminProfile, ProfilesService } from '../../service/profiles.service';
 
 type AdminSection = 'dashboard' | 'cursos' | 'usuarios' | 'articulos' | 'eventos';
+type DialogKind = 'course' | 'article' | 'event' | null;
 
 interface NavItem {
     id: AdminSection;
     label: string;
     icon: string;
-}
-
-interface AdminCourse {
-    id: number;
-    title: string;
-    category: string;
-    cupos: number;
-    inscritos: number;
-    status: 'activo' | 'borrador' | 'finalizado';
-}
-
-interface AdminUser {
-    id: number;
-    name: string;
-    email: string;
-    role: string;
-    status: 'activo' | 'inactivo';
-}
-
-interface AdminArticle {
-    id: number;
-    title: string;
-    author: string;
-    date: string;
-    status: 'publicado' | 'borrador';
-}
-
-interface AdminEvent {
-    id: number;
-    title: string;
-    date: string;
-    place: string;
-    cupos: number;
-    status: 'proximo' | 'completado';
 }
 
 @Component({
@@ -70,14 +42,40 @@ interface AdminEvent {
     templateUrl: './admin-panel.component.html',
     styleUrl: './admin-panel.component.scss'
 })
-export default class AdminPanelComponent {
+export default class AdminPanelComponent implements OnInit {
     readonly sidebarOpen = signal(false);
     readonly activeSection = signal<AdminSection>('dashboard');
+    readonly loading = signal(false);
+    readonly saving = signal(false);
+    errorMessage = '';
+
     dialogVisible = false;
+    readonly dialogKind = signal<DialogKind>(null);
     readonly dialogMode = signal<'create' | 'edit'>('create');
 
-    courseForm = { title: '', category: '', cupos: 20, status: 'activo' as AdminCourse['status'] };
-    editingCourseId: number | null = null;
+    editingCourseId: string | null = null;
+    editingArticleId: string | null = null;
+    editingEventId: string | null = null;
+
+    courseForm = { title: '', category: '', cupos: 20, status: 'activo' as CourseStatus };
+    articleForm = { title: '', content: '', status: 'borrador' as ArticleStatus };
+    eventForm = {
+        title: '',
+        event_date: '',
+        place: '',
+        cupos: 50,
+        status: 'proximo' as EventStatus
+    };
+
+    readonly adminName = computed(() => this.authService.currentProfile()?.full_name || 'Administrador');
+    readonly adminInitials = computed(() => {
+        const name = this.adminName().trim();
+        const parts = name.split(/\s+/).filter(Boolean);
+        if (parts.length >= 2) {
+            return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+        }
+        return name.slice(0, 2).toUpperCase() || 'AD';
+    });
 
     readonly navItems: NavItem[] = [
         { id: 'dashboard', label: 'Dashboard', icon: 'pi-home' },
@@ -93,46 +91,95 @@ export default class AdminPanelComponent {
         { label: 'Finalizado', value: 'finalizado' }
     ];
 
-    courses = signal<AdminCourse[]>([
-        { id: 1, title: 'Danzas urbanas para jóvenes', category: 'Danza y música', cupos: 20, inscritos: 14, status: 'activo' },
-        { id: 2, title: 'Senderismo y naturaleza', category: 'Aire libre', cupos: 25, inscritos: 18, status: 'activo' },
-        { id: 3, title: 'Taller de pintura creativa', category: 'Arte y cultura', cupos: 18, inscritos: 9, status: 'borrador' },
-        { id: 4, title: 'Yoga y mindfulness', category: 'Bienestar', cupos: 30, inscritos: 27, status: 'activo' },
-        { id: 5, title: 'Escuela de juego infantil', category: 'Infantil', cupos: 22, inscritos: 22, status: 'finalizado' }
-    ]);
+    readonly articleStatusOptions = [
+        { label: 'Publicado', value: 'publicado' },
+        { label: 'Borrador', value: 'borrador' }
+    ];
 
-    users = signal<AdminUser[]>([
-        { id: 1, name: 'Cristian Córdoba', email: 'cristian.cordoba@gmail.com', role: 'Administrador', status: 'activo' },
-        { id: 2, name: 'Mari Piedad', email: 'mari.piedad@gmail.com', role: 'Estudiante', status: 'activo' },
-        { id: 3, name: 'Pablo Martínez', email: 'pablo.martinez@email.com', role: 'Estudiante', status: 'activo' },
-        { id: 4, name: 'Natali Craig', email: 'natali.craig@email.com', role: 'Educador', status: 'activo' },
-        { id: 5, name: 'Andi Lane', email: 'andi.lane@email.com', role: 'Entidad', status: 'inactivo' }
-    ]);
+    readonly eventStatusOptions = [
+        { label: 'Próximo', value: 'proximo' },
+        { label: 'Completado', value: 'completado' }
+    ];
 
-    articles = signal<AdminArticle[]>([
-        { id: 1, title: 'El bienestar a través del juego', author: 'Equipo Laboratorio', date: '2026-03-12', status: 'publicado' },
-        { id: 2, title: 'Niñez y recreación comunitaria', author: 'Mari Piedad', date: '2026-04-02', status: 'publicado' },
-        { id: 3, title: 'Voluntariado que transforma', author: 'Natali Craig', date: '2026-05-18', status: 'borrador' }
-    ]);
+    readonly roleOptions: { label: string; value: UserRole }[] = [
+        { label: 'Administrador', value: 'administrador' },
+        { label: 'Educador', value: 'educador' },
+        { label: 'Estudiante', value: 'estudiante' },
+        { label: 'Entidad', value: 'entidad' }
+    ];
 
-    events = signal<AdminEvent[]>([
-        { id: 1, title: 'Festival de juego urbano', date: '2026-09-15', place: 'Parque Central', cupos: 120, status: 'proximo' },
-        { id: 2, title: 'Jornada de senderismo familiar', date: '2026-10-05', place: 'Cerro Norte', cupos: 40, status: 'proximo' },
-        { id: 3, title: 'Tarde de danza comunitaria', date: '2026-06-20', place: 'Casa Cultural', cupos: 80, status: 'completado' }
-    ]);
+    courses = signal<Course[]>([]);
+    users = signal<AdminProfile[]>([]);
+    articles = signal<Article[]>([]);
+    events = signal<AppEvent[]>([]);
 
     readonly stats = computed(() => ({
         cursos: this.courses().length,
         usuarios: this.users().length,
         articulos: this.articles().length,
         eventos: this.events().length,
-        inscritos: this.courses().reduce((sum, course) => sum + course.inscritos, 0),
+        inscritos: this.courses().reduce((sum, course) => sum + (course.inscritos ?? 0), 0),
         activos: this.courses().filter((course) => course.status === 'activo').length
     }));
 
     readonly sectionTitle = computed(() => {
         return this.navItems.find((item) => item.id === this.activeSection())?.label ?? 'Dashboard';
     });
+
+    readonly dialogTitle = computed(() => {
+        const mode = this.dialogMode() === 'create' ? 'Nuevo' : 'Editar';
+        switch (this.dialogKind()) {
+            case 'course':
+                return `${mode} curso`;
+            case 'article':
+                return `${mode} artículo`;
+            case 'event':
+                return `${mode} evento`;
+            default:
+                return '';
+        }
+    });
+
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+        private coursesService: CoursesService,
+        private profilesService: ProfilesService,
+        private articlesService: ArticlesService,
+        private eventsService: EventsService
+    ) {}
+
+    ngOnInit(): void {
+        void this.loadAll();
+    }
+
+    async loadAll(): Promise<void> {
+        this.loading.set(true);
+        this.errorMessage = '';
+
+        try {
+            const [courses, users, articles, events] = await Promise.all([
+                this.coursesService.list(),
+                this.profilesService.list(),
+                this.articlesService.list(),
+                this.eventsService.list()
+            ]);
+
+            this.courses.set(courses);
+            this.users.set(users);
+            this.articles.set(articles);
+            this.events.set(events);
+        } catch (error) {
+            this.errorMessage = error instanceof Error ? error.message : 'No se pudieron cargar los datos.';
+        } finally {
+            this.loading.set(false);
+        }
+    }
+
+    async logout(): Promise<void> {
+        await this.authService.logout();
+        await this.router.navigate(['/auth/login']);
+    }
 
     setSection(section: AdminSection): void {
         this.activeSection.set(section);
@@ -144,13 +191,15 @@ export default class AdminPanelComponent {
     }
 
     openCreateCourse(): void {
+        this.dialogKind.set('course');
         this.dialogMode.set('create');
         this.editingCourseId = null;
         this.courseForm = { title: '', category: '', cupos: 20, status: 'activo' };
         this.dialogVisible = true;
     }
 
-    openEditCourse(course: AdminCourse): void {
+    openEditCourse(course: Course): void {
+        this.dialogKind.set('course');
         this.dialogMode.set('edit');
         this.editingCourseId = course.id;
         this.courseForm = {
@@ -162,65 +211,215 @@ export default class AdminPanelComponent {
         this.dialogVisible = true;
     }
 
-    saveCourse(): void {
+    openCreateArticle(): void {
+        this.dialogKind.set('article');
+        this.dialogMode.set('create');
+        this.editingArticleId = null;
+        this.articleForm = { title: '', content: '', status: 'borrador' };
+        this.dialogVisible = true;
+    }
+
+    openEditArticle(article: Article): void {
+        this.dialogKind.set('article');
+        this.dialogMode.set('edit');
+        this.editingArticleId = article.id;
+        this.articleForm = {
+            title: article.title,
+            content: article.content || '',
+            status: article.status
+        };
+        this.dialogVisible = true;
+    }
+
+    openCreateEvent(): void {
+        this.dialogKind.set('event');
+        this.dialogMode.set('create');
+        this.editingEventId = null;
+        this.eventForm = {
+            title: '',
+            event_date: new Date().toISOString().slice(0, 10),
+            place: '',
+            cupos: 50,
+            status: 'proximo'
+        };
+        this.dialogVisible = true;
+    }
+
+    openEditEvent(event: AppEvent): void {
+        this.dialogKind.set('event');
+        this.dialogMode.set('edit');
+        this.editingEventId = event.id;
+        this.eventForm = {
+            title: event.title,
+            event_date: event.event_date,
+            place: event.place,
+            cupos: event.cupos,
+            status: event.status
+        };
+        this.dialogVisible = true;
+    }
+
+    async saveDialog(): Promise<void> {
+        const kind = this.dialogKind();
+        if (!kind) return;
+
+        this.saving.set(true);
+        this.errorMessage = '';
+
+        try {
+            if (kind === 'course') {
+                await this.saveCourse();
+            } else if (kind === 'article') {
+                await this.saveArticle();
+            } else if (kind === 'event') {
+                await this.saveEvent();
+            }
+            this.dialogVisible = false;
+        } catch (error) {
+            this.errorMessage = error instanceof Error ? error.message : 'No se pudo guardar.';
+        } finally {
+            this.saving.set(false);
+        }
+    }
+
+    private async saveCourse(): Promise<void> {
         const title = this.courseForm.title.trim();
         const category = this.courseForm.category.trim();
         if (!title || !category) {
+            throw new Error('Completa título y categoría del curso.');
+        }
+
+        const payload = {
+            title,
+            category,
+            cupos: Number(this.courseForm.cupos) || 1,
+            status: this.courseForm.status
+        };
+
+        if (this.dialogMode() === 'create') {
+            await this.coursesService.create(payload);
+        } else if (this.editingCourseId) {
+            await this.coursesService.update(this.editingCourseId, payload);
+        }
+
+        this.courses.set(await this.coursesService.list());
+    }
+
+    private async saveArticle(): Promise<void> {
+        const title = this.articleForm.title.trim();
+        if (!title) {
+            throw new Error('El título del artículo es obligatorio.');
+        }
+
+        const payload = {
+            title,
+            content: this.articleForm.content.trim() || null,
+            status: this.articleForm.status,
+            author_id: this.authService.currentProfile()?.id ?? null
+        };
+
+        if (this.dialogMode() === 'create') {
+            await this.articlesService.create(payload);
+        } else if (this.editingArticleId) {
+            await this.articlesService.update(this.editingArticleId, payload);
+        }
+
+        this.articles.set(await this.articlesService.list());
+    }
+
+    private async saveEvent(): Promise<void> {
+        const title = this.eventForm.title.trim();
+        const place = this.eventForm.place.trim();
+        if (!title || !place || !this.eventForm.event_date) {
+            throw new Error('Completa título, fecha y lugar del evento.');
+        }
+
+        const payload = {
+            title,
+            place,
+            event_date: this.eventForm.event_date,
+            cupos: Number(this.eventForm.cupos) || 1,
+            status: this.eventForm.status
+        };
+
+        if (this.dialogMode() === 'create') {
+            await this.eventsService.create(payload);
+        } else if (this.editingEventId) {
+            await this.eventsService.update(this.editingEventId, payload);
+        }
+
+        this.events.set(await this.eventsService.list());
+    }
+
+    async deleteCourse(id: string): Promise<void> {
+        if (!confirm('¿Eliminar este curso?')) return;
+        try {
+            await this.coursesService.remove(id);
+            this.courses.set(await this.coursesService.list());
+        } catch (error) {
+            this.errorMessage = error instanceof Error ? error.message : 'No se pudo eliminar el curso.';
+        }
+    }
+
+    async deleteArticle(id: string): Promise<void> {
+        if (!confirm('¿Eliminar este artículo?')) return;
+        try {
+            await this.articlesService.remove(id);
+            this.articles.set(await this.articlesService.list());
+        } catch (error) {
+            this.errorMessage = error instanceof Error ? error.message : 'No se pudo eliminar el artículo.';
+        }
+    }
+
+    async deleteEvent(id: string): Promise<void> {
+        if (!confirm('¿Eliminar este evento?')) return;
+        try {
+            await this.eventsService.remove(id);
+            this.events.set(await this.eventsService.list());
+        } catch (error) {
+            this.errorMessage = error instanceof Error ? error.message : 'No se pudo eliminar el evento.';
+        }
+    }
+
+    async onUserRoleChange(user: AdminProfile, role: UserRole): Promise<void> {
+        if (user.role === role) {
             return;
         }
 
-        if (this.dialogMode() === 'create') {
-            const nextId = Math.max(0, ...this.courses().map((course) => course.id)) + 1;
-            this.courses.update((list) => [
-                ...list,
-                {
-                    id: nextId,
-                    title,
-                    category,
-                    cupos: this.courseForm.cupos,
-                    inscritos: 0,
-                    status: this.courseForm.status
-                }
-            ]);
-        } else if (this.editingCourseId !== null) {
-            const id = this.editingCourseId;
-            this.courses.update((list) =>
-                list.map((course) =>
-                    course.id === id
-                        ? {
-                              ...course,
-                              title,
-                              category,
-                              cupos: this.courseForm.cupos,
-                              status: this.courseForm.status
-                          }
-                        : course
-                )
-            );
+        try {
+            await this.profilesService.updateRole(user.id, role);
+            this.users.update((list) => list.map((item) => (item.id === user.id ? { ...item, role } : item)));
+        } catch (error) {
+            this.errorMessage = error instanceof Error ? error.message : 'No se pudo actualizar el rol.';
+            this.users.set(await this.profilesService.list());
         }
-
-        this.dialogVisible = false;
     }
 
-    deleteCourse(id: number): void {
-        this.courses.update((list) => list.filter((course) => course.id !== id));
+    async toggleUserStatus(user: AdminProfile): Promise<void> {
+        const status = user.status === 'activo' ? 'inactivo' : 'activo';
+        try {
+            await this.profilesService.updateStatus(user.id, status);
+            this.users.update((list) => list.map((item) => (item.id === user.id ? { ...item, status } : item)));
+        } catch (error) {
+            this.errorMessage = error instanceof Error ? error.message : 'No se pudo actualizar el estado.';
+        }
     }
 
-    courseSeverity(status: AdminCourse['status']): 'success' | 'warn' | 'secondary' {
+    courseSeverity(status: CourseStatus): 'success' | 'warn' | 'secondary' {
         if (status === 'activo') return 'success';
         if (status === 'borrador') return 'warn';
         return 'secondary';
     }
 
-    userSeverity(status: AdminUser['status']): 'success' | 'danger' {
+    userSeverity(status: AdminProfile['status']): 'success' | 'danger' {
         return status === 'activo' ? 'success' : 'danger';
     }
 
-    articleSeverity(status: AdminArticle['status']): 'success' | 'warn' {
+    articleSeverity(status: ArticleStatus): 'success' | 'warn' {
         return status === 'publicado' ? 'success' : 'warn';
     }
 
-    eventSeverity(status: AdminEvent['status']): 'info' | 'secondary' {
+    eventSeverity(status: EventStatus): 'info' | 'secondary' {
         return status === 'proximo' ? 'info' : 'secondary';
     }
 }
