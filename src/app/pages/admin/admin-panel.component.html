@@ -1,0 +1,323 @@
+<div class="admin-layout">
+    @if (sidebarOpen()) {
+        <button type="button" class="admin-overlay" aria-label="Cerrar menú" (click)="sidebarOpen.set(false)"></button>
+    }
+
+    <aside class="admin-sidebar" [class.is-open]="sidebarOpen()">
+        <div class="admin-brand">
+            <img src="assets/img/logo-Photoroom.png" alt="Laboratorio" class="admin-brand__logo" />
+            <div>
+                <p class="admin-brand__eyebrow">Laboratorio</p>
+                <h1 class="admin-brand__title">Panel admin</h1>
+            </div>
+        </div>
+
+        <nav class="admin-nav">
+            @for (item of navItems; track item.id) {
+                <button
+                    type="button"
+                    class="admin-nav__item"
+                    [class.is-active]="activeSection() === item.id"
+                    (click)="setSection(item.id)"
+                >
+                    <i class="pi" [ngClass]="item.icon"></i>
+                    <span>{{ item.label }}</span>
+                </button>
+            }
+        </nav>
+
+        <div class="admin-sidebar__footer">
+            <a routerLink="/" class="admin-link">Ver sitio</a>
+            <a routerLink="/auth/login" class="admin-link admin-link--accent">Cerrar sesión</a>
+        </div>
+    </aside>
+
+    <div class="admin-main">
+        <header class="admin-header">
+            <div class="admin-header__left">
+                <button type="button" class="admin-menu-btn" (click)="toggleSidebar()" aria-label="Abrir menú">
+                    <i class="pi pi-bars"></i>
+                </button>
+                <div>
+                    <p class="admin-header__eyebrow">Gestión</p>
+                    <h2 class="admin-header__title">{{ sectionTitle() }}</h2>
+                </div>
+            </div>
+            <div class="admin-header__user">
+                <div class="admin-avatar">CC</div>
+                <div class="hidden sm:block">
+                    <p class="admin-header__name">Cristian Córdoba</p>
+                    <p class="admin-header__role">Administrador</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-content">
+            @switch (activeSection()) {
+                @case ('dashboard') {
+                    <section class="space-y-6">
+                        <div class="stats-grid">
+                            <article class="stat-card stat-card--purple">
+                                <p class="stat-card__label">Cursos</p>
+                                <p class="stat-card__value">{{ stats().cursos }}</p>
+                                <p class="stat-card__hint">{{ stats().activos }} activos</p>
+                            </article>
+                            <article class="stat-card stat-card--teal">
+                                <p class="stat-card__label">Usuarios</p>
+                                <p class="stat-card__value">{{ stats().usuarios }}</p>
+                                <p class="stat-card__hint">{{ stats().inscritos }} inscritos</p>
+                            </article>
+                            <article class="stat-card stat-card--orange">
+                                <p class="stat-card__label">Artículos</p>
+                                <p class="stat-card__value">{{ stats().articulos }}</p>
+                                <p class="stat-card__hint">Contenido publicado</p>
+                            </article>
+                            <article class="stat-card stat-card--mixed">
+                                <p class="stat-card__label">Eventos</p>
+                                <p class="stat-card__value">{{ stats().eventos }}</p>
+                                <p class="stat-card__hint">Próximas actividades</p>
+                            </article>
+                        </div>
+
+                        <div class="panel-grid">
+                            <article class="panel-card">
+                                <h3 class="panel-card__title">Actividad reciente</h3>
+                                <ul class="activity-list">
+                                    <li>
+                                        <span class="dot dot--teal"></span>
+                                        Mari Piedad avanzó en la ruta de aprendizaje
+                                    </li>
+                                    <li>
+                                        <span class="dot dot--orange"></span>
+                                        Nuevo artículo en borrador: Voluntariado que transforma
+                                    </li>
+                                    <li>
+                                        <span class="dot dot--purple"></span>
+                                        Curso “Yoga y mindfulness” casi lleno
+                                    </li>
+                                </ul>
+                            </article>
+
+                            <article class="panel-card">
+                                <h3 class="panel-card__title">Resumen rápido</h3>
+                                <p class="panel-card__text">
+                                    Administra cursos, usuarios, artículos y eventos del Laboratorio de juego y recreación
+                                    desde un solo lugar. Los datos actuales son de demostración.
+                                </p>
+                                <button
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    label="Gestionar cursos"
+                                    class="mt-4 !border-none !bg-[#830479]"
+                                    (click)="setSection('cursos')"
+                                ></button>
+                            </article>
+                        </div>
+                    </section>
+                }
+
+                @case ('cursos') {
+                    <section class="space-y-4">
+                        <div class="section-toolbar">
+                            <p class="section-toolbar__text">Administra la oferta formativa del laboratorio.</p>
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                label="Nuevo curso"
+                                icon="pi pi-plus"
+                                class="!border-none !bg-[#FF7F00]"
+                                (click)="openCreateCourse()"
+                            ></button>
+                        </div>
+
+                        <div class="table-wrap">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Curso</th>
+                                        <th>Categoría</th>
+                                        <th>Cupos</th>
+                                        <th>Inscritos</th>
+                                        <th>Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (course of courses(); track course.id) {
+                                        <tr>
+                                            <td class="font-semibold text-gray-900">{{ course.title }}</td>
+                                            <td>{{ course.category }}</td>
+                                            <td>{{ course.cupos }}</td>
+                                            <td>{{ course.inscritos }}</td>
+                                            <td>
+                                                <p-tag [value]="course.status" [severity]="courseSeverity(course.status)" />
+                                            </td>
+                                            <td class="actions">
+                                                <button
+                                                    pButton
+                                                    pRipple
+                                                    type="button"
+                                                    icon="pi pi-pencil"
+                                                    [rounded]="true"
+                                                    [text]="true"
+                                                    (click)="openEditCourse(course)"
+                                                ></button>
+                                                <button
+                                                    pButton
+                                                    pRipple
+                                                    type="button"
+                                                    icon="pi pi-trash"
+                                                    severity="danger"
+                                                    [rounded]="true"
+                                                    [text]="true"
+                                                    (click)="deleteCourse(course.id)"
+                                                ></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                }
+
+                @case ('usuarios') {
+                    <section class="space-y-4">
+                        <p class="section-toolbar__text">Usuarios registrados en la plataforma.</p>
+                        <div class="table-wrap">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Correo</th>
+                                        <th>Rol</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (user of users(); track user.id) {
+                                        <tr>
+                                            <td class="font-semibold text-gray-900">{{ user.name }}</td>
+                                            <td>{{ user.email }}</td>
+                                            <td>{{ user.role }}</td>
+                                            <td>
+                                                <p-tag [value]="user.status" [severity]="userSeverity(user.status)" />
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                }
+
+                @case ('articulos') {
+                    <section class="space-y-4">
+                        <p class="section-toolbar__text">Contenidos y publicaciones del laboratorio.</p>
+                        <div class="table-wrap">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Título</th>
+                                        <th>Autor</th>
+                                        <th>Fecha</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (article of articles(); track article.id) {
+                                        <tr>
+                                            <td class="font-semibold text-gray-900">{{ article.title }}</td>
+                                            <td>{{ article.author }}</td>
+                                            <td>{{ article.date }}</td>
+                                            <td>
+                                                <p-tag [value]="article.status" [severity]="articleSeverity(article.status)" />
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                }
+
+                @case ('eventos') {
+                    <section class="space-y-4">
+                        <p class="section-toolbar__text">Agenda de actividades y encuentros.</p>
+                        <div class="cards-grid">
+                            @for (event of events(); track event.id) {
+                                <article class="event-card">
+                                    <div class="event-card__top">
+                                        <p-tag [value]="event.status" [severity]="eventSeverity(event.status)" />
+                                        <span class="event-card__date">{{ event.date }}</span>
+                                    </div>
+                                    <h3 class="event-card__title">{{ event.title }}</h3>
+                                    <p class="event-card__meta">
+                                        <i class="pi pi-map-marker"></i> {{ event.place }}
+                                    </p>
+                                    <p class="event-card__meta">
+                                        <i class="pi pi-users"></i> {{ event.cupos }} cupos
+                                    </p>
+                                </article>
+                            }
+                        </div>
+                    </section>
+                }
+            }
+        </main>
+    </div>
+</div>
+
+<p-dialog
+    [header]="dialogMode() === 'create' ? 'Nuevo curso' : 'Editar curso'"
+    [modal]="true"
+    [style]="{ width: '28rem' }"
+    [(visible)]="dialogVisible"
+>
+    <div class="flex flex-col gap-4 pt-2">
+        <div>
+            <label class="mb-2 block text-sm font-semibold" for="course-title">Título</label>
+            <input pInputText id="course-title" class="w-full" [(ngModel)]="courseForm.title" />
+        </div>
+        <div>
+            <label class="mb-2 block text-sm font-semibold" for="course-category">Categoría</label>
+            <input pInputText id="course-category" class="w-full" [(ngModel)]="courseForm.category" />
+        </div>
+        <div>
+            <label class="mb-2 block text-sm font-semibold" for="course-cupos">Cupos</label>
+            <input
+                pInputText
+                id="course-cupos"
+                type="number"
+                min="1"
+                class="w-full"
+                [(ngModel)]="courseForm.cupos"
+            />
+        </div>
+        <div>
+            <label class="mb-2 block text-sm font-semibold" for="course-status">Estado</label>
+            <p-select
+                inputId="course-status"
+                [options]="statusOptions"
+                optionLabel="label"
+                optionValue="value"
+                class="w-full"
+                [(ngModel)]="courseForm.status"
+            />
+        </div>
+    </div>
+
+    <ng-template #footer>
+        <button pButton pRipple type="button" label="Cancelar" [text]="true" (click)="dialogVisible = false"></button>
+        <button
+            pButton
+            pRipple
+            type="button"
+            label="Guardar"
+            class="!border-none !bg-[#830479]"
+            (click)="saveCourse()"
+        ></button>
+    </ng-template>
+</p-dialog>

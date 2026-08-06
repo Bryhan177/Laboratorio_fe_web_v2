@@ -11,6 +11,7 @@ export const appRoutes: Routes = [
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
         ]
     },
+    { path: 'admin', loadComponent: () => import('./app/pages/admin/admin-panel.component') },
     { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
     { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') },
     { path: 'landing', loadComponent: () => import('./app/pages/landing/landing.component') },
