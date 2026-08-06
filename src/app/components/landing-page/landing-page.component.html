@@ -2,7 +2,9 @@
     <!-- @if (showWelcome()) {
         <app-welcome-overlay (completed)="onWelcomeComplete()" />
     } -->
-    <app-navigation-menu />
+    @if (navigationService.currentView() !== 'cursos-users') {
+        <app-navigation-menu />
+    }
 
     @switch (navigationService.currentView()) {
         @case ('landing') {
@@ -27,6 +29,9 @@
         }
         @case ('donate') {
             <app-donate-section (back)="onBack()" />
+        }
+        @case ('cursos-users') {
+            <app-cursos-users-section (back)="onBack()" />
         }
     }
 
