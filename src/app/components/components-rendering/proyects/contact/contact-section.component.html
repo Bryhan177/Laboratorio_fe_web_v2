@@ -4,13 +4,13 @@
   </div>
      <section class="border-b border-border bg-secondary/30">
         <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
-          <span class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-primary">
+          <span class="text-lg text-[#FF7F02] font-medium">
             Hablemos
           </span>
-          <h1 class="mt-5 max-w-3xl text-balance font-heading text-4xl font-extrabold tracking-tight sm:text-5xl">
+          <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">
             Estamos aquí para escucharte
           </h1>
-          <p class="mt-4 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground">
+          <p class="text-lg text-neutral-800 font-medium leading-relaxed mb-3">
             ¿Tienes preguntas sobre nuestros cursos, quieres proponer una alianza o
             necesitas más información? Escríbenos y con gusto te ayudamos.
           </p>
@@ -21,9 +21,9 @@
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             @for (info of info; track $index) {
                 <div class="rounded-lg border border-border bg-white p-6 shadow-sm">
-                    <h3 class="text-lg font-semibold text-foreground">{{ info.title }}</h3>
-                    <p class="mt-2 text-sm text-muted-foreground">{{ info.desc }}</p>
-                    <p class="mt-1 text-xs text-muted-foreground">{{ info.ubic }}</p>
+                    <h3 class="text-2xl sm:text-2xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">{{ info.title }}</h3>
+                    <p class="text-base text-neutral-800 font-medium leading-relaxed mb-3">{{ info.desc }}</p>
+                    <p class="text-base text-neutral-800 font-medium leading-relaxed mb-3">{{ info.ubic }}</p>
                 </div>
             }
         </div>

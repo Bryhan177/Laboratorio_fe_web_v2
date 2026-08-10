@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { AnimateOnScrollModule } from "primeng/animateonscroll";
+import { NavigationService } from '../../../service/navigation.service';
 
 @Component({
     selector: 'app-part-team',
@@ -8,5 +9,9 @@ import { AnimateOnScrollModule } from "primeng/animateonscroll";
     templateUrl: './part-team.component.html'
 })
 export class PartTeamComponent {
+    constructor(private navigationService: NavigationService) {}
 
+    navigateToTeams(): void {
+        this.navigationService.navigateTo('participate');
+    }
 }

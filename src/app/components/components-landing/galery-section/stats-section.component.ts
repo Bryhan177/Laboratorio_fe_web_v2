@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
+import { NavigationService } from '../../../service/navigation.service';
 
 export interface Article {
   id: string;
@@ -24,6 +25,7 @@ export interface Article {
     templateUrl: './stats-section.components.html'
 })
 export class GalerySectionComponent {
+    constructor(private navigationService: NavigationService) {}
 
     searchQuery = signal<string>('');
     showSavedOnly = signal<boolean>(false);
@@ -86,6 +88,10 @@ export class GalerySectionComponent {
   resetFilters(): void {
     this.searchQuery.set('');
     this.showSavedOnly.set(false);
+  }
+
+  navigateToTeams(): void {
+    this.navigationService.navigateTo('gallery-screen');
   }
 
 

@@ -1,6 +1,6 @@
 <section class="relative flex min-h-screen w-full items-center justify-center overflow-hidden pt-20">
     <!-- Carrusel de fondo -->
-    <div class="absolute inset-0" style="mask-image: linear-gradient(to bottom, black 90%, transparent 100%)">
+    <div class="absolute inset-0">
         @for (slide of slides; track slide.src; let i = $index) {
             <div
                 class="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-50 grayscale transition-opacity duration-1000 ease-in-out"
@@ -16,15 +16,11 @@
 
     <!-- Contenido -->
     <div class="relative z-10 rounded-lg p-10 text-center backdrop-blur-sm sm:p-20">
-        <h1 class="mx-auto max-w-4xl font-heading text-5xl font-bold leading-[1.2] tracking-tight text-white sm:text-6xl lg:text-7xl">
+        <h1 class="mx-auto max-w-4xl font-heading text-4xl font-bold leading-[1.2] tracking-tight text-white sm:text-6xl lg:text-7xl">
             Transformando
-            <span class="bg-gradient-to-r from-[#3aebff] to-[#ffa347] bg-clip-text text-5xl font-extrabold text-transparent md:text-7xl">
-                vidas
-            </span>
+            <span class="bg-gradient-to-r from-[#28A0AE]/80 via-[#FF7F02] to-[#D9B3E6] bg-clip-text text-4xl font-extrabold text-transparent sm:text-6xl lg:text-7xl"> vidas </span>
             a través del juego y la
-            <span class="bg-gradient-to-r from-[#3aebff] to-[#ffa347] bg-clip-text text-5xl font-extrabold text-transparent md:text-7xl">
-                recreación
-            </span>
+            <span class="bg-gradient-to-r from-[#28A0AE]/80 via-[#FF7F02] to-[#D9B3E6] bg-clip-text text-4xl font-extrabold text-transparent sm:text-6xl lg:text-7xl"> recreación </span>
         </h1>
     </div>
 
@@ -34,15 +30,12 @@
             <button
                 type="button"
                 class="h-2.5 rounded-full transition-all duration-300"
-                [ngClass]="
-                    currentSlide() === i
-                        ? 'w-8 bg-[#f87e06]'
-                        : 'w-2.5 bg-white/50'
-                "
+                [ngClass]="currentSlide() === i ? 'w-8 bg-[#f87e06]' : 'w-2.5 bg-white/50'"
                 [attr.aria-label]="'Ir a imagen ' + (i + 1)"
                 [attr.aria-current]="currentSlide() === i ? 'true' : null"
                 (click)="goToSlide(i)"
             ></button>
         }
     </div>
+    <div class="absolute bottom-0 left-0 z-10 w-full p-0.5 bg-gradient-to-r from-[#B7DDE2] via-[#FFDCC2] to-[#D9B3E6]"></div>
 </section>

@@ -70,16 +70,16 @@ export class NavigationMenuComponent implements OnInit {
           [
             {
               items: [
-                { label: 'Cursos', icon: 'pi pi-list', subtext: 'Subtext of item', command: () => this.navigationService.navigateTo('courses') },
-                { label: 'Articulos', icon: 'pi pi-users', subtext: 'Subtext of item', command: () => this.navigationService.navigateTo('articles') },
-                { label: 'Participa con nosotros', icon: 'pi pi-file', subtext: 'Subtext of item', command: () => this.navigationService.navigateTo('participate') }
+                { label: 'Cursos', icon: 'pi pi-list', command: () => this.navigationService.navigateTo('courses') },
+                { label: 'Articulos', icon: 'pi pi-users', command: () => this.navigationService.navigateTo('articles') },
+                { label: 'Participa con nosotros', icon: 'pi pi-file', command: () => this.navigationService.navigateTo('participate') }
               ]
             }
           ],
           [
             {
               items: [
-                { label: 'Contactanos', icon: 'pi pi-question', subtext: 'Subtext of item', command: () => this.navigationService.navigateTo('contact') },
+                { label: 'Contactanos', icon: 'pi pi-question', command: () => this.navigationService.navigateTo('contact') },
               ]
             }
           ],

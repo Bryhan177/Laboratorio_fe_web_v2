@@ -32,7 +32,7 @@ export class ContactSectionComponent {
         {
             title: 'Correo',
             desc: 'hola@fundacionrecrea.org',
-            ubic: 'cursos@fundacionrecrea.org'
+            ubic: 'Correo corporativo'
         },
         {
             title: 'Horario',

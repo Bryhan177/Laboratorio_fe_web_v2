@@ -16,6 +16,7 @@ import { DonateSectionComponent } from "../components-rendering/proyects/donate-
 import { CoursesPromoModalComponent } from '../courses-promo-modal/courses-promo-modal.component';
 import { TestimonialsComponent } from '../testimonials/testimonials.component';
 import { CursosUsersSectionComponent } from "../components-rendering/proyects/cursos_users-section/cursos_users-section.component";
+import { GalleryScreenComponent } from "../components-rendering/proyects/gallery-screen/gallery-screen.component";
 
 @Component({
     selector: 'app-landing-page',
@@ -35,7 +36,8 @@ import { CursosUsersSectionComponent } from "../components-rendering/proyects/cu
     DonateSectionComponent,
     CoursesPromoModalComponent,
     TestimonialsComponent,
-    CursosUsersSectionComponent
+    CursosUsersSectionComponent,
+    GalleryScreenComponent
 ],
     templateUrl: './landing-page.component.html'
 })

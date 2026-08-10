@@ -5,9 +5,9 @@ import { signal } from '@angular/core';
     providedIn: 'root'
 })
 export class NavigationService {
-    readonly currentView = signal<'landing' | 'courses' | 'articles' | 'participate' | 'contact' | 'donate' | 'cursos-users'>('landing');
+    readonly currentView = signal<'landing' | 'courses' | 'articles' | 'participate' | 'contact' | 'donate' | 'cursos-users' | 'gallery-screen'>('landing');
 
-    navigateTo(view: 'landing' | 'courses' | 'articles' | 'participate' | 'contact' | 'donate' | 'cursos-users') {
+    navigateTo(view: 'landing' | 'courses' | 'articles' | 'participate' | 'contact' | 'donate' | 'cursos-users' | 'gallery-screen') {
         this.currentView.set(view);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }

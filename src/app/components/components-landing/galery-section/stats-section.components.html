@@ -1,37 +1,24 @@
-<div class="bg-white min-h-screen flex items-center justify-center p-4 md:p-8 overflow-x-hidden select-none">
+<div class="bg-white min-h-screen flex items-center justify-center p-4 md:p-8 overflow-x-hidden select-none relative">
 
       <!-- Main Section Container -->
       <main class="max-w-full mx-auto px-6 sm:px-8 lg:px-12 py-12 lg:py-16">
         
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 lg:mb-14 gap-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 lg:mb-10 gap-6">
           <div>
             <!-- Main Title -->
-            <h1 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-medium tracking-tight text-black leading-[1.15]">
+            <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight">
               Expora nuestra galeria
             </h1>
           </div>
-
-          <!-- Top Right Action Link -->
-          <div class="flex items-center gap-6">
-            <a 
-              href="#all" 
-              (click)="$event.preventDefault()" 
-              class="group inline-flex items-center gap-1.5 text-sm font-normal text-black hover:text-black transition-colors">
-              <span>Ir ha galeria</span>
-              <svg class="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H8M17 7V16" />
-              </svg>
-            </a>
-          </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 pb-10">
           @for (article of filteredArticles(); track article.id) {
             
             <article class="group flex flex-col h-full cursor-pointer" (click)="openArticle(article)">
               
               <!-- Date above image (Exact match with photo) -->
-              <div class="font-serif text-gray-400 italic tracking-widest uppercase text-base md:text-md mb-3">
+              <div class="text-base text-[#FF7F02] font-medium mb-3">
                 {{ article.date }}
               </div>
 
@@ -56,28 +43,19 @@
               </div>
 
               <!-- Article Category Tag -->
-              <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-neutral-400 mb-2 block">
+              <span class="text-base text-[#FF7F02] font-medium">
                 {{ article.category }}
               </span>
 
               <!-- Title -->
-              <h2 class="text-xl font-bold text-black tracking-tight leading-snug group-hover:text-neutral-200 transition-colors mb-3">
+              <h2 class="text-2xl sm:text-2xl font-bold text-neutral-800 tracking-tight leading-tight mb-3">
                 {{ article.title }}
               </h2>
 
               <!-- Description -->
-              <p class="text-sm text-neutral-500 leading-relaxed font-normal mb-6 flex-grow line-clamp-3">
+              <p class="text-lg text-neutral-800 font-medium leading-relaxed mb-3">
                 {{ article.description }}
               </p>
-
-              <!-- Read More CTA Link -->
-              <div class="inline-flex items-center gap-1.5 text-[11px] font-extrabold tracking-widest uppercase text-black group-hover:text-neutral-300 transition-colors mt-auto">
-                <span>Ver mas</span>
-                <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H8M17 7V16" />
-                </svg>
-              </div>
-
             </article>
 
           } @empty {
@@ -91,30 +69,34 @@
             </div>
           }
         </div>
-
       </main>
+         <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
+          <button (click)="navigateToTeams()" class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-[#D9B3E6] hover:text-[#830479] hover:border-[#830479] hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30">
+            Ir a galeria
+          </button>
+      </div>
 
       @if (activeArticle(); as article) {
         <div 
-          class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in"
+          class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#FFDCC2]/50 backdrop-blur-md animate-fade-in"
           (click)="closeArticle()">
           
           <div 
-            class="bg-[#121215] border border-neutral-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl"
+            class="bg-[#FFDCC2] border border-[#FFDCC2] rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl"
             (click)="$event.stopPropagation()">
             
             <!-- Close Modal Button -->
             <button 
               (click)="closeArticle()" 
-              class="absolute top-4 right-4 p-2 rounded-full bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 transition-colors">
+              class="absolute top-4 right-4 p-2 rounded-full bg-[#830479] text-white hover:text-white border border-[#830479] transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
 
             <!-- Modal Header Content -->
-            <div class="flex items-center gap-3 text-xs text-neutral-400 mb-4 font-mono">
-              <span class="px-2 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-white font-sans font-semibold uppercase tracking-wider text-[10px]">
+            <div class="flex items-center gap-3 text-xs text-neutral-500 mb-4 font-mono">
+              <span class="px-2 py-0.5 rounded bg-[#FF7F02] border border-[#FF7F02] text-white font-sans font-semibold uppercase tracking-wider text-[10px]">
                 {{ article.category }}
               </span>
               <span>•</span>
@@ -123,11 +105,11 @@
               <span>{{ article.readTime }} read</span>
             </div>
 
-            <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight mb-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-4">
               {{ article.title }}
             </h2>
 
-            <div class="aspect-video w-full rounded-xl overflow-hidden mb-6 bg-neutral-900 border border-neutral-800">
+            <div class="aspect-video w-full rounded-xl overflow-hidden mb-6 bg-neutral-900 border-2 border-[#FFDCC2]">
               <img [src]="article.imageUrl" [alt]="article.imageAlt" class="w-full h-full object-cover" />
             </div>
 
@@ -135,14 +117,14 @@
             <div class="flex items-center gap-3 pb-6 border-b border-neutral-800/80 mb-6">
               <img [src]="article.author.avatar" [alt]="article.author.name" class="w-10 h-10 rounded-full object-cover border border-neutral-700" />
               <div>
-                <p class="text-xs font-semibold text-white">{{ article.author.name }}</p>
+                <p class="text-xs font-semibold text-[#28A0AE]">{{ article.author.name }}</p>
                 <p class="text-[11px] text-neutral-500">Design & Technology Strategist</p>
               </div>
             </div>
 
             <!-- Full Article Paragraphs -->
-            <div class="prose prose-invert max-w-none text-neutral-300 text-sm leading-relaxed space-y-4">
-              <p class="text-base text-neutral-200 font-medium">
+            <div class="prose prose-invert max-w-none text-neutral-800/80 text-sm leading-relaxed space-y-4">
+              <p class="text-base text-neutral-800 font-medium">
                 {{ article.description }}
               </p>
               <p>
@@ -156,17 +138,8 @@
             <!-- Modal Footer -->
             <div class="mt-8 pt-6 border-t border-neutral-800/80 flex items-center justify-between">
               <button 
-                (click)="toggleBookmark(article.id, $event)"
-                class="px-4 py-2 rounded-lg bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-xs text-white font-medium flex items-center gap-2 transition-colors">
-                <svg class="w-4 h-4" [class.fill-white]="isBookmarked(article.id)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-                </svg>
-                <span>{{ isBookmarked(article.id) ? 'Saved in Bookmarks' : 'Save for later' }}</span>
-              </button>
-
-              <button 
                 (click)="closeArticle()" 
-                class="px-5 py-2 rounded-lg bg-white text-black hover:bg-neutral-200 text-xs font-semibold transition-colors">
+                class="px-5 py-2 rounded-lg bg-[#830479] text-white hover:bg-[#6b0360] text-xs font-semibold transition-colors">
                 Done Reading
               </button>
             </div>
