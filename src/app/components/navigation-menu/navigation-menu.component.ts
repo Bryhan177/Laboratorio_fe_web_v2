@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { MegaMenuItem } from 'primeng/api';
 import { NavigationService } from '../../service/navigation.service';
+import { ThemeLanguageControlsComponent } from '../../shared/components/theme-language-controls/theme-language-controls.component';
 
 @Component({
   selector: 'app-navigation-menu',
@@ -18,7 +19,8 @@ import { NavigationService } from '../../service/navigation.service';
     AvatarModule,
     MegaMenuModule,
     ButtonModule,
-    RippleModule
+    RippleModule,
+    ThemeLanguageControlsComponent
   ]
 })
 

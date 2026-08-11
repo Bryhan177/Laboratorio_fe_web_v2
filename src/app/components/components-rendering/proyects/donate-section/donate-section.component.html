@@ -1,10 +1,10 @@
 <div class="min-h-screen bg-gray-100 p-8 pt-32 bg-cover" [style]="'background-image: url(assets/img/donateScreen.jpg)'">
-    <div class="p-5 bg-white w-48">
-        <button class="hover:text-gray-500" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
+    <div class="p-5 bg-white dark:bg-surface-900 dark:text-surface-100 w-48 rounded-lg">
+        <button class="hover:text-gray-500 dark:hover:text-surface-300" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
     </div>
 
     <div class="flex flex-col justify-center gap-5">
-        <div class="bg-white w-[50%] mx-auto p-10 flex flex-col justify-center items-center rounded-t-lg">
+        <div class="bg-white dark:bg-surface-900 dark:text-surface-100 w-[50%] mx-auto p-10 flex flex-col justify-center items-center rounded-t-lg">
             <h1 class="text-center p-5 text-5xl">Haz una diferencia hoy</h1>
             <p class="text-lg pb-5">Gracias por tu gran corazón. Cada pequeño gesto construye un mundo mejor.</p>
             <button (click)="openModal()" class="rounded-lg bg-indigo-600 px-6 py-5 font-medium text-white hover:bg-indigo-700 transition">Donar con gratitud</button>
@@ -12,10 +12,10 @@
             @if (isModalOpen) {
                 <app-donation-modal (close)="closeModal()"> </app-donation-modal>
             }
-            <span class="text-center p-5 text-lg italic text-[#830479]">"{{ frases[indice] }}"</span>
+            <span class="text-center p-5 text-lg italic text-[#830479] dark:text-[#D9B3E6]">"{{ frases[indice] }}"</span>
         </div>
 
-        <div class="bg-white p-10 w-[50%] mx-auto rounded-b-lg">
+        <div class="bg-white dark:bg-surface-900 dark:text-surface-100 p-10 w-[50%] mx-auto rounded-b-lg">
             <h1 class="text-2xl font-bold text-center">¿Para qué se utilizarán las donaciones?</h1>
             <p class="text-lg">
                 Tu apoyo nos ayuda a mantener la plataforma en funcionamiento, cubrir los costos de servidores, desarrollar nuevas funcionalidades, mejorar la experiencia de los usuarios y seguir creando contenido de calidad. Cada aporte, sin

@@ -44,6 +44,7 @@
                 </div>
             </div>
             <div class="admin-header__user">
+                <app-theme-language-controls />
                 <button
                     pButton
                     pRipple
@@ -212,7 +213,7 @@
 
                 @case ('usuarios') {
                     <section class="space-y-4">
-                        <p class="section-toolbar__text">Usuarios registrados en la plataforma.</p>
+                        <p class="section-toolbar__text">Usuarios registrados en la plataforma. Puedes editar sus datos, rol y estado.</p>
                         <div class="table-wrap">
                             <table class="admin-table">
                                 <thead>
@@ -247,9 +248,11 @@
                                                     pButton
                                                     pRipple
                                                     type="button"
-                                                    [label]="user.status === 'activo' ? 'Desactivar' : 'Activar'"
+                                                    icon="pi pi-pencil"
+                                                    [rounded]="true"
                                                     [text]="true"
-                                                    (click)="toggleUserStatus(user)"
+                                                    aria-label="Editar usuario"
+                                                    (click)="openEditUser(user)"
                                                 ></button>
                                             </td>
                                         </tr>
@@ -400,6 +403,7 @@
     [header]="dialogTitle()"
     [modal]="true"
     [style]="{ width: '30rem' }"
+    [contentStyle]="{ overflow: 'visible' }"
     [(visible)]="dialogVisible"
 >
     @if (dialogKind() === 'course') {
@@ -423,6 +427,7 @@
                     [options]="statusOptions"
                     optionLabel="label"
                     optionValue="value"
+                    appendTo="body"
                     class="w-full"
                     [(ngModel)]="courseForm.status"
                 />
@@ -453,6 +458,7 @@
                     [options]="articleStatusOptions"
                     optionLabel="label"
                     optionValue="value"
+                    appendTo="body"
                     class="w-full"
                     [(ngModel)]="articleForm.status"
                 />
@@ -485,8 +491,56 @@
                     [options]="eventStatusOptions"
                     optionLabel="label"
                     optionValue="value"
+                    appendTo="body"
                     class="w-full"
                     [(ngModel)]="eventForm.status"
+                />
+            </div>
+        </div>
+    }
+
+    @if (dialogKind() === 'user') {
+        <div class="flex flex-col gap-4 pt-2">
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="user-name">Nombre completo</label>
+                <input pInputText id="user-name" class="w-full" [(ngModel)]="userForm.full_name" autocomplete="name" />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="user-email">Correo electrónico</label>
+                <input
+                    pInputText
+                    id="user-email"
+                    type="email"
+                    class="w-full"
+                    [(ngModel)]="userForm.email"
+                    autocomplete="email"
+                />
+                <p class="mt-1 text-xs text-gray-500">
+                    Al guardar se actualiza también el correo de inicio de sesión.
+                </p>
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="user-role">Rol</label>
+                <p-select
+                    inputId="user-role"
+                    [options]="roleOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    appendTo="body"
+                    class="w-full"
+                    [(ngModel)]="userForm.role"
+                />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="user-status">Estado</label>
+                <p-select
+                    inputId="user-status"
+                    [options]="userStatusOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    appendTo="body"
+                    class="w-full"
+                    [(ngModel)]="userForm.status"
                 />
             </div>
         </div>

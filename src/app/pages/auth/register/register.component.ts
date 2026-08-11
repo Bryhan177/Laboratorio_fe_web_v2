@@ -7,6 +7,7 @@ import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
 import { AuthService, UserRole } from '../../../core/auth.service';
+import { ThemeLanguageControlsComponent } from '../../../shared/components/theme-language-controls/theme-language-controls.component';
 
 export interface AuthRoleOption {
     label: string;
@@ -23,7 +24,8 @@ export interface AuthRoleOption {
         FormsModule,
         RouterModule,
         RippleModule,
-        SelectModule
+        SelectModule,
+        ThemeLanguageControlsComponent
     ],
     templateUrl: './register.component.html',
     styleUrl: './register.component.scss'

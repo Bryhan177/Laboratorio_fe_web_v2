@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SelectionCardComponent } from '../../../shared/components/selection-card/selection-card.component';
+import { ThemeLanguageControlsComponent } from '../../shared/components/theme-language-controls/theme-language-controls.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, SelectionCardComponent],
+  imports: [CommonModule, SelectionCardComponent, ThemeLanguageControlsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

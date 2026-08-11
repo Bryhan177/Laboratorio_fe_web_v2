@@ -1,0 +1,66 @@
+<div [class]="containerClass">
+    @if (showLanguage) {
+        <div class="relative" (click)="$event.stopPropagation()">
+            <button
+                type="button"
+                [class]="languageButtonClass"
+                (click)="toggleLanguageMenu($event)"
+                [attr.aria-expanded]="languageMenuOpen"
+                aria-haspopup="listbox"
+                [attr.aria-label]="'Idioma: ' + languageService.selectedLanguage().label"
+                [title]="languageService.selectedLanguage().label"
+            >
+                <img
+                    [src]="languageService.selectedLanguage().flagSrc"
+                    [alt]="languageService.selectedLanguage().flagAlt"
+                    class="h-5 w-7 rounded-sm object-cover shadow-sm"
+                />
+                @if (showLanguageCode) {
+                    <span class="hidden text-sm font-semibold uppercase tracking-wide sm:inline">
+                        {{ languageService.selectedLanguage().code }}
+                    </span>
+                }
+                <i class="pi pi-chevron-down text-xs" [class.rotate-180]="languageMenuOpen"></i>
+            </button>
+
+            @if (languageMenuOpen) {
+                <ul
+                    role="listbox"
+                    class="absolute right-0 z-[60] mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-surface-200 bg-white py-1 shadow-lg dark:border-surface-700 dark:bg-surface-900"
+                >
+                    @for (lang of languageService.languages; track lang.code) {
+                        <li role="option" [attr.aria-selected]="languageService.language() === lang.code">
+                            <button
+                                type="button"
+                                class="flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm text-surface-800 transition-colors hover:bg-[#28A0AE]/10 dark:text-surface-100 dark:hover:bg-surface-800"
+                                [ngClass]="{
+                                    'bg-[#28A0AE]/10 font-semibold dark:bg-surface-800': languageService.language() === lang.code
+                                }"
+                                (click)="selectLanguage(lang.code, $event)"
+                            >
+                                <img
+                                    [src]="lang.flagSrc"
+                                    [alt]="lang.flagAlt"
+                                    class="h-5 w-7 rounded-sm object-cover shadow-sm"
+                                />
+                                <span>{{ lang.label }}</span>
+                            </button>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+
+    @if (showTheme) {
+        <button
+            type="button"
+            [class]="themeButtonClass"
+            (click)="toggleDarkMode()"
+            [attr.aria-label]="layoutService.isDarkTheme() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+            [title]="layoutService.isDarkTheme() ? 'Modo claro' : 'Modo oscuro'"
+        >
+            <i class="pi text-lg" [ngClass]="layoutService.isDarkTheme() ? 'pi-sun' : 'pi-moon'"></i>
+        </button>
+    }
+</div>

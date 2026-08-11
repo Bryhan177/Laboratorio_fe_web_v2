@@ -1,4 +1,4 @@
-<div class="flex items-center justify-between px-6 py-3 bg-white dark:bg-surface-900  fixed top-0 left-0 right-0 z-50">
+<div class="flex items-center justify-between px-6 py-3 bg-white dark:bg-surface-900 border-b border-transparent dark:border-surface-700 fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
     <!-- Logo izquierdo -->
     <div class="flex-shrink-0">
         <img src="assets/img/logo.jpg" class="h-12 w-12" alt="Logo">
@@ -9,7 +9,7 @@
         <!-- Personalización de los items -->
         <ng-template #item let-item>
             @if (item.root) {
-                    <a pRipple class="flex items-center cursor-pointer px-3 py-2 overflow-hidden relative font-semibold uppercase" style="border-radius: 2rem">
+                    <a pRipple class="flex items-center cursor-pointer px-3 py-2 overflow-hidden relative font-semibold uppercase text-surface-900 dark:text-surface-0" style="border-radius: 2rem">
                         <i [ngClass]="item.icon"></i>
                         <span class="ml-2">{{ item.label }}</span>
                     </a>
@@ -26,15 +26,17 @@
                 <div class="flex flex-col items-center gap-4">
                     <div class="w-full h-64 overflow-hidden rounded-lg bg-cover bg-center" [style]="'background-image: url(assets/img/donate.jpg)'">
                     </div>
-                    <span class="flex items-center gap-3 text-base text-neutral-800 font-mono">{{ item.subtext }}</span>
+                    <span class="flex items-center gap-3 text-base text-neutral-800 dark:text-surface-200 font-mono">{{ item.subtext }}</span>
                     <button class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-[#D9B3E6] hover:text-[#830479] hover:border-[#830479] hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30" type="button">{{ item.label }}</button>
                 </div>
             }
         </ng-template>
     </p-megamenu>
 
-    <!-- Avatar derecho -->
-    <div class="flex-shrink-0">
+    <!-- Acciones derecha: idioma + tema + login -->
+    <div class="flex-shrink-0 flex items-center gap-3">
+        <app-theme-language-controls />
+
        <div class="relative inline-flex items-center justify-center gap-4 group">
   <div
     class="absolute inset-0 duration-1000 opacity-60 transitiona-all bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 rounded-xl blur-lg filter group-hover:opacity-100 group-hover:duration-200"

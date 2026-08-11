@@ -13,13 +13,14 @@ import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "../../../../core/auth.service";
 import { NavigationService } from "../../../../service/navigation.service";
+import { ThemeLanguageControlsComponent } from "../../../../shared/components/theme-language-controls/theme-language-controls.component";
 
 type Tab = "cursos" | "articulos"
 
 @Component({
     selector: 'app-cursos-users-section',
     standalone: true,
-    imports: [CommonModule, OverlayModule, AvatarModule, OverlayBadgeModule, MenuModule, ButtonModule, DialogModule, InputTextModule, PasswordModule, FormsModule],
+    imports: [CommonModule, OverlayModule, AvatarModule, OverlayBadgeModule, MenuModule, ButtonModule, DialogModule, InputTextModule, PasswordModule, FormsModule, ThemeLanguageControlsComponent],
     templateUrl: './cursos_users-section.component.html'
 })
 export class CursosUsersSectionComponent {
@@ -66,11 +67,6 @@ export class CursosUsersSectionComponent {
   parentBreadcrumb = 'Dashboards';
   parentLink = '/dashboards';
   currentPageTitle = '¡Bienvenido!';
-
-  // Acciones de los botones del header
-  toggleTheme(): void {
-    console.log('Cambiar tema claro/oscuro');
-  }
 
   openSettings(): void {
     console.log('Abrir ajustes');

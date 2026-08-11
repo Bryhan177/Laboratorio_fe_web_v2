@@ -8,6 +8,7 @@ import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { AuthService } from '../../../core/auth.service';
 import { NavigationService } from '../../../service/navigation.service';
+import { ThemeLanguageControlsComponent } from '../../../shared/components/theme-language-controls/theme-language-controls.component';
 
 @Component({
     selector: 'app-login',
@@ -19,7 +20,8 @@ import { NavigationService } from '../../../service/navigation.service';
         PasswordModule,
         FormsModule,
         RouterModule,
-        RippleModule
+        RippleModule,
+        ThemeLanguageControlsComponent
     ],
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss'

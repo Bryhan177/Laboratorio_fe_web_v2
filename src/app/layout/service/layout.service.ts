@@ -26,11 +26,13 @@ interface MenuChangeEvent {
     providedIn: 'root'
 })
 export class LayoutService {
+    private static readonly THEME_STORAGE_KEY = 'laboratorio-dark-theme';
+
     _config: layoutConfig = {
         preset: 'Aura',
         primary: 'emerald',
         surface: null,
-        darkTheme: false,
+        darkTheme: this.readStoredDarkTheme(),
         menuMode: 'static'
     };
 
@@ -79,6 +81,8 @@ export class LayoutService {
     private initialized = false;
 
     constructor() {
+        this.toggleDarkMode(this.layoutConfig());
+
         effect(() => {
             const config = this.layoutConfig();
             if (config) {
@@ -95,7 +99,24 @@ export class LayoutService {
             }
 
             this.handleDarkModeTransition(config);
+            this.persistDarkTheme(!!config.darkTheme);
         });
+    }
+
+    private readStoredDarkTheme(): boolean {
+        try {
+            return localStorage.getItem(LayoutService.THEME_STORAGE_KEY) === 'true';
+        } catch {
+            return false;
+        }
+    }
+
+    private persistDarkTheme(darkTheme: boolean): void {
+        try {
+            localStorage.setItem(LayoutService.THEME_STORAGE_KEY, String(darkTheme));
+        } catch {
+            // Ignore storage errors (private mode, etc.)
+        }
     }
 
     private handleDarkModeTransition(config: layoutConfig): void {

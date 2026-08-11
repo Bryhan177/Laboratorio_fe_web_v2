@@ -1,10 +1,12 @@
 <div [ngClass]="colorThemes[currentTheme].background" class="min-h-screen py-16 px-6 sm:px-10 lg:px-16 flex flex-col items-center justify-center relative">
-    <!-- Botón para cambiar el tema en la esquina superior derecha -->
-    <button
-      (click)="changeTheme()"
-      class="absolute top-6 right-6 bg-white text-blue-700 px-5 py-2 rounded-lg shadow-md hover:bg-gray-200 transition">
-      🎨 Cambiar Tema
-    </button>
+    <div class="absolute top-6 right-6 z-50 flex items-center gap-3">
+      <app-theme-language-controls variant="floating" />
+      <button
+        (click)="changeTheme()"
+        class="bg-white text-blue-700 px-5 py-2 rounded-lg shadow-md hover:bg-gray-200 transition">
+        🎨 Cambiar Tema
+      </button>
+    </div>
 
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-10">

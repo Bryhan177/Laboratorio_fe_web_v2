@@ -14,9 +14,10 @@ import { Article, ArticleStatus, ArticlesService } from '../../service/articles.
 import { Course, CourseStatus, CoursesService } from '../../service/courses.service';
 import { AppEvent, EventStatus, EventsService } from '../../service/events.service';
 import { AdminProfile, ProfilesService } from '../../service/profiles.service';
+import { ThemeLanguageControlsComponent } from '../../shared/components/theme-language-controls/theme-language-controls.component';
 
 type AdminSection = 'dashboard' | 'cursos' | 'usuarios' | 'articulos' | 'eventos';
-type DialogKind = 'course' | 'article' | 'event' | null;
+type DialogKind = 'course' | 'article' | 'event' | 'user' | null;
 
 interface NavItem {
     id: AdminSection;
@@ -37,7 +38,8 @@ interface NavItem {
         InputTextModule,
         TextareaModule,
         SelectModule,
-        TagModule
+        TagModule,
+        ThemeLanguageControlsComponent
     ],
     templateUrl: './admin-panel.component.html',
     styleUrl: './admin-panel.component.scss'
@@ -56,6 +58,7 @@ export default class AdminPanelComponent implements OnInit {
     editingCourseId: string | null = null;
     editingArticleId: string | null = null;
     editingEventId: string | null = null;
+    editingUserId: string | null = null;
 
     courseForm = { title: '', category: '', cupos: 20, status: 'activo' as CourseStatus };
     articleForm = { title: '', content: '', status: 'borrador' as ArticleStatus };
@@ -65,6 +68,12 @@ export default class AdminPanelComponent implements OnInit {
         place: '',
         cupos: 50,
         status: 'proximo' as EventStatus
+    };
+    userForm = {
+        full_name: '',
+        email: '',
+        role: 'estudiante' as UserRole,
+        status: 'activo' as AdminProfile['status']
     };
 
     readonly adminName = computed(() => this.authService.currentProfile()?.full_name || 'Administrador');
@@ -108,6 +117,11 @@ export default class AdminPanelComponent implements OnInit {
         { label: 'Entidad', value: 'entidad' }
     ];
 
+    readonly userStatusOptions: { label: string; value: AdminProfile['status'] }[] = [
+        { label: 'Activo', value: 'activo' },
+        { label: 'Inactivo', value: 'inactivo' }
+    ];
+
     courses = signal<Course[]>([]);
     users = signal<AdminProfile[]>([]);
     articles = signal<Article[]>([]);
@@ -135,6 +149,8 @@ export default class AdminPanelComponent implements OnInit {
                 return `${mode} artículo`;
             case 'event':
                 return `${mode} evento`;
+            case 'user':
+                return 'Editar usuario';
             default:
                 return '';
         }
@@ -259,6 +275,19 @@ export default class AdminPanelComponent implements OnInit {
         this.dialogVisible = true;
     }
 
+    openEditUser(user: AdminProfile): void {
+        this.dialogKind.set('user');
+        this.dialogMode.set('edit');
+        this.editingUserId = user.id;
+        this.userForm = {
+            full_name: user.full_name || '',
+            email: user.email || '',
+            role: user.role,
+            status: user.status
+        };
+        this.dialogVisible = true;
+    }
+
     async saveDialog(): Promise<void> {
         const kind = this.dialogKind();
         if (!kind) return;
@@ -273,6 +302,8 @@ export default class AdminPanelComponent implements OnInit {
                 await this.saveArticle();
             } else if (kind === 'event') {
                 await this.saveEvent();
+            } else if (kind === 'user') {
+                await this.saveUser();
             }
             this.dialogVisible = false;
         } catch (error) {
@@ -351,6 +382,32 @@ export default class AdminPanelComponent implements OnInit {
         this.events.set(await this.eventsService.list());
     }
 
+    private async saveUser(): Promise<void> {
+        if (!this.editingUserId) {
+            throw new Error('No se encontró el usuario a editar.');
+        }
+
+        const fullName = this.userForm.full_name.trim();
+        const email = this.userForm.email.trim().toLowerCase();
+
+        if (!fullName) {
+            throw new Error('El nombre del usuario es obligatorio.');
+        }
+
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            throw new Error('Ingresa un correo electrónico válido.');
+        }
+
+        const updated = await this.profilesService.update(this.editingUserId, {
+            full_name: fullName,
+            email,
+            role: this.userForm.role,
+            status: this.userForm.status
+        });
+
+        this.users.update((list) => list.map((item) => (item.id === updated.id ? updated : item)));
+    }
+
     async deleteCourse(id: string): Promise<void> {
         if (!confirm('¿Eliminar este curso?')) return;
         try {
@@ -392,16 +449,6 @@ export default class AdminPanelComponent implements OnInit {
         } catch (error) {
             this.errorMessage = error instanceof Error ? error.message : 'No se pudo actualizar el rol.';
             this.users.set(await this.profilesService.list());
-        }
-    }
-
-    async toggleUserStatus(user: AdminProfile): Promise<void> {
-        const status = user.status === 'activo' ? 'inactivo' : 'activo';
-        try {
-            await this.profilesService.updateStatus(user.id, status);
-            this.users.update((list) => list.map((item) => (item.id === user.id ? { ...item, status } : item)));
-        } catch (error) {
-            this.errorMessage = error instanceof Error ? error.message : 'No se pudo actualizar el estado.';
         }
     }
 

@@ -1,8 +1,8 @@
-<div class="min-h-screen bg-gray-100 p-8 pt-32">
+<div class="min-h-screen bg-gray-100 dark:bg-surface-950 p-8 pt-32 transition-colors duration-300 text-neutral-800 dark:text-surface-100">
     <div class="p-5">
-      <button class="hover:text-gray-500" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
+      <button class="hover:text-gray-500 dark:hover:text-surface-300" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
     </div>
-    <section class="relative border-b border-border">
+    <section class="relative border-b border-border dark:border-surface-700">
         <div class="mx-auto grid max-w-full items-center gap-10 px-4 py-16 sm:px-6 md:py-20 lg:grid-cols-2">
           <div>
             <span class="text-lg text-[#FF7F02] font-medium">
@@ -11,7 +11,7 @@
             <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">
               Tu aporte hace la <span className="text-primary">diferencia</span>
             </h1>
-            <p class="text-lg text-neutral-800 font-medium leading-relaxed mb-3">
+            <p class="text-lg text-neutral-800 dark:text-surface-200 font-medium leading-relaxed mb-3">
               Detrás de cada sonrisa hay personas como tú. Súmate a nuestra causa y ayúdanos
               a construir comunidades más sanas, activas y unidas a través de la recreación.
             </p>
@@ -26,9 +26,9 @@
       <section class="mx-auto max-w-full px-4 py-16 sm:px-6">
         <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             @for (way of ways; track $index) {
-            <div class="rounded-2xl border border-border bg-white p-6">
+            <div class="rounded-2xl border border-border dark:border-surface-700 bg-white dark:bg-surface-900 p-6">
             <h3 class="text-2xl sm:text-3xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">{{ way.title }}</h3>
-            <p class="text-lg text-neutral-800 font-medium leading-relaxed mb-3">{{ way.desc }}</p>
+            <p class="text-lg text-neutral-800 dark:text-surface-200 font-medium leading-relaxed mb-3">{{ way.desc }}</p>
           </div>    
         }
         </div>
@@ -39,15 +39,15 @@
           <h2 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">
             Impacto generado
           </h2>
-          <p class="text-lg text-neutral-800 font-medium leading-relaxed mb-3">
+          <p class="text-lg text-neutral-800 dark:text-surface-200 font-medium leading-relaxed mb-3">
             Cifras que muestran el alcance de nuestro trabajo.
           </p>
         </div>
         <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           @for (item of impact; track $index) {
-            <div class="rounded-2xl border border-border bg-white p-6 text-center">
+            <div class="rounded-2xl border border-border dark:border-surface-700 bg-white dark:bg-surface-900 p-6 text-center">
               <h3 class="font-heading text-3xl font-bold">{{ item.title }}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{{ item.desc }}</p>
+              <p class="mt-2 text-sm leading-relaxed text-muted-foreground dark:text-surface-300">{{ item.desc }}</p>
             </div>
           }
         </div>
@@ -55,7 +55,7 @@
 
       <section class="mx-auto max-w-full px-4 py-16 sm:px-6 md:py-20">
         <form
-      class="rounded-2xl border border-border p-6 sm:p-8 bg-white"
+      class="rounded-2xl border border-border dark:border-surface-700 p-6 sm:p-8 bg-white dark:bg-surface-900"
     >
       <h3 class="font-heading text-xl font-bold">Quiero participar</h3>
       <p class="mt-1 text-sm text-muted-foreground">

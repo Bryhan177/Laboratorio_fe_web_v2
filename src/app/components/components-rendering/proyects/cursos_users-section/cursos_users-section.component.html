@@ -16,16 +16,7 @@
 
             <!-- Lado Derecho: Íconos -->
             <div class="flex items-center gap-4 text-white">
-                <!-- Modo Sol / Tema -->
-                <button (click)="toggleTheme()" type="button" class="p-1.5 rounded-lg hover:bg-gray-100 hover:text-gray-800 transition-colors focus:outline-none" title="Cambiar tema">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M12 3v2.25m0 13.5V21m8.966-8.966h-2.25M4.286 12H2.036m15.322-6.536l-1.591 1.59m-9.456 9.456l-1.591 1.591m12.638 0l-1.591-1.59M6.342 6.342l-1.59 1.59M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z"
-                        />
-                    </svg>
-                </button>
+                <app-theme-language-controls variant="on-color" />
 
                 <!-- Configuración -->
                 <button (click)="openNotifications()" type="button" class="p-1.5 rounded-lg hover:bg-gray-100 hover:text-gray-800 transition-colors focus:outline-none" title="Notificaciones">

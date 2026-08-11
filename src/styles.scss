@@ -15,4 +15,12 @@
 
 body {
   font-family: var(--font-sans);
+  background-color: var(--p-surface-0);
+  color: var(--p-text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.app-dark body {
+  background-color: var(--p-surface-950);
+  color: var(--p-text-color);
 }
