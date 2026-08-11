@@ -9,6 +9,8 @@ import { ButtonModule } from "primeng/button";
 import { DialogModule } from "primeng/dialog";
 import { InputTextModule } from "primeng/inputtext";
 import { PasswordModule } from "primeng/password";
+import { DropdownModule } from "primeng/dropdown";
+import { InputNumberModule } from "primeng/inputnumber";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "../../../../core/auth.service";
@@ -19,7 +21,7 @@ type Tab = "cursos" | "articulos"
 @Component({
     selector: 'app-cursos-users-section',
     standalone: true,
-    imports: [CommonModule, OverlayModule, AvatarModule, OverlayBadgeModule, MenuModule, ButtonModule, DialogModule, InputTextModule, PasswordModule, FormsModule],
+    imports: [CommonModule, OverlayModule, AvatarModule, OverlayBadgeModule, MenuModule, ButtonModule, DialogModule, InputTextModule, PasswordModule, FormsModule, DropdownModule, InputNumberModule],
     templateUrl: './cursos_users-section.component.html'
 })
 export class CursosUsersSectionComponent {
@@ -27,6 +29,13 @@ export class CursosUsersSectionComponent {
     pestaniaActiva: Tab = "cursos"
     isTooltipOpen = false;
     perfilModalVisible = false;
+    avatarUrl = 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png';
+
+  generoOptions = [
+    { label: 'Masculino', value: 'masculino' },
+    { label: 'Femenino', value: 'femenino' },
+    { label: 'No aplica', value: 'no_aplica' }
+  ];
 
     constructor(
         private authService: AuthService,
@@ -88,6 +97,18 @@ export class CursosUsersSectionComponent {
     this.perfilModalVisible = false;
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        this.avatarUrl = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   async logout(): Promise<void> {
     await this.authService.logout();
     this.navigationService.navigateTo('landing');
@@ -97,14 +118,15 @@ export class CursosUsersSectionComponent {
   items: MenuItem[] | undefined;
     ngOnInit() {
         this.items = [
-            {
+            {   
                 label: 'Mi cuenta',
-                items: [{ label: 'Perfil', command: () => this.abrirPerfilModal() }]
+                items: [{ label: 'Perfil', icon: 'pi pi-user', command: () => this.abrirPerfilModal() }, 
+                { label: 'contraseña', icon: 'pi pi-key' }
+                ]
             },
             { separator: true },
             {
-              label: 'Salir',
-              items: [{ label: 'Cerrar sesión', command: () => this.logout() }]
+              items: [{ label: 'Cerrar sesión', icon: 'pi pi-sign-out', command: () => this.logout() }]
             }
         ];
     }

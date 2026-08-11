@@ -1,26 +1,28 @@
-<div class="min-h-screen bg-gray-100 p-8 pt-32 bg-cover" [style]="'background-image: url(assets/img/donateScreen.jpg)'">
-    <div class="p-5 bg-white w-48">
-        <button class="hover:text-gray-500" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
-    </div>
-
-    <div class="flex flex-col justify-center gap-5">
-        <div class="bg-white w-[50%] mx-auto p-10 flex flex-col justify-center items-center rounded-t-lg">
-            <h1 class="text-center p-5 text-5xl">Haz una diferencia hoy</h1>
-            <p class="text-lg pb-5">Gracias por tu gran corazón. Cada pequeño gesto construye un mundo mejor.</p>
-            <button (click)="openModal()" class="rounded-lg bg-indigo-600 px-6 py-5 font-medium text-white hover:bg-indigo-700 transition">Donar con gratitud</button>
-
-            @if (isModalOpen) {
-                <app-donation-modal (close)="closeModal()"> </app-donation-modal>
-            }
-            <span class="text-center p-5 text-lg italic text-[#830479]">"{{ frases[indice] }}"</span>
+<div class="bg-[#B7DDE2]/25 pt-32 px-5">
+  <div class="p-5 w-48">
+    <button class="hover:text-gray-500 text-[#830479]" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
+  </div>
+  <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-10 lg:px-8">
+    <div class="relative isolate overflow-hidden bg-white px-6 pt-16 sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0 mb-5">
+      <div class="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">Haz una diferencia hoy</h2>
+        <p class="text-lg text-neutral-800 font-medium leading-relaxed mb-3">Gracias por tu gran corazón. Cada pequeño gesto construye un mundo mejor.</p>
+        <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
+          <button class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-[#D9B3E6] hover:text-[#830479] hover:border-[#830479] hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30 gap-2">Donar con gratitud<span aria-hidden="true">→</span></button>
+          <a href="#" (click)="openModal()" class="text-base font-semibold text-[#830479] hover:text-[#830479]/50">
+            Nuestro proposito ❤️
+          </a>
+          @if (isModalOpen) {
+            <app-donation-modal (close)="closeModal()"> </app-donation-modal>
+          }
         </div>
-
-        <div class="bg-white p-10 w-[50%] mx-auto rounded-b-lg">
-            <h1 class="text-2xl font-bold text-center">¿Para qué se utilizarán las donaciones?</h1>
-            <p class="text-lg">
-                Tu apoyo nos ayuda a mantener la plataforma en funcionamiento, cubrir los costos de servidores, desarrollar nuevas funcionalidades, mejorar la experiencia de los usuarios y seguir creando contenido de calidad. Cada aporte, sin
-                importar su monto, contribuye al crecimiento del proyecto.
-            </p>
-        </div>
+      </div>
+      <div class="relative mt-16 h-80 lg:mt-8">
+        <img width="1824" height="1080" src="assets/img/donateScreen.jpg" alt="App screenshot" class="absolute top-0 left-0 w-[500px] h-[340px] bg-cover object-cover max-w-none rounded-md bg-white/5 ring-1 ring-white/10" />
+      </div>
     </div>
+    <div class="text-center pb-20">
+        <p class="mt-6 text-lg text-pretty text-[#830479]"><span>"{{ frases[indice] }}"</span></p>
+    </div>
+  </div>
 </div>

@@ -86,8 +86,7 @@ export class NavigationMenuComponent implements OnInit {
           [
             {
               items: [
-                {
-                  image: 'assets/img/donate.jpg',
+                { icon: 'pi pi-heart', 
                   label: 'Donaciones',
                   subtext: 'Apoya nuestro trabajo',
                   command: () => this.navigationService.navigateTo('donate')
