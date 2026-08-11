@@ -1,47 +1,12 @@
-<div
-  class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-  (click)="closeModal()"
->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-[#FFDCC2]/70" (click)="closeModal()">
+    <div class="relative w-full max-w-lg rounded-2xl bg-white p-8 shadow-2xl" (click)="$event.stopPropagation()">
+        <button (click)="closeModal()" class="absolute right-4 top-4 text-gray-500 hover:text-black">✕</button>
 
-  <div
-    class="relative w-full max-w-lg rounded-2xl bg-white p-8 shadow-2xl"
-    (click)="$event.stopPropagation()"
-  >
+        <h2 class="mb-3 text-2xl font-bold">¿Para qué se utilizarán las donaciones?</h2>
 
-    <button
-      (click)="closeModal()"
-      class="absolute right-4 top-4 text-gray-500 hover:text-black"
-    >
-      ✕
-    </button>
-
-    <h2 class="mb-3 text-2xl font-bold">
-      Apoya nuestro proyecto ❤️
-    </h2>
-
-    <p class="mb-6 text-gray-600">
-      Gracias por considerar una donación. Tu apoyo nos ayuda a mantener los
-      servidores, desarrollar nuevas funcionalidades y seguir mejorando la
-      plataforma.
-    </p>
-
-    <div class="flex justify-end gap-3">
-
-      <button
-        (click)="closeModal()"
-        class="rounded-lg border px-4 py-2 hover:bg-gray-100"
-      >
-        Cancelar
-      </button>
-
-      <button
-        class="rounded-lg bg-indigo-600 px-5 py-2 text-white hover:bg-indigo-700"
-      >
-        Continuar
-      </button>
-
+        <p class="mb-6 text-gray-600">
+            Tu apoyo nos ayuda a mantener la plataforma en funcionamiento, cubrir los costos de servidores, desarrollar nuevas funcionalidades, mejorar la experiencia de los usuarios y seguir creando contenido de calidad. Cada aporte, sin importar su
+            monto, contribuye al crecimiento del proyecto.
+        </p>
     </div>
-
-  </div>
-
 </div>
