@@ -1,13 +1,60 @@
 <div class="min-h-screen bg-[#f4f8f9] p-4 pt-8 sm:p-8">
-    <div class="mx-auto w-full max-w-full">
+    <div class="mx-auto w-full max-w-full gap-x-10">
         <!-- Navegación de pestañas -->
-        <div class="flex gap-1 overflow-hidden rounded-lg bg-[#830479] px-3 py-3 sm:px-5 sm:py-5">
+
+        <header class="w-full bg-[#28A0AE] rounded-md px-6 py-5 flex items-center justify-between mb-5">
+            <!-- Lado Izquierdo: Breadcrumb -->
+            <nav class="flex items-center gap-2 text-sm font-sans">
+                <div class="flex-shrink-0">
+                    <img src="assets/img/logo.jpg" class="h-12 w-12 rounded-full" alt="Logo">
+                </div>
+                <span class="text-gray-300 font-light">/</span>
+                <span class="text-xl text-white leading-relaxed">
+                    {{ currentPageTitle }}
+                </span>
+            </nav>
+
+            <!-- Lado Derecho: Íconos -->
+            <div class="flex items-center gap-4 text-white">
+                <!-- Modo Sol / Tema -->
+                <button (click)="toggleTheme()" type="button" class="p-1.5 rounded-lg hover:bg-gray-100 hover:text-gray-800 transition-colors focus:outline-none" title="Cambiar tema">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M12 3v2.25m0 13.5V21m8.966-8.966h-2.25M4.286 12H2.036m15.322-6.536l-1.591 1.59m-9.456 9.456l-1.591 1.591m12.638 0l-1.591-1.59M6.342 6.342l-1.59 1.59M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z"
+                        />
+                    </svg>
+                </button>
+
+                <!-- Configuración -->
+                <button (click)="openNotifications()" type="button" class="p-1.5 rounded-lg hover:bg-gray-100 hover:text-gray-800 transition-colors focus:outline-none" title="Notificaciones">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                        />
+                    </svg>
+                </button>
+
+                <!-- Notificaciones -->
+                <div class="flex justify-center">
+                    <p-menu #menu [model]="items" [popup]="true" styleClass="w-40" />
+                    <p-overlay-badge value="2" badgeSize="small" severity="success" (click)="menu.toggle($event)">
+                        <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png" size="large" shape="circle" />
+                    </p-overlay-badge>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex gap-1 overflow-hidden bg-white border border-[#28A0AE]/10 px-3 py-3 sm:px-5 sm:py-5">
             <button
                 type="button"
                 (click)="seleccionarPestania('cursos')"
                 [ngClass]="{
-                    'bg-white text-[#830479] shadow-sm': isActiva('cursos'),
-                    'text-white hover:bg-white/15': !isActiva('cursos')
+                    'bg-[#f4f8f9] text-[#28A0AE] shadow-base border border-[#28A0AE]/10': isActiva('cursos'),
+                    'text-[#28A0AE]/80 hover:bg-white/15': !isActiva('cursos')
                 }"
                 class="flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-3 font-bold transition-all duration-200"
             >
@@ -19,15 +66,15 @@
                         d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                     />
                 </svg>
-                <span class="text-xl sm:text-3xl">Cursos</span>
+                <span class="text-xl sm:text-2xl">Cursos</span>
             </button>
 
             <button
                 type="button"
                 (click)="seleccionarPestania('articulos')"
                 [ngClass]="{
-                    'bg-white text-[#830479] shadow-sm': isActiva('articulos'),
-                    'text-white hover:bg-white/15': !isActiva('articulos')
+                    'bg-[#f4f8f9] text-[#28A0AE] shadow-base border border-[#28A0AE]/10': isActiva('articulos'),
+                    'text-[#28A0AE]/80 hover:bg-white/15': !isActiva('articulos')
                 }"
                 class="flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-3 font-bold transition-all duration-200"
             >
@@ -39,7 +86,7 @@
                         d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
                     />
                 </svg>
-                <span class="text-xl sm:text-3xl">Artículos</span>
+                <span class="text-xl sm:text-2xl">Artículos</span>
             </button>
         </div>
 
@@ -51,14 +98,14 @@
                             <div class="relative rounded-2xl border border-[#28A0AE]/10 bg-[#f4f8f9] p-6 sm:p-8">
                                 <div class="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row">
                                     <div>
-                                        <span class="text-lg font-bold uppercase tracking-wider text-[#28A0AE]">TU AVENTURA</span>
-                                        <h1 class="mt-1 text-3xl font-extrabold text-gray-950 sm:text-4xl">Ruta de aprendizaje</h1>
+                                        <span class="text-xl font-bold text-[#FF7F02]">Tu aventura!</span>
+                                        <h1 class="text-2xl sm:text-3xl font-bold text-[#830479] tracking-tight leading-tight">Ruta de aprendizaje</h1>
                                     </div>
 
-                                    <div class="rounded-2xl bg-[#830479] px-8 py-5 text-center text-white shadow-lg shadow-[#830479]/30 sm:px-10">
-                                        <span class="block pb-3 text-2xl font-medium opacity-80 sm:pb-5 sm:text-3xl">Tienes</span>
-                                        <span class="my-1 block text-6xl font-extrabold sm:text-7xl">{{ daysLeft }}</span>
-                                        <span class="block text-2xl font-medium opacity-80 sm:text-3xl">días</span>
+                                    <div class="rounded-2xl bg-[#D9B3E6]/50 px-8 py-5 text-center text-[#830479] shadow-lg shadow-[#830479]/30 sm:px-10">
+                                        <span class="block pb-3 text-2xl font-medium opacity-80 sm:pb-5 sm:text-2xl">Tienes</span>
+                                        <span class="my-1 block text-6xl font-extrabold sm:text-5xl">{{ daysLeft }}</span>
+                                        <span class="block text-2xl font-medium opacity-80 sm:text-2xl">días</span>
                                     </div>
                                 </div>
 
@@ -67,9 +114,7 @@
 
                                     <div class="relative z-10 flex w-full max-w-3xl items-center justify-between px-4 sm:px-8">
                                         <div class="relative flex flex-col items-center">
-                                            <div class="absolute -top-8 rounded-full bg-[#28A0AE]/15 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#28A0AE] shadow-sm">
-                                                COMIENZA
-                                            </div>
+                                            <div class="absolute -top-8 rounded-full bg-[#28A0AE]/15 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#28A0AE] shadow-sm">COMIENZA</div>
                                             <div class="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white bg-[#28A0AE] shadow-xl">
                                                 <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                                                     <path
@@ -123,11 +168,11 @@
                                     </div>
                                 </div>
 
-                                <div class="flex items-center justify-between rounded-xl bg-[#830479] p-4 text-white shadow-inner sm:p-5">
+                                <div class="flex items-center justify-between rounded-xl bg-[#D9B3E6]/50 p-4 text-[#830479] shadow-inner sm:p-5">
                                     <div class="flex items-center gap-3 sm:gap-4">
                                         <span class="text-xl font-extrabold opacity-70 sm:text-2xl">6.</span>
                                         <div class="flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
-                                            <span class="font-bold text-white">PM</span>
+                                            <span class="font-bold text-[#830479]">PM</span>
                                         </div>
                                         <div>
                                             <span class="block text-base font-bold sm:text-lg">{{ userName }}</span>
@@ -149,11 +194,10 @@
                         </div>
 
                         <div class="space-y-6">
-                            <div class="rounded-2xl border border-[#28A0AE]/10 bg-white p-6 shadow-sm">
-                                <div class="w-full p-56 bg-cover" [style]="'background-image: url(assets/img/collaborators/premioCur.png)'">
-                                </div>
+                            <div class="rounded-2xl border border-[#28A0AE]/10 bg-[#f4f8f9] p-6 shadow-sm">
+                                <div class="w-full p-56 bg-cover mb-5" [style]="'background-image: url(assets/img/collaborators/premioCur.png)'"></div>
 
-                                <div class="mb-3 flex items-center gap-2 text-sm text-[#830479]">
+                                <div class="mb-3 flex items-center gap-2 text-sm text-[#FF7F02]">
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
@@ -165,24 +209,18 @@
                                 </div>
                             </div>
 
-                            <div class="rounded-2xl border border-[#28A0AE]/10 bg-white p-6 shadow-sm">
+                            <div class="rounded-2xl border border-[#28A0AE]/10 bg-[#f4f8f9] p-6 shadow-sm">
                                 <div class="mb-6 flex items-center justify-between">
-                                    <h3 class="text-xl font-bold text-gray-950">Clasificación</h3>
-                                    <span class="text-sm font-medium text-[#28A0AE]">Esta semana</span>
+                                    <h3 class="text-xl font-bold text-[#830479]">Clasificación</h3>
+                                    <span class="text-sm font-medium text-[#FF7F02]">Esta semana</span>
                                 </div>
 
                                 <div class="space-y-3">
                                     @for (player of leaderboard; track player.rank) {
-                                        <div
-                                            class="flex items-center justify-between rounded-lg p-3 transition-colors"
-                                            [ngClass]="{ 'bg-[#830479]/10': player.isUser, 'hover:bg-[#28A0AE]/5': !player.isUser }"
-                                        >
+                                        <div class="flex items-center justify-between rounded-lg p-3 transition-colors" [ngClass]="{ 'bg-[#830479]/10': player.isUser, 'hover:bg-[#28A0AE]/5': !player.isUser }">
                                             <div class="flex items-center gap-4">
                                                 <span class="w-4 text-center text-sm font-extrabold text-gray-950">{{ player.rank }}</span>
-                                                <div
-                                                    class="flex h-10 w-10 items-center justify-center rounded-full text-xs font-bold"
-                                                    [ngClass]="player.isUser ? 'bg-[#830479] text-white' : 'bg-[#28A0AE]/15 text-[#28A0AE]'"
-                                                >
+                                                <div class="flex h-10 w-10 items-center justify-center rounded-full text-xs font-bold" [ngClass]="player.isUser ? 'bg-[#830479] text-white' : 'bg-[#28A0AE]/15 text-[#28A0AE]'">
                                                     {{ player.initials }}
                                                 </div>
                                                 <span class="text-sm font-semibold text-gray-800">{{ player.name }}</span>
@@ -215,3 +253,48 @@
         </div>
     </div>
 </div>
+
+<p-dialog header="Editar Perfil" [(visible)]="perfilModalVisible" [modal]="true" [style]="{ width: '450px' }" (onHide)="cerrarPerfilModal()">
+    <div class="flex flex-col gap-5">
+        <div class="flex flex-col items-center gap-3 pb-4 border-b">
+            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png" size="xlarge" shape="circle" />
+            <div class="text-center">
+                <h3 class="text-lg font-bold">{{ userName }}</h3>
+                <p class="text-sm text-gray-500">Editar información del perfil</p>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-gray-700">Nombre completo</label>
+                <input pInputText type="text" class="w-full" placeholder="Ingresa tu nombre" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-gray-700">Correo electrónico</label>
+                <input pInputText type="email" class="w-full" placeholder="Ingresa tu correo" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-gray-700">Contraseña actual</label>
+                <p-password [toggleMask]="true" [feedback]="false" class="w-full" placeholder="Contraseña actual" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-gray-700">Nueva contraseña</label>
+                <p-password [toggleMask]="true" [feedback]="true" class="w-full" placeholder="Nueva contraseña" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-gray-700">Confirmar contraseña</label>
+                <p-password [toggleMask]="true" [feedback]="false" class="w-full" placeholder="Confirmar contraseña" />
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-2">
+            <p-button label="Cancelar" (onClick)="cerrarPerfilModal()" severity="secondary" />
+            <p-button label="Guardar cambios" severity="primary" />
+        </div>
+    </ng-template>
+</p-dialog>
