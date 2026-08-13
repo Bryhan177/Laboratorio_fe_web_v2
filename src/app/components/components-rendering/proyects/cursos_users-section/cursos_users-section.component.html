@@ -245,11 +245,11 @@
     </div>
 </div>
 
-<p-dialog header="Editar Perfil" [(visible)]="perfilModalVisible" [modal]="true" [style]="{ width: '700px', maxHeight: '90vh' }" [contentStyle]="{ maxHeight: '60vh', overflowY: 'auto' }" (onHide)="cerrarPerfilModal()">
+<p-dialog header="Editar Perfil" [(visible)]="perfilModalVisible" [modal]="true" [style]="{ width: '700px', maxHeight: '90vh' }" [contentStyle]="{ maxHeight: '90vh', overflowY: 'auto' }" (onHide)="cerrarPerfilModal()">
     <div class="flex flex-col gap-5">
         <div class="flex flex-col items-center gap-3 pb-4 border-b">
             <div class="relative group cursor-pointer" (click)="fileInput.click()">
-                <p-avatar [image]="avatarUrl" size="xlarge" shape="circle" class="w-32 h-32" />
+                <p-avatar [image]="avatarUrl" size="xlarge" shape="circle" [style]="{ 'width': '12rem', 'height': '12rem' }" />
                 <div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                     <i class="pi pi-camera text-white text-xl"></i>
                 </div>
@@ -265,41 +265,41 @@
             <div class="flex w-full gap-2">
                 <div class="flex-1">
                     <label class="text-sm font-semibold text-gray-700">Nombre</label>
-                    <input pInputText type="text" class="w-full" placeholder="Ingresa tu nombre" />
+                    <input pInputText type="text" class="w-full h-12" placeholder="Ingresa tu nombre" />
                 </div>
                 <div class="flex-1">
                     <label class="text-sm font-semibold text-gray-700">Apellido</label>
-                    <input pInputText type="text" class="w-full" placeholder="Ingresa tu apellido" />
+                    <input pInputText type="text" class="w-full h-12" placeholder="Ingresa tu apellido" />
                 </div>
             </div>
             <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold text-gray-700">Correo electrónico</label>
-                <input pInputText type="email" class="w-full" placeholder="Ingresa tu correo" />
+                <input pInputText type="email" class="w-full h-12" placeholder="Ingresa tu correo" />
             </div>
 
             <div class="flex gap-2">
                 <div class="flex-1">
                     <label class="text-sm font-semibold text-gray-700">País</label>
-                    <input pInputText type="text" class="w-full" placeholder="Ingresa tu país" />
+                    <input pInputText type="text" class="w-full h-12" placeholder="Ingresa tu país" />
                 </div>
                 <div class="flex-1">
                     <label class="text-sm font-semibold text-gray-700">Departamento</label>
-                    <input pInputText type="text" class="w-full" placeholder="Ingresa tu departamento" />
+                    <input pInputText type="text" class="w-full h-12" placeholder="Ingresa tu departamento" />
                 </div>
             </div>
             <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold text-gray-700">Ciudad</label>
-                <input pInputText type="text" class="w-full" placeholder="Ingresa tu ciudad" />
+                <input pInputText type="text" class="w-full h-12" placeholder="Ingresa tu ciudad" />
             </div>
 
             <div class="flex gap-2">
                 <div class="flex-1">
                     <label class="text-sm font-semibold text-gray-700">Género</label>
-                    <p-dropdown [options]="generoOptions" optionLabel="label" optionValue="value" placeholder="Selecciona tu género" class="w-full" appendTo="'body'" />
+                    <p-dropdown [options]="generoOptions" optionLabel="label" optionValue="value" placeholder="Selecciona tu género" class="w-full h-12" appendTo="'body'" />
                 </div>
                 <div class="flex-1">
                     <label class="text-sm font-semibold text-gray-700">Edad</label>
-                    <input pInputNumber type="number" class="w-full h-10 border border-gray-300 p-2 rounded-md" placeholder="Ingresa tu edad" [min]="0" [max]="120" />
+                    <input pInputNumber type="number" class="w-full h-12 border border-gray-300 p-2 rounded-md" placeholder="Ingresa tu edad" [min]="0" [max]="120" />
                 </div>
             </div>
         </div>
@@ -307,6 +307,47 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-end gap-2">
             <button label="Cancelar" (onClick)="cerrarPerfilModal()" class="group relative inline-flex items-center justify-center text-base rounded-md bg-gray-500 px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-600 hover:text-white hover:border-gray-600 hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30">
+                Cancelar
+            </button>
+            <button class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-[#D9B3E6] hover:text-[#830479] hover:border-[#830479] hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30">
+                Guardar cambios
+            </button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Cambiar contraseña" [(visible)]="editPasswordModalVisible" [modal]="true" [style]="{ width: '700px', maxHeight: '80vh' }" [contentStyle]="{ maxHeight: '90vh', overflowY: 'auto' }" (onHide)="cerrarEditPasswordModal()">
+    <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
+            <label class="text-sm font-semibold text-gray-700">Contraseña actual</label>
+            <input pInputText type="password" class="w-full h-12" placeholder="Ingresa tu contraseña actual" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label class="text-sm font-semibold text-gray-700">Nueva contraseña</label>
+            <p-password
+                [(ngModel)]="newPassword"
+                placeholder="Ingresa tu nueva contraseña"
+                [toggleMask]="true"
+                [feedback]="true"
+                [fluid]="true"
+                styleClass="w-full h-12"
+            />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label class="text-sm font-semibold text-gray-700">Confirmar nueva contraseña</label>
+            <p-password
+                [(ngModel)]="confirmPassword"
+                placeholder="Confirma tu nueva contraseña"
+                [toggleMask]="true"
+                [feedback]="false"
+                [fluid]="true"
+                styleClass="w-full h-12"
+            />
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-2">
+            <button label="Cancelar" (onClick)="cerrarEditPasswordModal()" class="group relative inline-flex items-center justify-center text-base rounded-md bg-gray-500 px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-600 hover:text-white hover:border-gray-600 hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30">
                 Cancelar
             </button>
             <button class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-[#D9B3E6] hover:text-[#830479] hover:border-[#830479] hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30">

@@ -30,7 +30,10 @@ export class CursosUsersSectionComponent {
     pestaniaActiva: Tab = "cursos"
     isTooltipOpen = false;
     perfilModalVisible = false;
+    editPasswordModalVisible = false;
     avatarUrl = 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png';
+    newPassword = '';
+    confirmPassword = '';
 
   generoOptions = [
     { label: 'Masculino', value: 'masculino' },
@@ -92,6 +95,14 @@ export class CursosUsersSectionComponent {
   cerrarPerfilModal(): void {
     this.perfilModalVisible = false;
   }
+  
+  abrirEditPasswordModal(): void {
+    this.editPasswordModalVisible = true;
+  }
+  
+  cerrarEditPasswordModal(): void {
+    this.editPasswordModalVisible = false;
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -117,7 +128,7 @@ export class CursosUsersSectionComponent {
             {   
                 label: 'Mi cuenta',
                 items: [{ label: 'Perfil', icon: 'pi pi-user', command: () => this.abrirPerfilModal() }, 
-                { label: 'contraseña', icon: 'pi pi-key' }
+                { label: 'contraseña', icon: 'pi pi-key', command: () => this.abrirEditPasswordModal() }
                 ]
             },
             { separator: true },
