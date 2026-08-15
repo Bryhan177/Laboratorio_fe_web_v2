@@ -1,5 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, Output, EventEmitter, signal } from "@angular/core";
+import { november132025Data } from './data/november-13-2025.data';
+import { july182026Data } from './data/july-18-2026.data';
+import { july232026Data } from './data/july-23-2026.data';
 
 export interface GalleryItem {
   id: number;
@@ -12,6 +15,7 @@ export interface GalleryItem {
   fullContent?: string;
   category?: string;
   description?: string;
+  date?: string;
 }
 
 @Component({
@@ -26,91 +30,48 @@ export class GalleryScreenComponent {
   selectedItem: GalleryItem | null = null;
   activeArticle = signal<GalleryItem | null>(null);
 
-  // Datos mock que imitan el diseño de la imagen
+  // Getter para items agrupados por fecha
+  get groupedItems(): { date: string; formattedDate: string; items: GalleryItem[] }[] {
+    const groups = new Map<string, GalleryItem[]>();
+
+    // Agrupar items por fecha
+    this.items.forEach(item => {
+      if (item.date) {
+        if (!groups.has(item.date)) {
+          groups.set(item.date, []);
+        }
+        groups.get(item.date)!.push(item);
+      }
+    });
+
+    // Convertir a array y ordenar por fecha (más reciente primero)
+    const sortedGroups = Array.from(groups.entries())
+      .map(([date, items]) => ({
+        date,
+        formattedDate: this.formatDate(date),
+        items
+      }))
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    return sortedGroups;
+  }
+
+  // Método para formatear fechas de manera profesional
+  private formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+    return date.toLocaleDateString('es-ES', options);
+  }
+
+  // Datos combinados de los tres archivos por fecha
   items: GalleryItem[] = [
-    {
-      id: 1,
-      type: 'image',
-      imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600',
-      title: 'WHAT IS PLAYLIST',
-      category: 'FEATURED',
-      description: 'Speed, responsiveness, and smooth interactions help visitors understand your brand faster and move through your website with less friction.',
-    },
-    {
-      id: 2,
-      type: 'text',
-      title: 'What\'s One Game You Wish You Could Play For The First Time Again?',
-      bgColor: 'bg-[#C83214]', // Rojo quemado/naranja
-      textColor: 'text-white',
-    },
-    {
-      id: 3,
-      type: 'image',
-      imageUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600',
-      title: 'PLAYLIST HQ MARCH',
-      textColor: 'text-[#28A0AE]',
-      description: 'Speed, responsiveness, and smooth interactions help visitors understand your brand faster and move through your website with less friction.',
-    },
-    {
-      id: 4,
-      type: 'image',
-      imageUrl: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=600',
-      description: 'Speed, responsiveness, and smooth interactions help visitors understand your brand faster and move through your website with less friction.',
-    },
-    {
-      id: 5,
-      type: 'image',
-      imageUrl: 'https://images.unsplash.com/photo-1560253023-3ec5d502959f?q=80&w=600',
-      description: 'Speed, responsiveness, and smooth interactions help visitors understand your brand faster and move through your website with less friction.',
-    },
-    {
-      id: 6,
-      type: 'text',
-      title: 'Think Goodreads... But For Gamers',
-      subtitle: 'GAMING COMMUNITY',
-      bgColor: 'bg-[#FFDCC2]',
-      textColor: 'text-[#C83214]'
-    },
-    {
-      id: 7,
-      type: 'image',
-      imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600',
-      description: 'Speed, responsiveness, and smooth interactions help visitors understand your brand faster and move through your website with less friction.',
-    },
-    {
-      id: 8,
-      type: 'text',
-      title: 'MEET OUR FEATURED PLAYER',
-      bgColor: 'bg-[#D63A1D]',
-      textColor: 'text-white'
-    },
-    {
-      id: 9,
-      type: 'image',
-      imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600',
-      description: 'Speed, responsiveness, and smooth interactions help visitors understand your brand faster and move through your website with less friction.',
-    },
-    {
-      id: 10,
-      type: 'text',
-      title: 'You\'ll Be Able To Do THIS Soon...',
-      bgColor: 'bg-[#A3D2B5]', // Verde pastel
-      textColor: 'text-neutral-900'
-    },
-    {
-      id: 11,
-      type: 'image',
-      imageUrl: 'https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=600',
-      title: 'Set Up Spotlight',
-      description: 'Speed, responsiveness, and smooth interactions help visitors understand your brand faster and move through your website with less friction.',
-    },
-    {
-      id: 12,
-      type: 'text',
-      title: 'You\'ll Be Able To Do THIS On Playlist Soon...',
-      bgColor: 'bg-[#212328]', // Oscuro
-      textColor: 'text-white'
-    }
+    ...november132025Data,
+    ...july182026Data,
+    ...july232026Data
   ];
 
  openArticle(article: GalleryItem): void {

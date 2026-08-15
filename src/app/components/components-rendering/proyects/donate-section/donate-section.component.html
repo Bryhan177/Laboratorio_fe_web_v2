@@ -1,15 +1,15 @@
-<div class="bg-[#B7DDE2]/25 dark:bg-surface-950 pt-32 px-5 transition-colors duration-300">
-  <div class="p-5 w-48">
-    <button class="hover:text-gray-500 dark:hover:text-surface-300 text-[#830479]" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
-  </div>
+<div class="bg-[#B7DDE2]/25 dark:bg-surface-950 pt-24 px-5 transition-colors duration-300">
+ <div class="p-5">
+        <button class="hover:text-gray-500 dark:hover:text-surface-300 text-[#830479] dark:bg-[#830479]/80 dark:text-white p-5 rounded-sm" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
+    </div>
   <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-10 lg:px-8">
     <div class="relative isolate overflow-hidden bg-white dark:bg-surface-900 px-6 pt-16 sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0 mb-5 transition-colors duration-300">
       <div class="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
         <h2 class="text-2xl sm:text-3xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">Haz una diferencia hoy</h2>
         <p class="text-lg text-neutral-800 dark:text-surface-200 font-medium leading-relaxed mb-3">Gracias por tu gran corazón. Cada pequeño gesto construye un mundo mejor.</p>
         <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-          <button (click)="openModal()" class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-[#D9B3E6] hover:text-[#830479] hover:border-[#830479] hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30 gap-2">Donar con gratitud<span aria-hidden="true">→</span></button>
-          <a href="#" (click)="openModal(); $event.preventDefault()" class="text-base font-semibold text-[#830479] hover:text-[#830479]/50">
+          <button (click)="openModal()" class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-[#D9B3E6] hover:text-[#830479] hover:border-[#830479] hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30 gap-2">Donar Aquí</button>
+          <a href="#" (click)="openModal(); $event.preventDefault()" class="text-base font-semibold text-[#830479] dark:text-white hover:text-[#830479]/50">
             Nuestro proposito ❤️
           </a>
           @if (isModalOpen) {

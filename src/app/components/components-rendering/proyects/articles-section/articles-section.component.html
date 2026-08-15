@@ -1,7 +1,7 @@
-<div class="min-h-screen bg-gray-100 dark:bg-surface-950 p-8 pt-32 transition-colors duration-300 text-neutral-800 dark:text-surface-100">
+<div class="min-h-screen bg-gray-100 dark:bg-surface-950 p-8 pt-24 transition-colors duration-300 text-neutral-800 dark:text-surface-100">
   <div class="p-5">
-    <button class="hover:text-gray-500 dark:hover:text-surface-300 text-[#830479]" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
-  </div>
+        <button class="hover:text-gray-500 dark:hover:text-surface-300 text-[#830479] dark:bg-[#830479]/80 dark:text-white p-5 rounded-sm" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
+    </div>
     <div class="border-b border-border p-5 rounded-lg border-gray-300 dark:border-surface-700 pb-10">
         <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">
             <a class="underline decoration-[#28a0ae]/70">Articulos</a> que
@@ -12,7 +12,7 @@
     </div>
 
    <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-  <article class="grid overflow-hidden rounded-3xl border border-border bg-[#FFDCC2]/50 lg:grid-cols-2">
+  <article class="grid overflow-hidden rounded-3xl border border-border bg-[#FFDCC2]/50 dark:bg-surface-900 dark:border-gray-900 lg:grid-cols-2">
     
     <!-- Imagen destacada -->
     <div class="relative min-h-64 lg:min-h-full">
@@ -66,7 +66,7 @@
   <div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
     
     @for (article of articles; track article.title) {
-      <article class="group flex flex-col overflow-hidden rounded-2xl border bg-[#FFDCC2]/50 border-border bg-card transition-all hover:-translate-y-1 hover:shadow-md">
+      <article class="group flex flex-col overflow-hidden rounded-2xl border bg-[#FFDCC2]/50 dark:bg-surface-900 border-border dark:border-gray-900 bg-card transition-all hover:-translate-y-1 hover:shadow-md">
         
         <!-- Imagen del artículo -->
         <div class="relative aspect-[16/10] overflow-hidden">

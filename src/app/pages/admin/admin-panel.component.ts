@@ -2,9 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { MenuModule } from 'primeng/menu';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
@@ -39,10 +42,12 @@ interface NavItem {
         TextareaModule,
         SelectModule,
         TagModule,
+        MenuModule,
+        AvatarModule,
+        OverlayBadgeModule,
         ThemeLanguageControlsComponent
     ],
-    templateUrl: './admin-panel.component.html',
-    styleUrl: './admin-panel.component.scss'
+    templateUrl: './admin-panel.component.html'
 })
 export default class AdminPanelComponent implements OnInit {
     readonly sidebarOpen = signal(false);
@@ -120,6 +125,13 @@ export default class AdminPanelComponent implements OnInit {
     readonly userStatusOptions: { label: string; value: AdminProfile['status'] }[] = [
         { label: 'Activo', value: 'activo' },
         { label: 'Inactivo', value: 'inactivo' }
+    ];
+
+    items = [
+        { label: 'Perfil', icon: 'pi pi-user' },
+        { label: 'Configuración', icon: 'pi pi-cog' },
+        { separator: true },
+        { label: 'Cerrar sesión', icon: 'pi pi-sign-out', command: () => this.logout() }
     ];
 
     courses = signal<Course[]>([]);
