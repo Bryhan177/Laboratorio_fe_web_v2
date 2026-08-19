@@ -98,14 +98,14 @@ export class GalerySectionComponent {
     readonly articles = signal<Article[]>([
     {
       id: 'art-1',
-      date: 'DECEMBER 21, 2024',
+      date: '13 noviembre 2025',
       category: 'Aventura',
-      title: 'Why Fast Websites Create Better First Impressions',
-      description: 'Speed, responsiveness, and smooth interactions help visitors understand your brand faster and move through your website with less friction.',
-      imageUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=800&auto=format&fit=crop',
+      title: 'Aventura en la Naturaleza: Explorando Senderos',
+      description: 'Descubre la emoción de explorar nuevos caminos y conectar con la naturaleza a través de actividades al aire libre diseñadas para todas las edades.',
+      imageUrl: './assets/img/gallery/13 noviembre 2025/img4.JPG',
       imageAlt: 'Monochromatic artistic hand emerging through dramatic ethereal smoke',
       readTime: '4 min',
-      fullContent: 'Performance is not merely an engineering metric; it is the fundamental core of user experience. When web pages load instantly, micro-interactions feel effortless, and layout shifts are eliminated, users experience a sense of quality and reliability that reflects directly on your brand.',
+      fullContent: 'Nuestras aventuras en la naturaleza son experiencias transformadoras que conectan a las personas con el entorno natural. A través de caminatas, exploración de senderos y actividades al aire libre, los participantes descubren la belleza de los ecosistemas locales mientras desarrollan resistencia física y aprecio por el medio ambiente. Cada ruta está cuidadosamente seleccionada para ofrecer desafíos apropiados a diferentes niveles, asegurando que todos puedan disfrutar de la emoción del descubrimiento. La aventura no es solo sobre llegar a un destino, sino sobre el viaje, las conexiones que se forman y las historias que se crean en cada paso del camino.',
       author: {
         name: 'Elena Rostova',
         avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop'
@@ -113,14 +113,14 @@ export class GalerySectionComponent {
     },
     {
       id: 'art-2',
-      date: 'DECEMBER 21, 2024',
+      date: '18 julio 2026',
       category: 'Arte',
-      title: 'How Visual Direction Shapes A Stronger Website',
-      description: 'A clear visual style rooted in imagery, typography, and spacing choices creates a clear emotional direction before a website is built.',
-      imageUrl: 'https://images.unsplash.com/photo-1508610048659-a06b669e3321?q=80&w=800&auto=format&fit=crop',
+      title: 'Arte Creativo: Expresión y Color',
+      description: 'Talleres artísticos donde la creatividad florece a través del color, la forma y la imaginación, desarrollando habilidades motoras y expresión emocional.',
+      imageUrl: './assets/img/gallery/18 julio 2026/img17.jpg',
       imageAlt: 'Detailed close-up macro photograph of a white flower bloom',
       readTime: '5 min',
-      fullContent: 'Visual direction acts as the quiet language of your digital product. Choosing the right typographic hierarchy, subtle color palettes, and curated photography establishes tone instantly, guiding the user emotionally before they even read a single headline.',
+      fullContent: 'Nuestros talleres de arte creativo son espacios donde la imaginación no tiene límites. A través de pintura, dibujo, escultura y técnicas mixtas, los participantes exploran el mundo del color y la forma de manera libre y expresiva. Cada sesión está diseñada para desarrollar habilidades motoras finas, fomentar la autoexpresión y construir confianza en las capacidades artísticas de cada persona. Desde la mezcla de colores hasta la creación de texturas, los artistas descubren que el arte es un lenguaje universal que conecta emociones, ideas y sueños de formas únicas y personales.',
       author: {
         name: 'Julian Vance',
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop'
@@ -128,14 +128,14 @@ export class GalerySectionComponent {
     },
     {
       id: 'art-3',
-      date: 'DECEMBER 21, 2024',
-      category: 'Musica',
-      title: 'What Makes A Website Project Run Smoothly',
-      description: 'From the first call to the final launch, clear communication, feedback, and timelines keep the whole process easier.',
-      imageUrl: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=800&auto=format&fit=crop',
-      imageAlt: 'Cinematic long exposure motion blur of a dancer in a flowing red dress',
-      readTime: '6 min',
-      fullContent: 'Great design projects fail not because of a lack of creativity, but because of friction in communication. Establishing structured feedback loops, setting measurable milestones, and maintaining transparent progress tracking ensures seamless execution from concept to deployment.',
+      date: '23 julio 2026',
+      category: 'Recreación',
+      title: 'Actividades Educativas en Colegios',
+      description: 'Programas interactivos y talleres educativos que llevamos directamente a los colegios, complementando el aprendizaje con experiencias prácticas y divertidas.',
+      imageUrl: './assets/img/gallery/23 julio 2026/img33.jpg',
+      imageAlt: 'Niños en colegio participando en actividades educativas',
+      readTime: '5 min',
+      fullContent: 'Nuestro programa de actividades escolares visita colegios para ofrecer experiencias educativas únicas. Desde experimentos científicos hasta talleres de arte y proyectos de teambuilding, diseñamos actividades que complementan el currículo escolar. Trabajamos en estrecha colaboración con docentes para asegurar que cada actividad sea relevante, educativa y memorable. Los niños desarrollan habilidades sociales, pensamiento crítico y creatividad mientras se divierten aprendiendo en un ambiente familiar y seguro.',
       author: {
         name: 'Marcus Chen',
         avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop'
@@ -143,14 +143,14 @@ export class GalerySectionComponent {
     },
     {
       id: 'art-4',
-      date: 'DECEMBER 21, 2024',
+      date: '23 julio 2026',
       category: 'Detalles',
-      title: 'Small Details That Make Websites Feel Premium',
-      description: 'Spacing, motion, colors, and interface details often decide whether a website feels average or carefully designed.',
-      imageUrl: 'assets/img/img5.jpg',
+      title: 'Detalles que Marcan la Diferencia',
+      description: 'Los pequeños detalles en nuestras actividades crean experiencias memorables, desde la organización hasta el cuidado personalizado de cada participante.',
+      imageUrl: './assets/img/gallery/13 noviembre 2025/img34.JPG',
       imageAlt: 'Atmospheric close up portrait of a woman with moody lighting',
       readTime: '3 min',
-      fullContent: 'The difference between good software and memorable software lies in the details that users do not consciously name, but feel intuitively—crisp typography kerning, deliberate padding, dark mode contrast harmony, and fluid transitions.',
+      fullContent: 'En el laboratorio, creemos que los detalles son lo que transforma una actividad común en una experiencia extraordinaria. Desde la preparación meticulosa de materiales hasta la atención personalizada a cada participante, cada aspecto de nuestros programas está diseñado con cuidado. Los pequeños gestos como una bienvenida cálida, un espacio organizado y accesible, o la adaptación de actividades para necesidades individuales, crean un ambiente donde todos se sienten valorados y seguros. Estos detalles invisibles construyen confianza, fomentan la participación y aseguran que cada visita al laboratorio sea memorable y significativa para niños y familias.',
       author: {
         name: 'Sophia Sterling',
         avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop'

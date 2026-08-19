@@ -14,11 +14,11 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
     readonly currentSlide = signal(0);
 
     readonly slides = [
-        { src: 'assets/img/hero/herochild.jpg', alt: 'Niños en actividades recreativas' },
-        { src: 'assets/img/children.jpg', alt: 'Juego y aprendizaje en comunidad' },
+        { src: 'assets/img/gallery/13%20noviembre%202025/img30.JPG', alt: 'Niños en actividades recreativas' },
+        { src: 'assets/img/hero/herochild.jpg', alt: 'Juego y aprendizaje en comunidad' },
         { src: 'assets/img/img6.jpg', alt: 'Equipo del laboratorio' },
-        { src: 'assets/img/img1.png', alt: 'Eventos y encuentros' },
-        { src: 'assets/img/donate.jpg', alt: 'Espacios de participación' }
+        { src: 'assets/img/gallery/18%20julio%202026/img23.jpg', alt: 'Eventos y encuentros' },
+        { src: 'assets/img/gallery/23%20julio%202026/img24.jpg', alt: 'Espacios de participación' }
     ];
 
     private carouselTimer: ReturnType<typeof setInterval> | null = null;

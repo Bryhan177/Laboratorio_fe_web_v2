@@ -27,6 +27,7 @@ import { ThemeLanguageControlsComponent } from '../../shared/components/theme-la
 
 export class NavigationMenuComponent implements OnInit {
     items: MegaMenuItem[] | undefined;
+    mobileMenuOpen = false;
 
     constructor(
         public authService: AuthService,
@@ -89,6 +90,12 @@ export class NavigationMenuComponent implements OnInit {
         root: true,
 
         command: () => this.navigationService.navigateTo('donate')
+      },
+      {
+        label: "Iniciar Sesión",
+        icon: "pi pi-sign-in",
+        login: true,
+        routerLink: "/auth/login"
       },
     ];
   }

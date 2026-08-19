@@ -1,17 +1,27 @@
-<div class="flex items-center justify-between px-20 py-3 bg-white dark:bg-surface-900 fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
+<div class="flex items-center justify-between px-5 md:px-20 py-3 bg-white dark:bg-surface-900 fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
+<style>
+  .mobile-megamenu .p-megamenu-panel {
+    width: 14rem !important;
+  }
+</style>
     <!-- Logo izquierdo -->
     <div class="flex-shrink-0 flex items-center">
-        <div class="pr-7">
+        <div class="md:pr-7">
             <img src="assets/img/logo.jpg" class="h-12 w-12 rounded-full" alt="Logo">
         </div>
-        <div>
+        <div class="hidden md:block">
             <div class="bg-gradient-to-r from-[#B7DDE2] via-[#FFDCC2] to-[#D9B3E6] dark:from-[#B7DDE2]/50 dark:via-[#FFDCC2]/50 dark:to-[#D9B3E6]/50 h-12 w-0.5"></div>
         </div>
-        <div>
-            <p-megamenu [model]="items" [style]="{ 'display': 'flex', 'border': 'none' }" class="p-0" [styleClass]="'border-none'">
+    </div>
+
+    <!-- Megamenu en el lado derecho -->
+    <div class="flex-1 flex justify-end hidden md:block">
+        <p-megamenu [model]="items" [style]="{ 'display': 'flex', 'border': 'none' }" class="p-0" [styleClass]="'border-none'">
         <!-- Personalización de los items -->
         <ng-template #item let-item>
-            @if (item.root) {
+            @if (item.login) {
+                <!-- No mostrar items de login en desktop -->
+            } @else if (item.root) {
                     <a pRipple class="flex items-center cursor-pointer px-3 py-2 overflow-hidden relative font-semibold uppercase text-surface-900 dark:text-surface-0">
                         <i [ngClass]="item.icon"></i>
                         <span class="ml-2">{{ item.label }}</span>
@@ -35,14 +45,30 @@
             }
         </ng-template>
     </p-megamenu>
-        </div>
     </div>
 
     <!-- Acciones derecha: idioma + tema + login o usuario -->
     <div class="flex-shrink-0 flex items-center gap-3">
         <app-theme-language-controls />
+        <div class="relative md:hidden">
+            <button (click)="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-700">
+                <i class="pi pi-bars text-xl"></i>
+            </button>
+            @if (mobileMenuOpen) {
+                <div class="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-surface-800 rounded-lg shadow-lg border border-gray-200 dark:border-surface-700 z-50">
+                    @for (item of items; track item.label) {
+                        <a [routerLink]="item.routerLink || ''" (click)="mobileMenuOpen = false; item.command?.()" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-surface-700 text-surface-900 dark:text-surface-0 border-b border-gray-100 dark:border-surface-700 last:border-0">
+                            @if (item.icon) {
+                                <i [ngClass]="item.icon"></i>
+                            }
+                            <span>{{ item.label }}</span>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
 
-       <div class="relative inline-flex items-center justify-center gap-4 group">
+       <div class="hidden md:block relative inline-flex items-center justify-center gap-4 group">
   <div
     class="absolute inset-0 duration-1000 opacity-60 transitiona-all bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 rounded-xl blur-lg filter group-hover:opacity-100 group-hover:duration-200"
   ></div>
