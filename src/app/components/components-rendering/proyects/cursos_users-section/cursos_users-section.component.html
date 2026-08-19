@@ -1,8 +1,8 @@
-<div class="min-h-screen bg-[#f4f8f9] p-4 pt-8 sm:p-8">
+<div class="min-h-screen bg-gray-100 dark:bg-surface-950 p-4 pt-8 sm:p-8">
     <div class="mx-auto w-full max-w-full gap-x-10">
         <!-- Navegación de pestañas -->
 
-        <header class="w-full bg-[#28A0AE] rounded-md px-6 py-5 flex items-center justify-between mb-5">
+        <header class="w-full bg-[#28A0AE] dark:bg-[#28A0AE]/50 rounded-md px-6 py-5 flex items-center justify-between mb-5">
             <!-- Lado Izquierdo: Breadcrumb -->
             <nav class="flex items-center gap-2 text-sm font-sans">
                 <div class="flex-shrink-0">
@@ -29,7 +29,6 @@
                     </svg>
                 </button>
 
-                <!-- Notificaciones -->
                 <div class="flex justify-center">
                     <p-menu #menu [model]="items" [popup]="true" styleClass="w-40" />
                     <p-overlay-badge value="2" badgeSize="small" severity="success" (click)="menu.toggle($event)">
@@ -39,12 +38,12 @@
             </div>
         </header>
 
-        <div class="flex gap-1 overflow-hidden bg-white border border-[#28A0AE]/10 px-3 py-3 sm:px-5 sm:py-5">
+        <div class="flex gap-1 overflow-hidden bg-white dark:bg-[#B7DDE2]/10 border border-[#28A0AE]/10 px-3 py-3 sm:px-5 sm:py-5">
             <button
                 type="button"
                 (click)="seleccionarPestania('cursos')"
                 [ngClass]="{
-                    'bg-[#f4f8f9] text-[#28A0AE] shadow-base border border-[#28A0AE]/10': isActiva('cursos'),
+                    'bg-[#f4f8f9] dark:bg-[#28A0AE]/20 text-[#28A0AE] shadow-base border border-[#28A0AE]/10': isActiva('cursos'),
                     'text-[#28A0AE]/80 hover:bg-white/15': !isActiva('cursos')
                 }"
                 class="flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-3 font-bold transition-all duration-200"
@@ -64,7 +63,7 @@
                 type="button"
                 (click)="seleccionarPestania('articulos')"
                 [ngClass]="{
-                    'bg-[#f4f8f9] text-[#28A0AE] shadow-base border border-[#28A0AE]/10': isActiva('articulos'),
+                    'bg-[#f4f8f9] dark:bg-[#28A0AE]/20 text-[#28A0AE] shadow-base border border-[#28A0AE]/10': isActiva('articulos'),
                     'text-[#28A0AE]/80 hover:bg-white/15': !isActiva('articulos')
                 }"
                 class="flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-3 font-bold transition-all duration-200"
@@ -81,12 +80,12 @@
             </button>
         </div>
 
-        <div class="mt-4 rounded-xl border border-[#28A0AE]/15 bg-white p-4 shadow-sm sm:p-6">
+        <div class="mt-4 rounded-xl border border-[#28A0AE]/15 bg-white dark:border-[#28A0AE]/30 dark:bg-surface-900 p-4 shadow-sm sm:p-6">
             @if (pestaniaActiva === 'cursos') {
                 <div class="animate-fadeIn">
                     <div class="grid grid-cols-1 gap-6 p-2 lg:grid-cols-[2fr,1fr]">
                         <div class="space-y-6">
-                            <div class="relative space-y-6 rounded-2xl border border-[#28A0AE]/10 bg-[#f4f8f9] p-6 sm:p-8">
+                            <div class="relative space-y-6 rounded-2xl border border-[#28A0AE]/10 bg-[#f4f8f9] dark:border-[#28A0AE]/30 dark:bg-surface-900 p-6 sm:p-8">
                                 <div class="mb-2 flex flex-col items-start justify-between gap-4 sm:flex-row">
                                     <div>
                                         <span class="text-xl font-bold text-[#FF7F02]">Tu aventura!</span>
@@ -94,7 +93,7 @@
                                         <p class="mt-1 text-sm text-gray-600">5 videos cortos. Completa uno para desbloquear el siguiente.</p>
                                     </div>
 
-                                    <div class="rounded-2xl bg-[#D9B3E6]/50 px-8 py-5 text-center text-[#830479] shadow-lg shadow-[#830479]/30 sm:px-10">
+                                    <div class="rounded-2xl bg-[#D9B3E6]/50 dark:bg-[#D9B3E6] px-8 py-5 text-center text-[#830479] shadow-lg shadow-[#830479]/30 sm:px-10">
                                         <span class="block pb-3 text-2xl font-medium opacity-80 sm:pb-5 sm:text-2xl">Tienes</span>
                                         <span class="my-1 block text-6xl font-extrabold sm:text-5xl">{{ daysLeft }}</span>
                                         <span class="block text-2xl font-medium opacity-80 sm:text-2xl">días</span>
@@ -206,7 +205,7 @@
                                     }
                                 </div>
 
-                                <div class="flex items-center justify-between rounded-xl bg-[#D9B3E6]/50 p-4 text-[#830479] shadow-inner sm:p-5">
+                                <div class="flex items-center justify-between rounded-xl bg-[#D9B3E6]/50 dark:bg-[#D9B3E6] p-4 text-[#830479] shadow-inner sm:p-5">
                                     <div class="flex items-center gap-3 sm:gap-4">
                                         <span class="text-xl font-extrabold opacity-70 sm:text-2xl">{{ userRank() }}.</span>
                                         <div class="flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
@@ -232,7 +231,7 @@
                         </div>
 
                         <div class="space-y-6">
-                            <div class="rounded-2xl border border-[#28A0AE]/10 bg-[#f4f8f9] p-6 shadow-sm">
+                            <div class="rounded-2xl border border-[#28A0AE]/10 dark:border-[#28A0AE]/30 bg-[#f4f8f9] dark:bg-surface-900 p-6 shadow-sm">
                                 <div class="w-full p-56 bg-cover mb-5" [style]="'background-image: url(assets/img/collaborators/premioCur.png)'"></div>
 
                                 <div class="mb-3 flex items-center justify-between text-sm text-[#FF7F02]">
@@ -250,7 +249,7 @@
                                 </div>
                             </div>
 
-                            <div class="rounded-2xl border border-[#28A0AE]/10 bg-[#f4f8f9] p-6 shadow-sm">
+                            <div class="rounded-2xl border border-[#28A0AE]/10 bg-[#f4f8f9] dark:border-[#28A0AE]/30 dark:bg-surface-900 p-6 shadow-sm">
                                 <div class="mb-6 flex items-center justify-between">
                                     <h3 class="text-xl font-bold text-[#830479]">Clasificación</h3>
                                     <span class="text-sm font-medium text-[#FF7F02]">Esta semana</span>
@@ -258,13 +257,13 @@
 
                                 <div class="space-y-3">
                                     @for (player of rankedPlayers(); track player.rank) {
-                                        <div class="flex items-center justify-between rounded-lg p-3 transition-colors" [ngClass]="{ 'bg-[#830479]/10': player.isUser, 'hover:bg-[#28A0AE]/5': !player.isUser }">
+                                        <div class="flex items-center justify-between rounded-lg p-3 transition-colors" [ngClass]="{ 'bg-[#830479]/10 dark:bg-[#D9B3E6]': player.isUser, 'hover:bg-[#28A0AE]/5': !player.isUser }">
                                             <div class="flex items-center gap-4">
-                                                <span class="w-4 text-center text-sm font-extrabold text-gray-950">{{ player.rank }}</span>
+                                                <span class="w-4 text-center text-sm font-extrabold text-[#28A0AE]">{{ player.rank }}</span>
                                                 <div class="flex h-10 w-10 items-center justify-center rounded-full text-xs font-bold" [ngClass]="player.isUser ? 'bg-[#830479] text-white' : 'bg-[#28A0AE]/15 text-[#28A0AE]'">
                                                     {{ player.initials }}
                                                 </div>
-                                                <span class="text-sm font-semibold text-gray-800">{{ player.name }}</span>
+                                                <span class="text-sm font-semibold text-[#28A0AE]">{{ player.name }}</span>
                                             </div>
 
                                             <div

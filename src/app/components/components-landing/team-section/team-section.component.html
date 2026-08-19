@@ -1,12 +1,12 @@
 <div class="relative p-0 md:p-20">
-    <div class="absolute inset-0 bg-white dark:bg-surface-950 transition-colors duration-300"></div>
+    <div class="absolute inset-0 bg-white dark:bg-surface-900 transition-colors duration-300"></div>
 
     <!-- Overlay blanco como neblina -->
     <div class="absolute inset-0 bg-gradient-to-b from-white via-white/50 to-transparent dark:from-surface-950 dark:via-surface-950/50 dark:to-transparent"></div>
 
     <!-- Contenido con z-index superior -->
     <div class="relative z-10 flex flex-col md:flex-row items-center justify-center gap-8 md:py-20">
-        <div class="flex flex-col text-start rounded-lg bg-white dark:bg-surface-900 px-12 py-16 md:w-1/2 max-w-full transition-colors duration-300">
+        <div class="flex flex-col text-start rounded-lg bg-white dark:bg-surface-900/10 px-12 py-16 md:w-1/2 max-w-full transition-colors duration-300">
             <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">Quienes Somos</h1>
             <p class="text-lg text-neutral-800 dark:text-surface-200 font-medium leading-relaxed mb-3">
                 Espacio de innovación educativa donde docentes, estudiantes y comunidades exploran metodologías participativas para transformar la experiencia de aprendizaje.
@@ -14,25 +14,61 @@
             <span class="text-lg text-[#FF7F02] font-medium">!Somos una familia!</span>
         </div>
         <div class="hidden md:flex md:w-1/2 justify-center">
-            <div
+            <video
+                #mainVideo
                 role="img"
-                aria-label="Imagen con efecto de máscara"
-                class="mx-auto w-full h-96 bg-cover bg-center"
+                aria-label="Video con efecto de neblina"
+                class="mx-auto w-full h-[500px] object-cover transition-all duration-500 relative cursor-pointer hover:scale-105"
+                (click)="openVideoModal()"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="auto"
                 [style]="{
-                    'background-image': 'url(assets/img/children.jpg)',
-                    'mask-image': 'url(assets/img/courses/scribble.png)',
-                    '-webkit-mask-image': 'url(assets/img/courses/scribble.png)',
-                    'mask-mode': 'luminance',
-                    '-webkit-mask-mode': 'luminance',
-                    'mask-size': '112%',
-                    '-webkit-mask-size': '115%',
-                    'mask-repeat': 'no-repeat',
-                    '-webkit-mask-repeat': 'no-repeat',
-                    'mask-position': 'center',
-                    '-webkit-mask-position': 'center'
+                    'mask-image': 'linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to top, black 70%, transparent 100%), linear-gradient(to right, black 70%, transparent 100%), linear-gradient(to left, black 70%, transparent 100%)',
+                    '-webkit-mask-image': 'linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to top, black 70%, transparent 100%), linear-gradient(to right, black 70%, transparent 100%), linear-gradient(to left, black 70%, transparent 100%)',
+                    'mask-composite': 'intersect',
+                    '-webkit-mask-composite': 'source-in'
                 }"
-            ></div>
+            >
+                <source src="assets/video/Team2.mp4" type="video/mp4">
+                Tu navegador no soporta videos.
+            </video>
         </div>
         <div class="absolute bottom-0 left-1/2 z-10 w-[20%] -translate-x-1/2 p-0.5 bg-gradient-to-r from-[#B7DDE2] via-[#FFDCC2] to-[#D9B3E6]"></div>
     </div>
 </div>
+
+<!-- Modal de Video -->
+@if (isVideoModalOpen) {
+    <div 
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in"
+        (click)="closeVideoModal()">
+        
+        <div 
+            class="relative w-full max-w-5xl mx-4"
+            (click)="$event.stopPropagation()">
+            
+            <!-- Botón de cerrar -->
+            <button 
+                (click)="closeVideoModal()"
+                class="absolute -top-12 right-0 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm transition-colors text-white z-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Video en tamaño completo -->
+            <video
+                class="w-full h-[500px] rounded-2xl shadow-2xl"
+                autoplay
+                muted
+                controls
+                playsinline>
+                <source src="assets/video/Team.mp4" type="video/mp4">
+                Tu navegador no soporta videos.
+            </video>
+        </div>
+    </div>
+}

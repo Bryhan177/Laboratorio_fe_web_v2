@@ -1,15 +1,18 @@
-<div class="flex items-center justify-between px-6 py-3 bg-white dark:bg-surface-900 border-b border-transparent dark:border-surface-700 fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
+<div class="flex items-center justify-between px-20 py-3 bg-white dark:bg-surface-900 fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
     <!-- Logo izquierdo -->
-    <div class="flex-shrink-0">
-        <img src="assets/img/logo.jpg" class="h-12 w-12" alt="Logo">
-    </div>
-
-    <!-- Menú central -->
-    <p-megamenu [model]="items" [style]="{ 'display': 'flex' }" class="p-0">
+    <div class="flex-shrink-0 flex items-center">
+        <div class="pr-7">
+            <img src="assets/img/logo.jpg" class="h-12 w-12 rounded-full" alt="Logo">
+        </div>
+        <div>
+            <div class="bg-gradient-to-r from-[#B7DDE2] via-[#FFDCC2] to-[#D9B3E6] dark:from-[#B7DDE2]/50 dark:via-[#FFDCC2]/50 dark:to-[#D9B3E6]/50 h-12 w-0.5"></div>
+        </div>
+        <div>
+            <p-megamenu [model]="items" [style]="{ 'display': 'flex', 'border': 'none' }" class="p-0" [styleClass]="'border-none'">
         <!-- Personalización de los items -->
         <ng-template #item let-item>
             @if (item.root) {
-                    <a pRipple class="flex items-center cursor-pointer px-3 py-2 overflow-hidden relative font-semibold uppercase text-surface-900 dark:text-surface-0" style="border-radius: 2rem">
+                    <a pRipple class="flex items-center cursor-pointer px-3 py-2 overflow-hidden relative font-semibold uppercase text-surface-900 dark:text-surface-0">
                         <i [ngClass]="item.icon"></i>
                         <span class="ml-2">{{ item.label }}</span>
                     </a>
@@ -32,6 +35,8 @@
             }
         </ng-template>
     </p-megamenu>
+        </div>
+    </div>
 
     <!-- Acciones derecha: idioma + tema + login o usuario -->
     <div class="flex-shrink-0 flex items-center gap-3">

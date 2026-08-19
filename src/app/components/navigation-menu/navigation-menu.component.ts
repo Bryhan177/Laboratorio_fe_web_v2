@@ -61,57 +61,34 @@ export class NavigationMenuComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Quienes Somos',
+        label: 'Cursos',
         root: true,
-        command: () => this.scrollToSection('equipo')
+
+        command: () => this.navigationService.navigateTo('courses')
       },
       {
-        label: "Galeria",
+        label: "Articulos",
         root: true,
-        command: () => this.scrollToSection('galeria')
+
+        command: () => this.navigationService.navigateTo('articles')
       },
       {
-        label: "Calendario de eventos",
+        label: "Participa",
         root: true,
-        command: () => this.scrollToSection('calendario')
+
+        command: () => this.navigationService.navigateTo('participate')
       },
       {
-        label: "Participa con nosotros",
+        label: "Contactanos",
         root: true,
-        command: () => this.scrollToSection('part-team')
+
+        command: () => this.navigationService.navigateTo('contact')
       },
       {
-        label: 'Proyectos',
+        label: "Donaciones",
         root: true,
-        items: [
-          [
-            {
-              items: [
-                { label: 'Cursos', icon: 'pi pi-list', command: () => this.navigationService.navigateTo('courses') },
-                { label: 'Articulos', icon: 'pi pi-users', command: () => this.navigationService.navigateTo('articles') },
-                { label: 'Participa con nosotros', icon: 'pi pi-file', command: () => this.navigationService.navigateTo('participate') }
-              ]
-            }
-          ],
-          [
-            {
-              items: [
-                { label: 'Contactanos', icon: 'pi pi-question', command: () => this.navigationService.navigateTo('contact') },
-              ]
-            }
-          ],
-          [
-            {
-              items: [
-                { icon: 'pi pi-heart', 
-                  label: 'Donaciones',
-                  subtext: 'Apoya nuestro trabajo',
-                  command: () => this.navigationService.navigateTo('donate')
-                }
-              ]
-            }
-          ]
-        ]
+
+        command: () => this.navigationService.navigateTo('donate')
       },
     ];
   }
