@@ -38,7 +38,7 @@
             </p>
 
             <div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
-                @for (course of courses; track course.src) {
+                @for (course of courses(); track course.src) {
                     <figure class="overflow-hidden rounded-xl bg-surface-100 dark:bg-surface-800">
                         <img
                             [src]="course.src"
@@ -46,19 +46,22 @@
                             class="h-72 w-full object-cover sm:h-80"
                             loading="lazy"
                         />
+                        <figcaption class="px-3 py-2 text-center text-sm font-semibold text-surface-700 dark:text-surface-200">
+                            {{ course.title }}
+                        </figcaption>
                     </figure>
                 }
             </div>
 
             <div class="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-                <a
-                    routerLink="/auth/login"
+                <button
+                    type="button"
                     class="inline-flex w-full items-center justify-center rounded-md bg-[#830479] px-8 py-3 text-base font-semibold text-white transition hover:bg-[#6a0362] hover:shadow-lg sm:w-auto"
-                    (click)="close()"
+                    (click)="goToCourses()"
                 >
-                    Iniciar sesión
+                    Ver cursos
                     <i class="pi pi-arrow-right ml-2 text-sm"></i>
-                </a>
+                </button>
                 <button
                     type="button"
                     class="w-full rounded-md px-6 py-3 text-base font-medium text-surface-600 transition hover:text-surface-900 dark:text-surface-300 dark:hover:text-surface-0 sm:w-auto"

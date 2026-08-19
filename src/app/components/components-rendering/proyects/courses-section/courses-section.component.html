@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-100 dark:bg-surface-950 p-8 pt-32 transition-colors duration-300 text-neutral-800 dark:text-surface-100">
     <div class="p-5">
-        <button class="hover:text-gray-500 dark:hover:text-surface-300 text-[#830479]" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
+        <button type="button" class="hover:text-gray-500 dark:hover:text-surface-300 text-[#830479]" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
     </div>
     <div class="border-b border-border p-5 rounded-lg border-gray-300 dark:border-surface-700 pb-10">
         <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">
@@ -9,70 +9,92 @@
             <a class="underline decoration-[#f87e06]/70">talleres</a>
              para todas las edades
         </h1>
-        <p class="text-lg text-neutral-800 dark:text-surface-200 font-medium leading-relaxed mb-3">Programas diseñados para despertar el talento, fortalecer el cuerpo y unir a la comunidad. La mayoría son totalmente gratuitos gracias a nuestros aliados.</p>
-        <div class="flex flex-wrap gap-5">
-            <span class="border p-5 rounded-xl">Danza y musica</span>
-            <span class="border p-5 rounded-xl">Arte y cultura</span>
-            <span class="border p-5 rounded-xl">Aire Libre</span>
-            <span class="border p-5 rounded-xl">Bienestar</span>
-            <span class="border p-5 rounded-xl">Infantil</span>
-        </div>
+        <p class="text-lg text-neutral-800 dark:text-surface-200 font-medium leading-relaxed mb-3">Programas publicados por el laboratorio. La oferta cambia según lo que el equipo active en el panel.</p>
+        @if (categories().length) {
+            <div class="flex flex-wrap gap-3">
+                <button
+                    type="button"
+                    class="border p-3 rounded-xl transition-colors"
+                    [class.bg-[#830479]]="selectedCategory() === null"
+                    [class.text-white]="selectedCategory() === null"
+                    (click)="selectCategory(null)"
+                >
+                    Todos
+                </button>
+                @for (category of categories(); track category) {
+                    <button
+                        type="button"
+                        class="border p-3 rounded-xl transition-colors"
+                        [class.bg-[#830479]]="selectedCategory() === category"
+                        [class.text-white]="selectedCategory() === category"
+                        (click)="selectCategory(category)"
+                    >
+                        {{ category }}
+                    </button>
+                }
+            </div>
+        }
     </div>
 
     <section class="mx-auto max-w-full px-4 py-16 sm:px-6">
-        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            @for (course of courses; track course.title) {
-                <article class="group flex flex-col overflow-hidden rounded-2xl border bg-[#FFDCC2]/50 border-border bg-card transition-all hover:-translate-y-1 hover:shadow-md">
-                    <!-- Contenedor de la Imagen con NgOptimizedImage para optimización automática -->
-                    <div class="relative aspect-[16/10] overflow-hidden">
-                        <img [ngSrc]="course.image || '/placeholder.svg'" [alt]="course.title" fill priority class="object-cover transition-transform duration-300 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
-                        <span class="absolute left-3 top-3 rounded-full bg-[#FF7F02] px-3 py-1 text-lg font-medium text-white backdrop-blur">
-                                {{ course.tag }}
-                        </span>
-                    </div>
-
-                    <div class="flex flex-1 flex-col p-5">
-                        <h3 class="text-2xl sm:text-3xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">
-                            {{ course.title }}
-                        </h3>
-                        <p class="text-lg text-neutral-800 dark:text-surface-200 font-medium leading-relaxed mb-3">
-                            {{ course.desc }}
-                        </p>
-
-                        <!-- Listado de detalles utilizando clases de PrimeIcons (pi) -->
-                        <ul class="mt-4 grid grid-cols-2 gap-2 text-xs text-neutral-700 dark:text-surface-300 font-mono">
-                            <li class="flex items-center gap-1.5">
-                                <i class="pi pi-clock text-[#28a0ae] text-[14px]"></i>
-                                {{ course.duration }}
-                            </li>
-                            <li class="flex items-center gap-1.5">
-                                <i class="pi pi-users text-[#28a0ae] text-[14px]"></i>
-                                {{ course.cupos }}
-                            </li>
-                            <li class="flex items-center gap-1.5">
-                                <i class="pi pi-map-marker text-[#28a0ae] text-[14px]"></i>
-                                {{ course.level }}
-                            </li>
-                            <li class="flex items-center gap-1.5">
-                                <i class="pi pi-calendar text-[#28a0ae] text-[14px]"></i>
-                                Inscripción abierta
-                            </li>
-                        </ul>
-
-                        <!-- Footer de la Card con precio y redirección en Angular (routerLink) -->
-                        <div class="mt-5 flex items-center justify-between border-t border-border pt-4">
-                            <span class="font-heading text-sm font-bold text-[#FF7F02]">
-                                {{ course.price }}
+        @if (loading()) {
+            <p class="text-[#28A0AE]">Cargando cursos...</p>
+        } @else if (errorMessage()) {
+            <p class="text-red-600">{{ errorMessage() }}</p>
+        } @else if (!visibleCourses().length) {
+            <p class="text-neutral-600 dark:text-surface-300">Aún no hay cursos activos. Cuando el equipo los publique en el panel admin, aparecerán aquí.</p>
+        } @else {
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                @for (course of visibleCourses(); track course.id) {
+                    <article class="group flex flex-col overflow-hidden rounded-2xl border bg-[#FFDCC2]/50 border-border bg-card transition-all hover:-translate-y-1 hover:shadow-md">
+                        <div class="relative aspect-[16/10] overflow-hidden">
+                            <img [src]="courseImage(course)" [alt]="course.title" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                            <span class="absolute left-3 top-3 rounded-full bg-[#FF7F02] px-3 py-1 text-lg font-medium text-white backdrop-blur">
+                                {{ course.category }}
                             </span>
-
-                            <button routerLink="/contacto" class="bg-[#830479] flex items-center gap-2 text-white px-4 py-2 rounded-lg">
-                                Inscribirme
-                                <i class="pi pi-arrow-right"></i>
-                            </button>
                         </div>
-                    </div>
-                </article>
-            }
-        </div>
+
+                        <div class="flex flex-1 flex-col p-5">
+                            <h3 class="text-2xl sm:text-3xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">
+                                {{ course.title }}
+                            </h3>
+                            <p class="text-lg text-neutral-800 dark:text-surface-200 font-medium leading-relaxed mb-3">
+                                {{ course.description || 'Programa del Laboratorio de Metodologías Participativas.' }}
+                            </p>
+
+                            <ul class="mt-4 grid grid-cols-2 gap-2 text-xs text-neutral-700 dark:text-surface-300 font-mono">
+                                <li class="flex items-center gap-1.5">
+                                    <i class="pi pi-users text-[#28a0ae] text-[14px]"></i>
+                                    {{ course.cupos }} cupos
+                                </li>
+                                <li class="flex items-center gap-1.5">
+                                    <i class="pi pi-tag text-[#28a0ae] text-[14px]"></i>
+                                    {{ course.category }}
+                                </li>
+                                <li class="flex items-center gap-1.5">
+                                    <i class="pi pi-calendar text-[#28a0ae] text-[14px]"></i>
+                                    Inscripción abierta
+                                </li>
+                                <li class="flex items-center gap-1.5">
+                                    <i class="pi pi-check-circle text-[#28a0ae] text-[14px]"></i>
+                                    Activo
+                                </li>
+                            </ul>
+
+                            <div class="mt-5 flex items-center justify-between border-t border-border pt-4">
+                                <span class="font-heading text-sm font-bold text-[#FF7F02]">
+                                    Gratuito
+                                </span>
+
+                                <button type="button" class="bg-[#830479] flex items-center gap-2 text-white px-4 py-2 rounded-lg" (click)="enroll()">
+                                    Inscribirme
+                                    <i class="pi pi-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
     </section>
 </div>

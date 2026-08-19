@@ -54,7 +54,12 @@
     </ul>
     <div class="flex border-t lg:border-t-0 border-surface py-4 lg:py-0 mt-4 lg:mt-0 gap-2 items-center">
       <app-theme-language-controls />
-      <button pButton pRipple label="Iniciar sesion" routerLink="/auth/login" [rounded]="true" [text]="true"></button>
-      <button pButton pRipple label="Registrarme" routerLink="/auth/login" [rounded]="true"></button>
+      @if (authService.isAuthenticated()) {
+        <span class="px-2 font-medium text-surface-900 dark:text-surface-0">¡Bienvenido, {{ authService.firstName() }}!</span>
+        <button pButton pRipple label="Mi panel" [rounded]="true" (click)="goToAccount()"></button>
+      } @else {
+        <button pButton pRipple label="Iniciar sesion" routerLink="/auth/login" [rounded]="true" [text]="true"></button>
+        <button pButton pRipple label="Registrarme" routerLink="/auth/register" [rounded]="true"></button>
+      }
     </div>
   </div>

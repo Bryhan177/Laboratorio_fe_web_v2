@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
@@ -15,6 +16,7 @@ import { Course, CourseStatus, CoursesService } from '../../service/courses.serv
 import { AppEvent, EventStatus, EventsService } from '../../service/events.service';
 import { AdminProfile, ProfilesService } from '../../service/profiles.service';
 import { ThemeLanguageControlsComponent } from '../../shared/components/theme-language-controls/theme-language-controls.component';
+import { MediaService } from '../../service/media.service';
 
 type AdminSection = 'dashboard' | 'cursos' | 'usuarios' | 'articulos' | 'eventos';
 type DialogKind = 'course' | 'article' | 'event' | 'user' | null;
@@ -36,6 +38,7 @@ interface NavItem {
         RippleModule,
         DialogModule,
         InputTextModule,
+        PasswordModule,
         TextareaModule,
         SelectModule,
         TagModule,
@@ -60,31 +63,34 @@ export default class AdminPanelComponent implements OnInit {
     editingEventId: string | null = null;
     editingUserId: string | null = null;
 
-    courseForm = { title: '', category: '', cupos: 20, status: 'activo' as CourseStatus };
-    articleForm = { title: '', content: '', status: 'borrador' as ArticleStatus };
+    courseForm = { title: '', category: '', cupos: 20, status: 'activo' as CourseStatus, image_url: null as string | null };
+    articleForm = { title: '', content: '', status: 'borrador' as ArticleStatus, image_url: null as string | null };
+    courseImageFile: File | null = null;
+    courseImagePreview = '';
+    articleImageFile: File | null = null;
+    articleImagePreview = '';
+    eventImageFile: File | null = null;
+    eventImagePreview = '';
     eventForm = {
         title: '',
         event_date: '',
         place: '',
         cupos: 50,
-        status: 'proximo' as EventStatus
+        status: 'proximo' as EventStatus,
+        image_url: null as string | null
     };
     userForm = {
         full_name: '',
         email: '',
         role: 'estudiante' as UserRole,
-        status: 'activo' as AdminProfile['status']
+        status: 'activo' as AdminProfile['status'],
+        password: '',
+        confirmPassword: ''
     };
 
-    readonly adminName = computed(() => this.authService.currentProfile()?.full_name || 'Administrador');
-    readonly adminInitials = computed(() => {
-        const name = this.adminName().trim();
-        const parts = name.split(/\s+/).filter(Boolean);
-        if (parts.length >= 2) {
-            return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-        }
-        return name.slice(0, 2).toUpperCase() || 'AD';
-    });
+    readonly adminName = computed(() => this.authService.displayName());
+    readonly adminFirstName = computed(() => this.authService.firstName());
+    readonly adminInitials = computed(() => this.authService.initials());
 
     readonly navItems: NavItem[] = [
         { id: 'dashboard', label: 'Dashboard', icon: 'pi-home' },
@@ -162,10 +168,12 @@ export default class AdminPanelComponent implements OnInit {
         private coursesService: CoursesService,
         private profilesService: ProfilesService,
         private articlesService: ArticlesService,
-        private eventsService: EventsService
+        private eventsService: EventsService,
+        private mediaService: MediaService
     ) {}
 
     ngOnInit(): void {
+        void this.authService.ensureProfile();
         void this.loadAll();
     }
 
@@ -210,7 +218,9 @@ export default class AdminPanelComponent implements OnInit {
         this.dialogKind.set('course');
         this.dialogMode.set('create');
         this.editingCourseId = null;
-        this.courseForm = { title: '', category: '', cupos: 20, status: 'activo' };
+        this.courseForm = { title: '', category: '', cupos: 20, status: 'activo', image_url: null };
+        this.courseImageFile = null;
+        this.courseImagePreview = '';
         this.dialogVisible = true;
     }
 
@@ -222,8 +232,11 @@ export default class AdminPanelComponent implements OnInit {
             title: course.title,
             category: course.category,
             cupos: course.cupos,
-            status: course.status
+            status: course.status,
+            image_url: course.image_url
         };
+        this.courseImageFile = null;
+        this.courseImagePreview = course.image_url || '';
         this.dialogVisible = true;
     }
 
@@ -231,7 +244,9 @@ export default class AdminPanelComponent implements OnInit {
         this.dialogKind.set('article');
         this.dialogMode.set('create');
         this.editingArticleId = null;
-        this.articleForm = { title: '', content: '', status: 'borrador' };
+        this.articleForm = { title: '', content: '', status: 'borrador', image_url: null };
+        this.articleImageFile = null;
+        this.articleImagePreview = '';
         this.dialogVisible = true;
     }
 
@@ -242,8 +257,11 @@ export default class AdminPanelComponent implements OnInit {
         this.articleForm = {
             title: article.title,
             content: article.content || '',
-            status: article.status
+            status: article.status,
+            image_url: article.image_url
         };
+        this.articleImageFile = null;
+        this.articleImagePreview = article.image_url || '';
         this.dialogVisible = true;
     }
 
@@ -256,8 +274,11 @@ export default class AdminPanelComponent implements OnInit {
             event_date: new Date().toISOString().slice(0, 10),
             place: '',
             cupos: 50,
-            status: 'proximo'
+            status: 'proximo',
+            image_url: null
         };
+        this.eventImageFile = null;
+        this.eventImagePreview = '';
         this.dialogVisible = true;
     }
 
@@ -270,8 +291,11 @@ export default class AdminPanelComponent implements OnInit {
             event_date: event.event_date,
             place: event.place,
             cupos: event.cupos,
-            status: event.status
+            status: event.status,
+            image_url: event.image_url
         };
+        this.eventImageFile = null;
+        this.eventImagePreview = event.image_url || '';
         this.dialogVisible = true;
     }
 
@@ -283,7 +307,9 @@ export default class AdminPanelComponent implements OnInit {
             full_name: user.full_name || '',
             email: user.email || '',
             role: user.role,
-            status: user.status
+            status: user.status,
+            password: '',
+            confirmPassword: ''
         };
         this.dialogVisible = true;
     }
@@ -324,7 +350,10 @@ export default class AdminPanelComponent implements OnInit {
             title,
             category,
             cupos: Number(this.courseForm.cupos) || 1,
-            status: this.courseForm.status
+            status: this.courseForm.status,
+            image_url: this.courseImageFile
+                ? await this.mediaService.upload('courses', this.courseImageFile)
+                : this.courseForm.image_url
         };
 
         if (this.dialogMode() === 'create') {
@@ -346,7 +375,10 @@ export default class AdminPanelComponent implements OnInit {
             title,
             content: this.articleForm.content.trim() || null,
             status: this.articleForm.status,
-            author_id: this.authService.currentProfile()?.id ?? null
+            author_id: this.authService.currentProfile()?.id ?? null,
+            image_url: this.articleImageFile
+                ? await this.mediaService.upload('articles', this.articleImageFile)
+                : this.articleForm.image_url
         };
 
         if (this.dialogMode() === 'create') {
@@ -370,7 +402,10 @@ export default class AdminPanelComponent implements OnInit {
             place,
             event_date: this.eventForm.event_date,
             cupos: Number(this.eventForm.cupos) || 1,
-            status: this.eventForm.status
+            status: this.eventForm.status,
+            image_url: this.eventImageFile
+                ? await this.mediaService.upload('events', this.eventImageFile)
+                : this.eventForm.image_url
         };
 
         if (this.dialogMode() === 'create') {
@@ -398,11 +433,24 @@ export default class AdminPanelComponent implements OnInit {
             throw new Error('Ingresa un correo electrónico válido.');
         }
 
+        const password = this.userForm.password.trim();
+        const confirmPassword = this.userForm.confirmPassword.trim();
+
+        if (password || confirmPassword) {
+            if (password.length < 6) {
+                throw new Error('La contraseña debe tener al menos 6 caracteres.');
+            }
+            if (password !== confirmPassword) {
+                throw new Error('Las contraseñas no coinciden.');
+            }
+        }
+
         const updated = await this.profilesService.update(this.editingUserId, {
             full_name: fullName,
             email,
             role: this.userForm.role,
-            status: this.userForm.status
+            status: this.userForm.status,
+            password: password || undefined
         });
 
         this.users.update((list) => list.map((item) => (item.id === updated.id ? updated : item)));
@@ -449,6 +497,61 @@ export default class AdminPanelComponent implements OnInit {
         } catch (error) {
             this.errorMessage = error instanceof Error ? error.message : 'No se pudo actualizar el rol.';
             this.users.set(await this.profilesService.list());
+        }
+    }
+
+    onCourseImageSelected(event: Event): void {
+        this.courseImageFile = this.readSelectedImage(event, (preview) => {
+            this.courseImagePreview = preview;
+        });
+    }
+
+    onArticleImageSelected(event: Event): void {
+        this.articleImageFile = this.readSelectedImage(event, (preview) => {
+            this.articleImagePreview = preview;
+        });
+    }
+
+    onEventImageSelected(event: Event): void {
+        this.eventImageFile = this.readSelectedImage(event, (preview) => {
+            this.eventImagePreview = preview;
+        });
+    }
+
+    clearCourseImage(): void {
+        this.courseImageFile = null;
+        this.courseImagePreview = '';
+        this.courseForm.image_url = null;
+    }
+
+    clearArticleImage(): void {
+        this.articleImageFile = null;
+        this.articleImagePreview = '';
+        this.articleForm.image_url = null;
+    }
+
+    clearEventImage(): void {
+        this.eventImageFile = null;
+        this.eventImagePreview = '';
+        this.eventForm.image_url = null;
+    }
+
+    private readSelectedImage(event: Event, setPreview: (preview: string) => void): File | null {
+        const input = event.target as HTMLInputElement;
+        const file = input.files?.[0] ?? null;
+        if (!file) {
+            return null;
+        }
+
+        try {
+            this.mediaService.validateImage(file);
+            setPreview(URL.createObjectURL(file));
+            this.errorMessage = '';
+            return file;
+        } catch (error) {
+            input.value = '';
+            this.errorMessage = error instanceof Error ? error.message : 'No se pudo leer la imagen.';
+            return null;
         }
     }
 

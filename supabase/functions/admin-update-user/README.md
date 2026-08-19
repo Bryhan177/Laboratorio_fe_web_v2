@@ -25,4 +25,4 @@ La función usa el **service role** solo en el servidor de Supabase.
 4. En el panel de Supabase → **Edge Functions** → `admin-update-user`, confirma que esté activa.
 
 ## Probar
-En el panel admin edita un usuario y cambia el correo. Luego inicia sesión con el correo nuevo.
+En el panel admin edita un usuario y cambia el correo o la contraseña. Luego inicia sesión con los datos nuevos.

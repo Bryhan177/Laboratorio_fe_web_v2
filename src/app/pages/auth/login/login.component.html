@@ -104,11 +104,10 @@
                     />
                 </div>
 
-                <div class="flex items-center justify-between gap-3">
-                    <div class="flex items-center gap-2">
-                        <p-checkbox [(ngModel)]="rememberMe" name="rememberMe" inputId="remember-me" [binary]="true" />
-                        <label for="remember-me" class="text-sm text-surface-600 dark:text-surface-300">Recordarme</label>
-                    </div>
+                <div class="flex justify-end">
+                    <a routerLink="/auth/forgot-password" class="text-sm text-center w-full font-medium text-[#830479] hover:underline dark:text-[#d48ad0]">
+                        ¿Olvidaste tu contraseña?
+                    </a>
                 </div>
 
                 <button

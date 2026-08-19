@@ -16,6 +16,7 @@ export type AdminProfileUpdate = {
     email: string | null;
     role: UserRole;
     status: 'activo' | 'inactivo';
+    password?: string;
 };
 
 @Injectable({
@@ -42,7 +43,8 @@ export class ProfilesService {
                 full_name: payload.full_name,
                 email: payload.email,
                 role: payload.role,
-                status: payload.status
+                status: payload.status,
+                password: payload.password
             }
         });
 

@@ -17,6 +17,7 @@ interface UpdateUserBody {
     email?: string;
     role?: UserRole;
     status?: 'activo' | 'inactivo';
+    password?: string;
 }
 
 Deno.serve(async (req) => {
@@ -67,6 +68,7 @@ Deno.serve(async (req) => {
         const email = body.email?.trim().toLowerCase() ?? '';
         const role = body.role;
         const status = body.status;
+        const password = body.password?.trim() ?? '';
 
         if (!id) {
             return jsonResponse({ error: 'Falta el id del usuario.' }, 400);
@@ -88,16 +90,31 @@ Deno.serve(async (req) => {
             return jsonResponse({ error: 'Estado inválido.' }, 400);
         }
 
+        if (password && password.length < 6) {
+            return jsonResponse({ error: 'La contraseña debe tener al menos 6 caracteres.' }, 400);
+        }
+
         const adminClient = createClient(supabaseUrl, serviceRoleKey);
 
-        const { error: authUpdateError } = await adminClient.auth.admin.updateUserById(id, {
+        const authPayload: {
+            email: string;
+            email_confirm: boolean;
+            user_metadata: { full_name: string; role: UserRole };
+            password?: string;
+        } = {
             email,
             email_confirm: true,
             user_metadata: {
                 full_name: fullName,
                 role
             }
-        });
+        };
+
+        if (password) {
+            authPayload.password = password;
+        }
+
+        const { error: authUpdateError } = await adminClient.auth.admin.updateUserById(id, authPayload);
 
         if (authUpdateError) {
             throw new Error(authUpdateError.message);

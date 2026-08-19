@@ -10,6 +10,7 @@ export interface AppEvent {
     place: string;
     cupos: number;
     status: EventStatus;
+    image_url: string | null;
     created_at?: string;
 }
 
@@ -19,6 +20,7 @@ export type EventInput = {
     place: string;
     cupos: number;
     status: EventStatus;
+    image_url?: string | null;
 };
 
 @Injectable({
@@ -35,7 +37,20 @@ export class EventsService {
             throw new Error(error.message);
         }
 
-        return (data ?? []) as AppEvent[];
+        return (data ?? []).map((row) => this.mapEvent(row));
+    }
+
+    async listPublic(): Promise<AppEvent[]> {
+        const { data, error } = await supabase
+            .from('events')
+            .select('id, title, event_date, place, cupos, status, image_url, created_at')
+            .order('event_date', { ascending: true });
+
+        if (error) {
+            throw new Error(this.mapWriteError(error.message));
+        }
+
+        return (data ?? []).map((row) => this.mapEvent(row));
     }
 
     async create(input: EventInput): Promise<AppEvent> {
@@ -43,7 +58,7 @@ export class EventsService {
         if (error) {
             throw new Error(this.mapWriteError(error.message));
         }
-        return data as AppEvent;
+        return this.mapEvent(data);
     }
 
     async update(id: string, input: EventInput): Promise<void> {
@@ -60,8 +75,25 @@ export class EventsService {
         }
     }
 
+    private mapEvent(row: any): AppEvent {
+        return {
+            id: row.id,
+            title: row.title,
+            event_date: row.event_date,
+            place: row.place,
+            cupos: row.cupos,
+            status: row.status,
+            image_url: row.image_url ?? null,
+            created_at: row.created_at
+        };
+    }
+
     private mapWriteError(message: string): string {
-        if (message.toLowerCase().includes('row-level security')) {
+        const normalized = message.toLowerCase();
+        if (normalized.includes('image_url')) {
+            return 'Falta la columna image_url en eventos. Vuelve a ejecutar supabase/media-storage.sql en Supabase.';
+        }
+        if (normalized.includes('row-level security')) {
             return 'No tienes permiso para modificar eventos. Ejecuta supabase/fix-events-rls.sql en Supabase y verifica que tu rol sea administrador.';
         }
         return message;

@@ -281,11 +281,20 @@
 
 .panel-card,
 .event-card {
+    overflow: hidden;
     border: 1px solid rgb(40 160 174 / 12%);
     border-radius: 1rem;
     background: white;
     padding: 1.25rem;
     box-shadow: 0 8px 24px rgb(15 23 42 / 5%);
+}
+
+.event-card__image {
+    width: calc(100% + 2.5rem);
+    max-width: none;
+    height: 9rem;
+    margin: -1.25rem -1.25rem 1rem;
+    object-fit: cover;
 }
 
 .panel-card__title,

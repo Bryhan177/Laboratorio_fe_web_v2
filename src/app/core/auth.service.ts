@@ -32,6 +32,37 @@ export class AuthService {
     readonly isLoading = this.loading.asReadonly();
     readonly isAuthenticated = computed(() => !!this.session());
     readonly isAdmin = computed(() => this.profile()?.role === 'administrador');
+    readonly displayName = computed(() => {
+        const profile = this.profile();
+        const name = profile?.full_name?.trim();
+        if (name) {
+            return name;
+        }
+        return profile?.email?.split('@')[0] || 'Usuario';
+    });
+    readonly firstName = computed(() => this.displayName().split(/\s+/)[0] || 'Usuario');
+    readonly lastName = computed(() => this.displayName().split(/\s+/).slice(1).join(' '));
+    readonly initials = computed(() => {
+        const parts = this.displayName().split(/\s+/).filter(Boolean);
+        if (parts.length >= 2) {
+            return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+        }
+        return this.displayName().slice(0, 2).toUpperCase();
+    });
+    readonly roleLabel = computed(() => {
+        switch (this.profile()?.role) {
+            case 'administrador':
+                return 'Administrador';
+            case 'educador':
+                return 'Educador';
+            case 'estudiante':
+                return 'Estudiante';
+            case 'entidad':
+                return 'Entidad';
+            default:
+                return '';
+        }
+    });
 
     constructor() {
         void this.init();
@@ -61,7 +92,7 @@ export class AuthService {
         try {
             const email = payload.email.trim().toLowerCase();
             const fullName = payload.fullName.trim();
-            const role = payload.role;
+            const role = this.normalizePublicRole(payload.role);
 
             const { data, error } = await supabase.auth.signUp({
                 email,
@@ -156,6 +187,24 @@ export class AuthService {
         this.profile.set(null);
     }
 
+    async requestPasswordReset(email: string): Promise<void> {
+        const redirectTo = `${window.location.origin}/auth/reset-password`;
+        const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
+            redirectTo
+        });
+
+        if (error) {
+            throw new Error(this.mapAuthError(error.message));
+        }
+    }
+
+    async updatePassword(password: string): Promise<void> {
+        const { error } = await supabase.auth.updateUser({ password });
+        if (error) {
+            throw new Error(this.mapAuthError(error.message));
+        }
+    }
+
     getUser(): User | null {
         return this.session()?.user ?? null;
     }
@@ -177,6 +226,14 @@ export class AuthService {
     private normalizeRole(role: unknown): UserRole {
         const value = String(role ?? '').toLowerCase();
         if (value === 'administrador' || value === 'educador' || value === 'estudiante' || value === 'entidad') {
+            return value;
+        }
+        return 'estudiante';
+    }
+
+    private normalizePublicRole(role: unknown): UserRole {
+        const value = String(role ?? '').toLowerCase();
+        if (value === 'educador' || value === 'estudiante' || value === 'entidad') {
             return value;
         }
         return 'estudiante';

@@ -21,7 +21,7 @@ declare
 begin
   selected_role := coalesce(new.raw_user_meta_data->>'role', 'estudiante');
 
-  if selected_role not in ('administrador', 'educador', 'estudiante', 'entidad') then
+  if selected_role not in ('educador', 'estudiante', 'entidad') then
     selected_role := 'estudiante';
   end if;
 

@@ -42,7 +42,6 @@ export class RegisterComponent implements OnInit {
     readonly reducedMotion = signal(false);
 
     readonly roles: AuthRoleOption[] = [
-        { label: 'Administrador', value: 'administrador' },
         { label: 'Educador', value: 'educador' },
         { label: 'Estudiante', value: 'estudiante' },
         { label: 'Entidad', value: 'entidad' }

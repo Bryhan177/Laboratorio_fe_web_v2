@@ -21,6 +21,7 @@ export type CourseInput = {
     cupos: number;
     status: CourseStatus;
     description?: string | null;
+    image_url?: string | null;
 };
 
 @Injectable({
@@ -37,7 +38,25 @@ export class CoursesService {
             throw new Error(error.message);
         }
 
-        return (data ?? []).map((row: any) => ({
+        return (data ?? []).map((row: any) => this.mapCourse(row));
+    }
+
+    async listPublic(): Promise<Course[]> {
+        const { data, error } = await supabase
+            .from('courses')
+            .select('id, title, category, description, cupos, status, image_url, created_at')
+            .eq('status', 'activo')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            throw new Error(error.message);
+        }
+
+        return (data ?? []).map((row: any) => this.mapCourse(row));
+    }
+
+    private mapCourse(row: any): Course {
+        return {
             id: row.id,
             title: row.title,
             category: row.category,
@@ -47,7 +66,7 @@ export class CoursesService {
             image_url: row.image_url,
             created_at: row.created_at,
             inscritos: row.enrollments?.[0]?.count ?? 0
-        }));
+        };
     }
 
     async create(input: CourseInput): Promise<Course> {
@@ -58,7 +77,8 @@ export class CoursesService {
                 category: input.category,
                 cupos: input.cupos,
                 status: input.status,
-                description: input.description ?? null
+                description: input.description ?? null,
+                image_url: input.image_url ?? null
             })
             .select('*')
             .single();
@@ -78,7 +98,8 @@ export class CoursesService {
                 category: input.category,
                 cupos: input.cupos,
                 status: input.status,
-                description: input.description ?? null
+                description: input.description ?? null,
+                image_url: input.image_url ?? null
             })
             .eq('id', id);
 

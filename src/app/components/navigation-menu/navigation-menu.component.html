@@ -33,7 +33,7 @@
         </ng-template>
     </p-megamenu>
 
-    <!-- Acciones derecha: idioma + tema + login -->
+    <!-- Acciones derecha: idioma + tema + login o usuario -->
     <div class="flex-shrink-0 flex items-center gap-3">
         <app-theme-language-controls />
 
@@ -41,6 +41,16 @@
   <div
     class="absolute inset-0 duration-1000 opacity-60 transitiona-all bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 rounded-xl blur-lg filter group-hover:opacity-100 group-hover:duration-200"
   ></div>
+  @if (authService.isAuthenticated()) {
+    <button
+      type="button"
+      class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-[#D9B3E6] hover:text-[#830479] hover:border-[#830479] hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30"
+      title="Ir a mi panel"
+      (click)="goToAccount()"
+      >
+      ¡Hola, {{ authService.firstName() }}!
+    </button>
+  } @else {
   <a
     role="button"
     class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-[#D9B3E6] hover:text-[#830479] hover:border-[#830479] hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30"
@@ -66,6 +76,7 @@
       ></path>
     </svg>
   </a>
+  }
 </div>
     </div>
 </div>

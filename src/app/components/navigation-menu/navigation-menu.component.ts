@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { MegaMenuItem } from 'primeng/api';
+import { AuthService } from '../../core/auth.service';
 import { NavigationService } from '../../service/navigation.service';
 import { ThemeLanguageControlsComponent } from '../../shared/components/theme-language-controls/theme-language-controls.component';
 
@@ -27,7 +28,11 @@ import { ThemeLanguageControlsComponent } from '../../shared/components/theme-la
 export class NavigationMenuComponent implements OnInit {
     items: MegaMenuItem[] | undefined;
 
-    constructor(private navigationService: NavigationService) {}
+    constructor(
+        public authService: AuthService,
+        private router: Router,
+        private navigationService: NavigationService
+    ) {}
 
     scrollToSection(sectionId: string) {
         const element = document.getElementById(sectionId);
@@ -41,6 +46,16 @@ export class NavigationMenuComponent implements OnInit {
                 behavior: 'smooth'
             });
         }
+    }
+
+    async goToAccount(): Promise<void> {
+        if (this.authService.isAdmin()) {
+            await this.router.navigate(['/admin']);
+            return;
+        }
+
+        this.navigationService.navigateTo('cursos-users');
+        await this.router.navigate(['/']);
     }
 
   ngOnInit() {

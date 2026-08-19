@@ -2,7 +2,6 @@ import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
@@ -15,7 +14,6 @@ import { ThemeLanguageControlsComponent } from '../../../shared/components/theme
     standalone: true,
     imports: [
         ButtonModule,
-        CheckboxModule,
         InputTextModule,
         PasswordModule,
         FormsModule,
@@ -29,7 +27,6 @@ import { ThemeLanguageControlsComponent } from '../../../shared/components/theme
 export class LoginComponent implements OnInit {
     email = '';
     password = '';
-    rememberMe = false;
     errorMessage = '';
     successMessage = '';
     readonly loading = signal(false);

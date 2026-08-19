@@ -8,7 +8,7 @@
             <img src="assets/img/logo-Photoroom.png" alt="Laboratorio" class="admin-brand__logo" />
             <div>
                 <p class="admin-brand__eyebrow">Laboratorio</p>
-                <h1 class="admin-brand__title">Panel admin</h1>
+                <h1 class="admin-brand__title text-white">Panel admin</h1>
             </div>
         </div>
 
@@ -39,7 +39,7 @@
                     <i class="pi pi-bars"></i>
                 </button>
                 <div>
-                    <p class="admin-header__eyebrow">Gestión</p>
+                    <p class="admin-header__eyebrow">Bienvenido, {{ adminFirstName() }}</p>
                     <h2 class="admin-header__title">{{ sectionTitle() }}</h2>
                 </div>
             </div>
@@ -78,6 +78,12 @@
             @switch (activeSection()) {
                 @case ('dashboard') {
                     <section class="space-y-6">
+                        <div class="panel-card">
+                            <h3 class="panel-card__title">¡Bienvenido, {{ adminName() }}!</h3>
+                            <p class="panel-card__text">
+                                Gestiona el Laboratorio desde este panel. Los datos y acciones de cada sección siguen disponibles igual que antes.
+                            </p>
+                        </div>
                         <div class="stats-grid">
                             <article class="stat-card stat-card--purple">
                                 <p class="stat-card__label">Cursos</p>
@@ -169,7 +175,14 @@
                                 <tbody>
                                     @for (course of courses(); track course.id) {
                                         <tr>
-                                            <td class="font-semibold text-gray-900">{{ course.title }}</td>
+                                            <td>
+                                                <div class="flex items-center gap-3">
+                                                    @if (course.image_url) {
+                                                        <img [src]="course.image_url" [alt]="course.title" class="h-12 w-16 rounded-md object-cover" />
+                                                    }
+                                                    <span class="font-semibold text-gray-900">{{ course.title }}</span>
+                                                </div>
+                                            </td>
                                             <td>{{ course.category }}</td>
                                             <td>{{ course.cupos }}</td>
                                             <td>{{ course.inscritos || 0 }}</td>
@@ -297,7 +310,14 @@
                                 <tbody>
                                     @for (article of articles(); track article.id) {
                                         <tr>
-                                            <td class="font-semibold text-gray-900">{{ article.title }}</td>
+                                            <td>
+                                                <div class="flex items-center gap-3">
+                                                    @if (article.image_url) {
+                                                        <img [src]="article.image_url" [alt]="article.title" class="h-12 w-16 rounded-md object-cover" />
+                                                    }
+                                                    <span class="font-semibold text-gray-900">{{ article.title }}</span>
+                                                </div>
+                                            </td>
                                             <td>{{ article.author_name }}</td>
                                             <td>{{ article.published_at || '—' }}</td>
                                             <td>
@@ -355,6 +375,9 @@
                         <div class="cards-grid">
                             @for (event of events(); track event.id) {
                                 <article class="event-card">
+                                    @if (event.image_url) {
+                                        <img [src]="event.image_url" [alt]="event.title" class="event-card__image" />
+                                    }
                                     <div class="event-card__top">
                                         <p-tag [value]="event.status" [severity]="eventSeverity(event.status)" />
                                         <span class="event-card__date">{{ event.event_date }}</span>
@@ -402,7 +425,7 @@
 <p-dialog
     [header]="dialogTitle()"
     [modal]="true"
-    [style]="{ width: '30rem' }"
+    [style]="{ width: '34rem' }"
     [contentStyle]="{ overflow: 'visible' }"
     [(visible)]="dialogVisible"
 >
@@ -431,6 +454,17 @@
                     class="w-full"
                     [(ngModel)]="courseForm.status"
                 />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="course-image">Imagen</label>
+                @if (courseImagePreview) {
+                    <img [src]="courseImagePreview" alt="Vista previa del curso" class="mb-2 h-36 w-full rounded-lg object-cover" />
+                }
+                <input id="course-image" type="file" accept="image/jpeg,image/png,image/webp,image/gif" class="w-full text-sm" (change)="onCourseImageSelected($event)" />
+                <p class="mt-1 text-xs text-gray-500">JPG, PNG, WEBP o GIF. Máximo 5 MB. Se verá en la página pública de cursos.</p>
+                @if (courseImagePreview) {
+                    <button type="button" class="mt-2 text-sm text-[#830479]" (click)="clearCourseImage()">Quitar imagen</button>
+                }
             </div>
         </div>
     }
@@ -462,6 +496,17 @@
                     class="w-full"
                     [(ngModel)]="articleForm.status"
                 />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="article-image">Imagen</label>
+                @if (articleImagePreview) {
+                    <img [src]="articleImagePreview" alt="Vista previa del artículo" class="mb-2 h-36 w-full rounded-lg object-cover" />
+                }
+                <input id="article-image" type="file" accept="image/jpeg,image/png,image/webp,image/gif" class="w-full text-sm" (change)="onArticleImageSelected($event)" />
+                <p class="mt-1 text-xs text-gray-500">JPG, PNG, WEBP o GIF. Máximo 5 MB. Se verá en la página pública de artículos.</p>
+                @if (articleImagePreview) {
+                    <button type="button" class="mt-2 text-sm text-[#830479]" (click)="clearArticleImage()">Quitar imagen</button>
+                }
             </div>
         </div>
     }
@@ -495,6 +540,17 @@
                     class="w-full"
                     [(ngModel)]="eventForm.status"
                 />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="event-image">Imagen</label>
+                @if (eventImagePreview) {
+                    <img [src]="eventImagePreview" alt="Vista previa del evento" class="mb-2 h-36 w-full rounded-lg object-cover" />
+                }
+                <input id="event-image" type="file" accept="image/jpeg,image/png,image/webp,image/gif" class="w-full text-sm" (change)="onEventImageSelected($event)" />
+                <p class="mt-1 text-xs text-gray-500">JPG, PNG, WEBP o GIF. Máximo 5 MB. Se verá a la derecha del calendario.</p>
+                @if (eventImagePreview) {
+                    <button type="button" class="mt-2 text-sm text-[#830479]" (click)="clearEventImage()">Quitar imagen</button>
+                }
             </div>
         </div>
     }
@@ -541,6 +597,33 @@
                     appendTo="body"
                     class="w-full"
                     [(ngModel)]="userForm.status"
+                />
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="user-password">Nueva contraseña</label>
+                <p-password
+                    inputId="user-password"
+                    [(ngModel)]="userForm.password"
+                    name="userPassword"
+                    [toggleMask]="true"
+                    [feedback]="false"
+                    [fluid]="true"
+                    autocomplete="new-password"
+                    styleClass="w-full"
+                />
+                <p class="mt-1 text-xs text-gray-500">Déjala vacía si no quieres cambiarla.</p>
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold" for="user-confirm-password">Confirmar contraseña</label>
+                <p-password
+                    inputId="user-confirm-password"
+                    [(ngModel)]="userForm.confirmPassword"
+                    name="userConfirmPassword"
+                    [toggleMask]="true"
+                    [feedback]="false"
+                    [fluid]="true"
+                    autocomplete="new-password"
+                    styleClass="w-full"
                 />
             </div>
         </div>
