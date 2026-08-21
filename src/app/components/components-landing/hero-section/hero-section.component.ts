@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal, effect } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VisitorContextService } from '../../../service/visitor-context.service';
 
@@ -14,12 +14,24 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
     readonly currentSlide = signal(0);
 
     readonly slides = [
-        { src: 'assets/img/gallery/13%20noviembre%202025/img30.JPG', alt: 'Niños en actividades recreativas' },
-        { src: 'assets/img/hero/herochild.jpg', alt: 'Juego y aprendizaje en comunidad' },
-        { src: 'assets/img/img6.jpg', alt: 'Equipo del laboratorio' },
-        { src: 'assets/img/gallery/18%20julio%202026/img23.jpg', alt: 'Eventos y encuentros' },
-        { src: 'assets/img/gallery/23%20julio%202026/img24.jpg', alt: 'Espacios de participación' }
+        { src: 'assets/img/hero/optimized/hero-1.webp', alt: 'Niños en actividades recreativas' },
+        { src: 'assets/img/hero/optimized/hero-2.webp', alt: 'Juego y aprendizaje en comunidad' },
+        { src: 'assets/img/hero/optimized/hero-3.webp', alt: 'Equipo del laboratorio' },
+        { src: 'assets/img/hero/optimized/hero-4.webp', alt: 'Eventos y encuentros' },
+        { src: 'assets/img/hero/optimized/hero-5.webp', alt: 'Espacios de participación' }
     ];
+
+    /** Solo current + siguiente en DOM para no descargar los 5 JPG a la vez. */
+    private readonly hydratedSlides = signal<Set<number>>(new Set([0, 1]));
+
+    readonly visibleSlideIndexes = computed(() => {
+        const current = this.currentSlide();
+        const next = (current + 1) % this.slides.length;
+        const set = new Set(this.hydratedSlides());
+        set.add(current);
+        set.add(next);
+        return Array.from(set).sort((a, b) => a - b);
+    });
 
     private carouselTimer: ReturnType<typeof setInterval> | null = null;
     private readonly slideIntervalMs = 5000;
@@ -30,10 +42,24 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
                 this.startHeroAnimation();
             }
         });
+
+        effect(() => {
+            const current = this.currentSlide();
+            const next = (current + 1) % this.slides.length;
+            this.hydratedSlides.update((prev) => {
+                const nextSet = new Set(prev);
+                nextSet.add(current);
+                nextSet.add(next);
+                return nextSet;
+            });
+            this.preloadImage(this.slides[next].src);
+        });
     }
 
     ngOnInit(): void {
         this.reducedMotion.set(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        this.preloadImage(this.slides[0].src);
+        this.preloadImage(this.slides[1].src);
 
         if (this.visitorContext.welcomeDismissed()) {
             this.startHeroAnimation();
@@ -51,6 +77,12 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
 
     nextSlide(): void {
         this.currentSlide.set((this.currentSlide() + 1) % this.slides.length);
+    }
+
+    private preloadImage(src: string): void {
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = src;
     }
 
     private startHeroAnimation(): void {

@@ -260,6 +260,18 @@ export class CursosUsersSectionComponent implements OnInit {
   openPublishedArticle(article: Article): void {
     this.selectedPublishedArticle.set(article);
     this.articleReaderVisible.set(true);
+    void this.loadPublishedArticleContent(article.id);
+  }
+
+  private async loadPublishedArticleContent(id: string): Promise<void> {
+    try {
+      const full = await this.articlesService.getById(id);
+      if (this.selectedPublishedArticle()?.id === id) {
+        this.selectedPublishedArticle.set(full);
+      }
+    } catch {
+      /* metadatos del listado siguen visibles */
+    }
   }
 
   openSettings(): void {

@@ -186,30 +186,80 @@ export default class AdminPanelComponent implements OnInit {
 
     ngOnInit(): void {
         void this.authService.ensureProfile();
-        void this.loadAll();
+        void this.loadSectionData(this.activeSection());
     }
 
     async loadAll(): Promise<void> {
+        await this.loadSectionData(this.activeSection(), true);
+    }
+
+    private async loadSectionData(section: AdminSection, force = false): Promise<void> {
         this.loading.set(true);
         this.errorMessage = '';
 
         try {
-            const [courses, users, articles, events] = await Promise.all([
-                this.coursesService.list(),
-                this.profilesService.list(),
-                this.articlesService.list(),
-                this.eventsService.list()
-            ]);
+            if (section === 'dashboard') {
+                const [courses, users, articles, events] = await Promise.all([
+                    this.ensureCourses(force),
+                    this.ensureUsers(force),
+                    this.ensureArticles(force),
+                    this.ensureEvents(force)
+                ]);
+                this.courses.set(courses);
+                this.users.set(users);
+                this.articles.set(articles);
+                this.events.set(events);
+                return;
+            }
 
-            this.courses.set(courses);
-            this.users.set(users);
-            this.articles.set(articles);
-            this.events.set(events);
+            if (section === 'cursos') {
+                this.courses.set(await this.ensureCourses(force));
+                return;
+            }
+            if (section === 'usuarios') {
+                this.users.set(await this.ensureUsers(force));
+                return;
+            }
+            if (section === 'articulos') {
+                this.articles.set(await this.ensureArticles(force));
+                return;
+            }
+            if (section === 'eventos') {
+                this.events.set(await this.ensureEvents(force));
+            }
         } catch (error) {
             this.errorMessage = error instanceof Error ? error.message : 'No se pudieron cargar los datos.';
         } finally {
             this.loading.set(false);
         }
+    }
+
+    private async ensureCourses(force: boolean): Promise<Course[]> {
+        if (!force && this.courses().length) {
+            return this.courses();
+        }
+        return this.coursesService.list();
+    }
+
+    private async ensureUsers(force: boolean): Promise<AdminProfile[]> {
+        if (!force && this.users().length) {
+            return this.users();
+        }
+        return this.profilesService.list();
+    }
+
+    private async ensureArticles(force: boolean): Promise<Article[]> {
+        if (!force && this.articles().length) {
+            return this.articles();
+        }
+        return this.articlesService.list();
+    }
+
+    private async ensureEvents(force: boolean): Promise<AppEvent[]> {
+        if (!force && this.events().length) {
+            return this.events();
+        }
+        return this.eventsService.list();
     }
 
     async logout(): Promise<void> {
@@ -220,6 +270,7 @@ export default class AdminPanelComponent implements OnInit {
     setSection(section: AdminSection): void {
         this.activeSection.set(section);
         this.sidebarOpen.set(false);
+        void this.loadSectionData(section);
     }
 
     toggleSidebar(): void {
@@ -262,7 +313,7 @@ export default class AdminPanelComponent implements OnInit {
         this.dialogVisible = true;
     }
 
-    openEditArticle(article: Article): void {
+    async openEditArticle(article: Article): Promise<void> {
         this.dialogKind.set('article');
         this.dialogMode.set('edit');
         this.editingArticleId = article.id;
@@ -275,6 +326,22 @@ export default class AdminPanelComponent implements OnInit {
         this.articleImageFile = null;
         this.articleImagePreview = article.image_url || '';
         this.dialogVisible = true;
+
+        try {
+            const full = await this.articlesService.getById(article.id);
+            if (this.editingArticleId !== article.id) {
+                return;
+            }
+            this.articleForm = {
+                title: full.title,
+                content: full.content || '',
+                status: full.status,
+                image_url: full.image_url
+            };
+            this.articleImagePreview = full.image_url || '';
+        } catch (error) {
+            this.errorMessage = error instanceof Error ? error.message : 'No se pudo cargar el artículo.';
+        }
     }
 
     openCreateEvent(): void {

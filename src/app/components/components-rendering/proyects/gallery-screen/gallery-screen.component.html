@@ -33,8 +33,9 @@
               <img 
                 [src]="item.imageUrl" 
                 [alt]="item.title || 'Gallery item'" 
-                [attr.loading]="i < 12 ? 'eager' : 'lazy'"
+                loading="lazy"
                 decoding="async"
+                fetchpriority="low"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               
               <!-- Capa o texto superpuesto si existe -->

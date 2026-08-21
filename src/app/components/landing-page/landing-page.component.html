@@ -9,38 +9,88 @@
     @switch (navigationService.currentView()) {
         @case ('landing') {
             <div id="inicio" class="w-full"><app-hero-section /></div>
-            <div id="equipo" class="w-full"><app-team-section /></div>
-            <div id="galeria" class="w-full"><app-galery-section /></div>
-            <div id="calendario" class="w-full"><app-calendar-section /></div>
-            <div id="part-team" class="w-full"><app-part-team /></div>
-            <div class="w-full"><app-testimonials /></div>
+            @defer (on viewport; prefetch on idle) {
+                <div id="equipo" class="w-full"><app-team-section /></div>
+            } @placeholder {
+                <div id="equipo" class="min-h-[40vh] w-full bg-white dark:bg-surface-900"></div>
+            }
+            @defer (on viewport; prefetch on idle) {
+                <div id="galeria" class="w-full"><app-galery-section /></div>
+            } @placeholder {
+                <div id="galeria" class="min-h-[50vh] w-full"></div>
+            }
+            @defer (on viewport; prefetch on idle) {
+                <div id="calendario" class="w-full"><app-calendar-section /></div>
+            } @placeholder {
+                <div id="calendario" class="min-h-[40vh] w-full"></div>
+            }
+            @defer (on viewport; prefetch on idle) {
+                <div id="part-team" class="w-full"><app-part-team /></div>
+            } @placeholder {
+                <div id="part-team" class="min-h-[30vh] w-full"></div>
+            }
+            @defer (on viewport; prefetch on idle) {
+                <div class="w-full"><app-testimonials /></div>
+            } @placeholder {
+                <div class="min-h-[30vh] w-full"></div>
+            }
         }
         @case ('courses') {
-            <app-courses-section (back)="onBack()" />
+            @defer {
+                <app-courses-section (back)="onBack()" />
+            } @placeholder {
+                <div class="flex min-h-[50vh] items-center justify-center text-[#28A0AE]">Cargando cursos…</div>
+            }
         }
         @case ('articles') {
-            <app-articles-section (back)="onBack()" />
+            @defer {
+                <app-articles-section (back)="onBack()" />
+            } @placeholder {
+                <div class="flex min-h-[50vh] items-center justify-center text-[#28A0AE]">Cargando artículos…</div>
+            }
         }
         @case ('participate') {
-            <app-teams-section (back)="onBack()" />
+            @defer {
+                <app-teams-section (back)="onBack()" />
+            } @placeholder {
+                <div class="flex min-h-[50vh] items-center justify-center text-[#28A0AE]">Cargando…</div>
+            }
         }
         @case ('contact') {
-            <app-contact-section (back)="onBack()" />
+            @defer {
+                <app-contact-section (back)="onBack()" />
+            } @placeholder {
+                <div class="flex min-h-[50vh] items-center justify-center text-[#28A0AE]">Cargando…</div>
+            }
         }
         @case ('donate') {
-            <app-donate-section (back)="onBack()" />
+            @defer {
+                <app-donate-section (back)="onBack()" />
+            } @placeholder {
+                <div class="flex min-h-[50vh] items-center justify-center text-[#28A0AE]">Cargando…</div>
+            }
         }
         @case ('cursos-users') {
-            <app-cursos-users-section (back)="onBack()" />
+            @defer {
+                <app-cursos-users-section (back)="onBack()" />
+            } @placeholder {
+                <div class="flex min-h-[50vh] items-center justify-center text-[#28A0AE]">Cargando…</div>
+            }
         }
         @case ('gallery-screen') {
-            <app-gallery-screen (back)="onBack()" />
+            @defer {
+                <app-gallery-screen (back)="onBack()" />
+            } @placeholder {
+                <div class="flex min-h-[50vh] items-center justify-center text-[#28A0AE]">Cargando galería…</div>
+            }
         }
     }
 
     <app-footer class="w-full" />
 
     @if (showCoursesPromo()) {
-        <app-courses-promo-modal (closed)="onCoursesPromoClosed()" />
+        @defer {
+            <app-courses-promo-modal (closed)="onCoursesPromoClosed()" />
+        }
     }
 </div>

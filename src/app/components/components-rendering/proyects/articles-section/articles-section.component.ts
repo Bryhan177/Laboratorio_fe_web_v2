@@ -85,6 +85,18 @@ export class ArticlesSectionComponent implements OnInit {
     openArticle(article: Article): void {
         this.selectedArticle.set(article);
         this.readerVisible.set(true);
+        void this.loadArticleContent(article.id);
+    }
+
+    private async loadArticleContent(id: string): Promise<void> {
+        try {
+            const full = await this.articlesService.getById(id);
+            if (this.selectedArticle()?.id === id) {
+                this.selectedArticle.set(full);
+            }
+        } catch {
+            /* el listado ya muestra metadatos; el cuerpo queda vacío si falla */
+        }
     }
 
     closeArticle(): void {

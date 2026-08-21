@@ -28,10 +28,11 @@ export type ArticleInput = {
     providedIn: 'root'
 })
 export class ArticlesService {
+    /** Listado público sin `content` (payload liviano). Usar `getById` al abrir detalle. */
     async listPublished(): Promise<Article[]> {
         const { data, error } = await supabase
             .from('articles')
-            .select('id, title, author_id, content, status, published_at, image_url, created_at')
+            .select('id, title, author_id, status, published_at, image_url, created_at')
             .eq('status', 'publicado')
             .order('created_at', { ascending: false });
 
@@ -42,17 +43,33 @@ export class ArticlesService {
         return (data ?? []).map((row: any) => this.mapArticle(row, 'Equipo Laboratorio'));
     }
 
+    /** Listado admin sin `content`. Usar `getById` al editar. */
     async list(): Promise<Article[]> {
         const { data, error } = await supabase
             .from('articles')
-            .select('id, title, author_id, content, status, published_at, image_url, created_at, profiles:author_id(full_name)')
+            .select('id, title, author_id, status, published_at, image_url, created_at, profiles:author_id(full_name)')
             .order('created_at', { ascending: false });
 
         if (error) {
             throw new Error(this.mapReadError(error.message));
         }
 
-        return (data ?? []).map((row: any) => this.mapArticle(row, row.profiles?.full_name || 'Sin autor'));
+        return (data ?? []).map((row: any) => this.mapArticle(row, this.resolveProfileName(row.profiles) || 'Sin autor'));
+    }
+
+    async getById(id: string): Promise<Article> {
+        const { data, error } = await supabase
+            .from('articles')
+            .select('id, title, author_id, content, status, published_at, image_url, created_at, profiles:author_id(full_name)')
+            .eq('id', id)
+            .single();
+
+        if (error) {
+            throw new Error(this.mapReadError(error.message));
+        }
+
+        const profileName = this.resolveProfileName(data?.profiles);
+        return this.mapArticle(data, profileName || 'Equipo Laboratorio');
     }
 
     async create(input: ArticleInput): Promise<Article> {
@@ -103,13 +120,23 @@ export class ArticlesService {
         }
     }
 
+    private resolveProfileName(profiles: unknown): string {
+        if (!profiles) {
+            return '';
+        }
+        if (Array.isArray(profiles)) {
+            return profiles[0]?.full_name || '';
+        }
+        return (profiles as { full_name?: string }).full_name || '';
+    }
+
     private mapArticle(row: any, authorName: string): Article {
         return {
             id: row.id,
             title: row.title,
             author_id: row.author_id,
             author_name: authorName,
-            content: row.content,
+            content: row.content ?? null,
             status: row.status,
             published_at: row.published_at,
             image_url: row.image_url ?? null,

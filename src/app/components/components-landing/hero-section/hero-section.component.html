@@ -1,15 +1,15 @@
 <section class="relative flex min-h-screen w-full items-center justify-center overflow-hidden pt-20">
-    <!-- Carrusel de fondo -->
-    <div class="absolute inset-0">
-        @for (slide of slides; track slide.src; let i = $index) {
+    <!-- Carrusel: solo slides hidratados (actual + siguiente) -->
+    <div class="absolute inset-0 bg-neutral-900">
+        @for (i of visibleSlideIndexes(); track i) {
             <div
                 class="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-50 grayscale transition-opacity duration-1000 ease-in-out"
                 [class.opacity-100]="currentSlide() === i"
                 [class.opacity-0]="currentSlide() !== i"
-                [style.background-image]="'url(' + slide.src + ')'"
+                [style.background-image]="'url(' + slides[i].src + ')'"
                 [attr.aria-hidden]="currentSlide() !== i"
                 role="img"
-                [attr.aria-label]="slide.alt"
+                [attr.aria-label]="slides[i].alt"
             ></div>
         }
     </div>

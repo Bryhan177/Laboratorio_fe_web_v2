@@ -10,13 +10,15 @@ export interface GalleryItem {
   title?: string;
   subtitle?: string;
   imageUrl?: string;
-  bgColor?: string; // Colores personalizados tipo la imagen
+  bgColor?: string;
   textColor?: string;
   fullContent?: string;
   category?: string;
   description?: string;
   date?: string;
 }
+
+type GalleryGroup = { date: string; formattedDate: string; items: GalleryItem[] };
 
 @Component({
     selector: 'app-gallery-screen',
@@ -30,53 +32,51 @@ export class GalleryScreenComponent {
   selectedItem: GalleryItem | null = null;
   activeArticle = signal<GalleryItem | null>(null);
 
-  // Getter para items agrupados por fecha
-  get groupedItems(): { date: string; formattedDate: string; items: GalleryItem[] }[] {
-    const groups = new Map<string, GalleryItem[]>();
-
-    // Agrupar items por fecha
-    this.items.forEach(item => {
-      if (item.date) {
-        if (!groups.has(item.date)) {
-          groups.set(item.date, []);
-        }
-        groups.get(item.date)!.push(item);
-      }
-    });
-
-    // Convertir a array y ordenar por fecha (más reciente primero)
-    const sortedGroups = Array.from(groups.entries())
-      .map(([date, items]) => ({
-        date,
-        formattedDate: this.formatDate(date),
-        items
-      }))
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-    return sortedGroups;
-  }
-
-  // Método para formatear fechas de manera profesional
-  private formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    };
-    return date.toLocaleDateString('es-ES', options);
-  }
-
-  // Datos combinados de los tres archivos por fecha
-  items: GalleryItem[] = [
+  readonly items: GalleryItem[] = [
     ...november132025Data,
     ...july182026Data,
     ...july232026Data
   ];
 
- openArticle(article: GalleryItem): void {
-     this.activeArticle.set(article);
-   }
+  /** Agrupado una sola vez (evita recalcular en cada CD). */
+  readonly groupedItems: GalleryGroup[] = this.buildGroupedItems(this.items);
+
+  private buildGroupedItems(items: GalleryItem[]): GalleryGroup[] {
+    const groups = new Map<string, GalleryItem[]>();
+
+    for (const item of items) {
+      if (!item.date) {
+        continue;
+      }
+      const bucket = groups.get(item.date);
+      if (bucket) {
+        bucket.push(item);
+      } else {
+        groups.set(item.date, [item]);
+      }
+    }
+
+    return Array.from(groups.entries())
+      .map(([date, groupItems]) => ({
+        date,
+        formattedDate: this.formatDate(date),
+        items: groupItems
+      }))
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }
+
+  private formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+
+  openArticle(article: GalleryItem): void {
+    this.activeArticle.set(article);
+  }
 
   closeArticle(): void {
     this.activeArticle.set(null);
@@ -85,5 +85,4 @@ export class GalleryScreenComponent {
   goBack(): void {
     this.back.emit();
   }
-
 }

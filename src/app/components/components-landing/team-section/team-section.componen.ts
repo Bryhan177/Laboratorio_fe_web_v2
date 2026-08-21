@@ -1,11 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
-
-interface MediaItem {
-  type: 'image' | 'video';
-  src: string;
-}
 
 @Component({
     selector: 'app-team-section',
@@ -13,47 +8,73 @@ interface MediaItem {
     imports: [AvatarModule, AnimateOnScrollModule],
     templateUrl: './team-section.component.html'
 })
-export class TeamSectionComponent implements OnInit, OnDestroy {
+export class TeamSectionComponent implements AfterViewInit, OnDestroy {
   @ViewChild('mainVideo') mainVideo!: ElementRef<HTMLVideoElement>;
-  
-  mediaItems: MediaItem[] = [
-    { type: 'video', src: 'assets/video/Team.mp4' }
-  ];
-  
-  currentIndex = 0;
-  private intervalId: any;
+  @ViewChild('videoHost') videoHost!: ElementRef<HTMLElement>;
+
+  readonly previewSrc = 'assets/video/Team2.mp4';
+  readonly modalSrc = 'assets/video/Team.mp4';
+
   isVideoModalOpen = false;
+  videoSrc: string | null = null;
 
-  get currentMedia(): MediaItem {
-    return this.mediaItems[this.currentIndex];
-  }
+  private observer: IntersectionObserver | null = null;
 
-  ngOnInit() {
-    // Intentar reproducir el video automáticamente
-    setTimeout(() => {
-      if (this.mainVideo?.nativeElement) {
-        this.mainVideo.nativeElement.play().catch(err => {
-          console.log('Autoplay bloqueado por el navegador:', err);
-        });
-      }
-    }, 1000);
-  }
-
-  ngOnDestroy() {
-    this.stopRotation();
-  }
-
-  private stopRotation() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
+  ngAfterViewInit(): void {
+    const host = this.videoHost?.nativeElement;
+    if (!host || typeof IntersectionObserver === 'undefined') {
+      this.activatePreviewVideo();
+      return;
     }
+
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting) {
+          this.pausePreview();
+          return;
+        }
+        this.activatePreviewVideo();
+      },
+      { rootMargin: '120px 0px', threshold: 0.15 }
+    );
+
+    this.observer.observe(host);
   }
 
-  openVideoModal() {
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
+    this.observer = null;
+  }
+
+  openVideoModal(): void {
     this.isVideoModalOpen = true;
   }
 
-  closeVideoModal() {
+  closeVideoModal(): void {
     this.isVideoModalOpen = false;
+  }
+
+  activatePreviewVideo(): void {
+    if (!this.videoSrc) {
+      this.videoSrc = this.previewSrc;
+    }
+
+    queueMicrotask(() => {
+      const el = this.mainVideo?.nativeElement;
+      if (!el) {
+        return;
+      }
+      el.play().catch(() => {
+        /* autoplay puede bloquearse; el usuario puede abrir el modal */
+      });
+    });
+  }
+
+  private pausePreview(): void {
+    const el = this.mainVideo?.nativeElement;
+    if (el && !el.paused) {
+      el.pause();
+    }
   }
 }
