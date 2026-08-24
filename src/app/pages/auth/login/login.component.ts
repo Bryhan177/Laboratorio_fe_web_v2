@@ -47,6 +47,11 @@ export class LoginComponent implements OnInit {
         }
     }
 
+    goHome(): void {
+        this.navigationService.navigateTo('landing');
+        void this.router.navigate(['/']);
+    }
+
     async onSubmit(): Promise<void> {
         this.errorMessage = '';
         this.successMessage = '';

@@ -1,12 +1,20 @@
 <div class="min-h-screen flex flex-col justify-between bg-gray-100 dark:bg-surface-900 text-gray-800">
     <!-- Header Superior -->
     <header class="w-full py-4 px-8 flex justify-between items-center border-b border-gray-300 dark:border-gray-100/10 bg-gray-100 dark:bg-surface-900">
-        <div class="flex items-center space-x-2">
-            <!-- Logo de Tu Marca -->
+        <div class="flex items-center gap-3">
+            <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-arrow-left"
+                label="Volver"
+                class="!border-none !bg-[#830479] hover:!bg-[#1e7c87] !text-white shadow-md"
+                (click)="goHome()"
+            ></button>
             <img src="assets/img/logo.jpg" class="h-12 w-12 rounded-full" alt="Logo" />
         </div>
         <div class="flex items-center space-x-4 text-base text-gray-600">
-            <span class="flex gap-2 pt-4 pr-2">
+            <span class="hidden sm:flex gap-2 pt-4 pr-2">
                 <p class="text-black dark:text-gray-200">¿No tienes usuario?</p>
                 <a routerLink="/auth/register" class="text-[#FF7F02] hover:underline">¡Crea uno aquí!</a>
             </span>
@@ -17,20 +25,16 @@
     <!-- Contenido Principal -->
     <main class="flex-1 flex flex-col lg:flex-row">
         <!-- Lado Izquierdo: Video / Banner -->
-        <div class="relative lg:w-7/12 flex items-center justify-center overflow-hidden">
-            <!-- Capa de oscurecimiento para mejorar estética -->
+        <div class="relative lg:w-7/12 flex min-h-[220px] items-center justify-center overflow-hidden">
             <div class="absolute inset-0 bg-black/20 dark:bg-black/40 z-10 pointer-events-none"></div>
-            <!-- Video de fondo -->
             <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0 backdrop-blur-xs">
                 <source src="assets/video/LoginVideo.mp4" type="video/mp4" />
             </video>
-            <!-- Neblina/Gradiente para mezclar con el lado derecho (oculto en móvil donde el diseño es vertical) -->
             <div class="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-r from-transparent via-gray-100/80 to-gray-100 dark:via-surface-900/80 dark:to-surface-900 z-20 pointer-events-none hidden lg:block"></div>
         </div>
 
         <!-- Lado Derecho: Formulario de Login -->
         <div class="lg:w-5/12 flex flex-col justify-center items-center p-8 relative isolate overflow-hidden bg-gray-100 dark:bg-surface-900">
-            <!-- Capas de fondo complejas -->
             <div class="w-full max-w-lg space-y-6 relative z-10 p-10 rounded-md">
                 <h1 class="text-2xl font-bold text-[#28A0AE] dark:text-gray-100 sm:text-5xl text-center drop-shadow-md" [class.animate-welcome-fade-up]="!reducedMotion()">Iniciar sesión</h1>
                 <p class="text-lg text-center drop-shadow-md text-black dark:text-gray-200" [class.animate-welcome-fade-up]="!reducedMotion()">Laboratorio de juego y recreación</p>
@@ -79,14 +83,14 @@
                 <div class="grid grid-cols-1 items-center justify-center gap-4 text-center text-xs text-gray-200">
                     <button
                         type="button"
-                        class="flex gap-2 text-base items-center justify-center p-2 rounded-lg border bg-white dark:dark:bg-surface-800 border-gray-300 dark:border-gray-500/50 text-gray-500 dark:text-white hover:bg-white/10 transition backdrop-blur-sm"
+                        class="flex gap-2 text-base items-center justify-center p-2 rounded-lg border bg-white dark:bg-surface-800 border-gray-300 dark:border-gray-500/50 text-gray-500 dark:text-white hover:bg-white/10 transition backdrop-blur-sm"
                     >
                         <i class="pi pi-google"></i>
                         <span class="pt-0.5">Conectar con Google</span>
                     </button>
                     <button
                         type="button"
-                        class="flex gap-2 text-base items-center justify-center p-2 rounded-lg border bg-white dark:dark:bg-surface-800 border-gray-300 dark:border-gray-500/50 text-gray-500 dark:text-white hover:bg-white/10 transition backdrop-blur-sm"
+                        class="flex gap-2 text-base items-center justify-center p-2 rounded-lg border bg-white dark:bg-surface-800 border-gray-300 dark:border-gray-500/50 text-gray-500 dark:text-white hover:bg-white/10 transition backdrop-blur-sm"
                     >
                         <i class="pi pi-facebook"></i>
                         <span class="pt-0.5">Conectar con Facebook</span>
@@ -101,7 +105,7 @@
                 </div>
 
                 <div class="text-center pt-2">
-                    <a href="#" class="text-base text-[#FF7F02] hover:underline">¿Ha olvidado la contraseña?</a>
+                    <a routerLink="/auth/forgot-password" class="text-base text-[#FF7F02] hover:underline">¿Ha olvidado la contraseña?</a>
                 </div>
             </div>
         </div>
