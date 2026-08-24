@@ -1,0 +1,86 @@
+<!-- Elemento de audio HTML5 -->
+<audio #audioRef [src]="src" loop preload="auto" (loadeddata)="onAudioLoaded()" (canplay)="onAudioCanPlay()" (error)="onAudioError($event)" (play)="isPlaying.set(true)" (pause)="isPlaying.set(false)"></audio>
+
+<!-- Widget flotante en la esquina inferior izquierda -->
+<aside class="fixed bottom-5 left-5 z-50 flex items-center select-none font-sans" aria-label="Reproductor de audio ambiental">
+    <!-- Contenedor principal estilo Glassmorphism -->
+    <div
+        class="group relative flex items-center gap-2.5 rounded-full border border-[#FF7F02]/30 bg-white/90 p-2 shadow-lg backdrop-blur-md transition-all duration-300 hover:shadow-xl hover:border-[#FF7F02]/60 dark:border-[#FF7F02]/20 dark:bg-surface-900/90"
+        [ngClass]="{ 'ring-2 ring-[#FF7F02]/40': isPlaying() }"
+    >
+        <!-- Botón principal de Play / Pause -->
+        <button
+            type="button"
+            (click)="togglePlay()"
+            [attr.aria-label]="isPlaying() ? 'Pausar música ambiental' : 'Reproducir música ambiental'"
+            [title]="isPlaying() ? 'Pausar música ambiental' : 'Reproducir música ambiental'"
+            class="relative flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-tr from-[#FF7F02] to-[#ff9f2d] text-white shadow-md transition-transform duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#FF7F02] focus:ring-offset-2 dark:focus:ring-offset-surface-900"
+        >
+            <!-- Animación de onda de sonido (Equalizer bars) cuando está reproduciendo -->
+            @if (isPlaying()) {
+                <div class="flex items-end justify-center gap-0.5 h-4 w-4">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                    <span class="bar bar-4"></span>
+                </div>
+            } @else {
+                <i class="pi pi-play translate-x-0.5 text-sm"></i>
+            }
+
+            <!-- Pulso animado suave cuando suena -->
+            @if (isPlaying()) {
+                <span class="absolute inset-0 -z-10 animate-ping rounded-full bg-[#FF7F02]/30"></span>
+            }
+        </button>
+
+        <!-- Información y Controles de volumen -->
+        <div class="flex items-center gap-2 pr-2 text-xs transition-all duration-300">
+            <div class="flex flex-col">
+                <span class="font-medium text-neutral-800 dark:text-neutral-100 flex items-center gap-1.5 leading-tight">
+                    <i class="pi pi-volume-up text-[#FF7F02] dark:text-[#ff9f2d] text-xs"></i>
+                    Música ambiental
+                </span>
+                <span class="text-[10px] text-neutral-500 dark:text-neutral-400">
+                    {{ isPlaying() ? 'Reproduciendo' : 'Haz clic para reproducir' }}
+                </span>
+            </div>
+
+            <!-- Botón de Mute rápido -->
+            <button
+                type="button"
+                (click)="toggleMute()"
+                [title]="isMuted() ? 'Activar sonido' : 'Silenciar'"
+                class="flex h-7 w-7 items-center justify-center rounded-full text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-surface-800 dark:hover:text-white transition-colors"
+            >
+                @if (isMuted() || volume() === 0) {
+                    <i class="pi pi-volume-off text-rose-500 text-xs"></i>
+                } @else if (isLowVolume()) {
+                    <i class="pi pi-volume-down text-xs"></i>
+                } @else {
+                    <i class="pi pi-volume-up text-xs"></i>
+                }
+            </button>
+
+            <!-- Control deslizante de volumen -->
+            <div class="flex items-center gap-1.5 w-16 sm:w-20">
+                <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.05"
+                    [value]="isMuted() ? 0 : volume()"
+                    (input)="onVolumeChange($event)"
+                    aria-label="Control de volumen"
+                    title="Ajustar volumen"
+                    class="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-neutral-300 accent-[#FF7F02] dark:bg-surface-700 dark:accent-[#ff9f2d]"
+                />
+            </div>
+        </div>
+
+        <!-- Alerta si ocurre un error al cargar el archivo -->
+        @if (hasError()) {
+            <span class="absolute -top-7 left-0 whitespace-nowrap rounded-md bg-amber-500/90 px-2 py-0.5 text-[10px] font-medium text-white shadow-sm" [title]="'Verifica el archivo en: ' + src"> ⚠️ No se pudo reproducir: {{ src }} </span>
+        }
+    </div>
+</aside>

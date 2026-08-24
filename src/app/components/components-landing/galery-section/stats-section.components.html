@@ -1,137 +1,98 @@
 <div class="bg-white dark:bg-surface-900 min-h-screen flex items-center justify-center p-4 md:p-8 overflow-x-hidden select-none relative transition-colors duration-300">
-
-      <!-- Main Section Container -->
-      <main class="max-w-full mx-auto px-6 sm:px-8 lg:px-12 py-12 lg:py-16">
-        
+    <!-- Main Section Container -->
+    <main class="max-w-full mx-auto px-6 sm:px-8 lg:px-12 py-12 lg:py-16">
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 lg:mb-10 gap-6">
-          <div>
-            <!-- Main Title -->
-            <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight">
-              Explora nuestra galería
-            </h1>
-          </div>
+            <div>
+                <!-- Main Title -->
+                <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight text-center md:text-start">Explora nuestra galería</h1>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 pb-10">
-          @for (article of filteredArticles(); track article.id) {
-            
+            @for (article of filteredArticles(); track article.id) {
+
             <article class="group flex flex-col h-full cursor-pointer" (click)="openArticle(article)">
-              
-              <!-- Date above image (Exact match with photo) -->
-              <div class="text-base text-[#FF7F02] font-medium mb-3">
-                {{ article.date }}
-              </div>
+                <!-- Date above image (Exact match with photo) -->
+                <div class="text-base text-[#FF7F02] font-medium mb-3">{{ article.date }}</div>
 
-              <!-- Image Container with Subtle Hover Effects -->
-              <div class="relative aspect-[4/5] w-full rounded-xl overflow-hidden bg-neutral-900 border-2 border-[#FFDCC2] dark:border-[#FF7F02] mb-5">
-                <img 
-                  [src]="article.imageUrl" 
-                  [alt]="article.imageAlt"
-                  class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out brightness-[0.92] group-hover:brightness-100"
-                  loading="lazy"
-                />
+                <!-- Image Container with Subtle Hover Effects -->
+                <div class="relative aspect-[4/5] w-full rounded-xl overflow-hidden bg-neutral-900 border-2 border-[#FFDCC2] dark:border-[#FF7F02] mb-5">
+                    <img [src]="article.imageUrl" [alt]="article.imageAlt" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out brightness-[0.92] group-hover:brightness-100" loading="lazy" />
 
-                <!-- Bookmark Button Overlay -->
-                <button 
-                  (click)="toggleBookmark(article.id, $event)"
-                  class="absolute top-3 right-3 p-2 rounded-full bg-neutral-950/60 backdrop-blur-md text-white/80 hover:text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
-                  title="Save article">
-                  <svg class="w-3.5 h-3.5" [class.fill-white]="isBookmarked(article.id)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-                  </svg>
-                </button>
-              </div>
+                    <!-- Bookmark Button Overlay -->
+                    <button
+                        (click)="toggleBookmark(article.id, $event)"
+                        class="absolute top-3 right-3 p-2 rounded-full bg-neutral-950/60 backdrop-blur-md text-white/80 hover:text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                        title="Save article"
+                    >
+                        <svg class="w-3.5 h-3.5" [class.fill-white]="isBookmarked(article.id)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                        </svg>
+                    </button>
+                </div>
 
-              <!-- Article Category Tag -->
-              <span class="text-base text-[#FF7F02] font-medium">
-                {{ article.category }}
-              </span>
+                <!-- Article Category Tag -->
+                <span class="text-base text-[#FF7F02] font-medium"> {{ article.category }} </span>
 
-              <!-- Title -->
-              <h2 class="text-2xl sm:text-2xl font-bold text-neutral-800 dark:text-surface-100 tracking-tight leading-tight mb-3">
-                {{ article.title }}
-              </h2>
+                <!-- Title -->
+                <h2 class="text-2xl sm:text-2xl font-bold text-neutral-800 dark:text-surface-100 tracking-tight leading-tight mb-3">{{ article.title }}</h2>
 
-              <!-- Description -->
-              <p class="text-lg text-neutral-800 dark:text-surface-300 font-medium leading-relaxed mb-3">
-                {{ article.description }}
-              </p>
+                <!-- Description -->
+                <p class="text-lg text-neutral-800 dark:text-surface-300 font-medium leading-relaxed mb-3">{{ article.description }}</p>
             </article>
 
-          } @empty {
+            } @empty {
             <div class="col-span-full py-20 text-center">
-              <p class="text-neutral-500 text-base">No articles found matching your criteria.</p>
-              <button 
-                (click)="resetFilters()" 
-                class="mt-4 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-neutral-900 border border-neutral-800 rounded-lg hover:bg-neutral-800 transition-colors">
-                Reset Filters
-              </button>
+                <p class="text-neutral-500 text-base">No articles found matching your criteria.</p>
+                <button (click)="resetFilters()" class="mt-4 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-neutral-900 border border-neutral-800 rounded-lg hover:bg-neutral-800 transition-colors">Reset Filters</button>
             </div>
-          }
+            }
         </div>
-      </main>
-         <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <button (click)="navigateToTeams()" class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-[#D9B3E6] hover:text-[#830479] hover:border-[#830479] hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30">
+    </main>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
+        <button
+            (click)="navigateToTeams()"
+            class="group relative inline-flex items-center justify-center text-base rounded-md bg-[#830479] px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-[#D9B3E6] hover:text-[#830479] hover:border-[#830479] hover:border-2 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30"
+        >
             Ir a galeria
-          </button>
-      </div>
+        </button>
+    </div>
 
-      @if (activeArticle(); as article) {
-        <div 
-          class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#FFDCC2]/50 backdrop-blur-md animate-fade-in"
-          (click)="closeArticle()">
-          
-          <div 
-            class="bg-[#FFDCC2] border border-[#FFDCC2] rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl"
-            (click)="$event.stopPropagation()">
-            
+    @if (activeArticle(); as article) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#FFDCC2]/50 backdrop-blur-md animate-fade-in" (click)="closeArticle()">
+        <div class="bg-[#FFDCC2] border border-[#FFDCC2] rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl" (click)="$event.stopPropagation()">
             <!-- Close Modal Button -->
-            <button 
-              (click)="closeArticle()" 
-              class="absolute top-4 right-4 p-2 rounded-full bg-[#830479] text-white hover:text-white border border-[#830479] transition-colors">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+            <button (click)="closeArticle()" class="absolute top-4 right-4 p-2 rounded-full bg-[#830479] text-white hover:text-white border border-[#830479] transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
             </button>
 
             <!-- Modal Header Content -->
             <div class="flex items-center gap-3 text-xs text-neutral-500 mb-4 font-mono">
-              <span class="px-2 py-0.5 rounded bg-[#FF7F02] border border-[#FF7F02] text-white font-sans font-semibold uppercase tracking-wider text-[10px]">
-                {{ article.category }}
-              </span>
-              <span>•</span>
-              <span>{{ article.date }}</span>
-              <span>•</span>
-              <span>{{ article.readTime }} read</span>
+                <span class="px-2 py-0.5 rounded bg-[#FF7F02] border border-[#FF7F02] text-white font-sans font-semibold uppercase tracking-wider text-[10px]"> {{ article.category }} </span>
+                <span>•</span>
+                <span>{{ article.date }}</span>
+                <span>•</span>
+                <span>{{ article.readTime }} read</span>
             </div>
 
-            <h2 class="text-2xl sm:text-3xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-4">
-              {{ article.title }}
-            </h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-4">{{ article.title }}</h2>
 
             <div class="aspect-video w-full rounded-xl overflow-hidden mb-6 bg-neutral-900 border-2 border-[#FFDCC2]">
-              <img [src]="article.imageUrl" [alt]="article.imageAlt" class="w-full h-full object-cover" />
+                <img [src]="article.imageUrl" [alt]="article.imageAlt" class="w-full h-full object-cover" />
             </div>
             <!-- Full Article Paragraphs -->
             <div class="prose prose-invert max-w-none text-neutral-800/80 text-sm leading-relaxed space-y-4">
-              <p class="text-base text-neutral-800 font-medium">
-                {{ article.description }}
-              </p>
-              <p>
-                {{ article.fullContent }}
-              </p>
+                <p class="text-base text-neutral-800 font-medium">{{ article.description }}</p>
+                <p>{{ article.fullContent }}</p>
             </div>
 
             <!-- Modal Footer -->
             <div class="mt-8 pt-6 border-t border-neutral-800/80 flex items-center justify-between">
-              <button 
-                (click)="closeArticle()" 
-                class="px-5 py-2 rounded-lg bg-[#830479] text-white hover:bg-[#6b0360] text-xs font-semibold transition-colors">
-                Regresar
-              </button>
+                <button (click)="closeArticle()" class="px-5 py-2 rounded-lg bg-[#830479] text-white hover:bg-[#6b0360] text-xs font-semibold transition-colors">Regresar</button>
             </div>
-
-          </div>
         </div>
-      }
+    </div>
+    }
 </div>

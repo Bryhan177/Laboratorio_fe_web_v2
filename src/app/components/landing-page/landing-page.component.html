@@ -88,6 +88,9 @@
 
     <app-footer class="w-full" />
 
+    <!-- Audio de fondo flotante con controles -->
+    <app-background-audio />
+
     @if (showCoursesPromo()) {
         @defer {
             <app-courses-promo-modal (closed)="onCoursesPromoClosed()" />

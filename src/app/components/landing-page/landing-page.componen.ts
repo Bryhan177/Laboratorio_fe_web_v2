@@ -17,6 +17,7 @@ import { CoursesPromoModalComponent } from '../courses-promo-modal/courses-promo
 import { TestimonialsComponent } from '../testimonials/testimonials.component';
 import { CursosUsersSectionComponent } from "../components-rendering/proyects/cursos_users-section/cursos_users-section.component";
 import { GalleryScreenComponent } from "../components-rendering/proyects/gallery-screen/gallery-screen.component";
+import { BackgroundAudioComponent } from '../background-audio/background-audio.component';
 
 @Component({
     selector: 'app-landing-page',
@@ -37,7 +38,8 @@ import { GalleryScreenComponent } from "../components-rendering/proyects/gallery
     CoursesPromoModalComponent,
     TestimonialsComponent,
     CursosUsersSectionComponent,
-    GalleryScreenComponent
+    GalleryScreenComponent,
+    BackgroundAudioComponent
 ],
     templateUrl: './landing-page.component.html'
 })
