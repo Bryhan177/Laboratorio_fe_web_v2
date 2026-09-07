@@ -86,7 +86,7 @@ export class NavigationMenuComponent implements OnInit {
         command: () => this.navigationService.navigateTo('contact')
       },
       {
-        label: "Donaciones",
+        label: "Apóyanos",
         root: true,
 
         command: () => this.navigationService.navigateTo('donate')

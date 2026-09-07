@@ -5,13 +5,13 @@
                 <div class="flex flex-wrap items-end justify-between gap-4 px-2">
                     <div>
                         <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">Calendario de eventos</h1>
-                        <p class="capitalize text-lg font-semibold text-[#830479]">{{ monthLabel() }}</p>
+                        <p class="capitalize text-xl font-semibold text-[#830479] dark:text-[#FF7F02]">{{ monthLabel() }}</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button type="button" class="rounded-full border px-3 py-2 text-[#830479]" (click)="previousMonth()" aria-label="Mes anterior">
+                        <button type="button" class="rounded-full bg-[#830479] px-3 py-2 text-white dark:text-[#FF7F02]" (click)="previousMonth()" aria-label="Mes anterior">
                             <i class="pi pi-chevron-left"></i>
                         </button>
-                        <button type="button" class="rounded-full border px-3 py-2 text-[#830479]" (click)="nextMonth()" aria-label="Mes siguiente">
+                        <button type="button" class="rounded-full bg-[#830479] px-3 py-2 text-white dark:text-[#FF7F02]" (click)="nextMonth()" aria-label="Mes siguiente">
                             <i class="pi pi-chevron-right"></i>
                         </button>
                     </div>

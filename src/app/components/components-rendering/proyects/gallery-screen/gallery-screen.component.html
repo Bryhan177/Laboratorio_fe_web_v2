@@ -3,7 +3,7 @@
      <div class="p-5">
         <button class="hover:text-gray-500 dark:hover:text-surface-300 text-[#830479] dark:bg-[#830479]/80 dark:text-white p-5 rounded-sm" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
     </div>
-    <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-5">Galeria de Eventos</h1>
+    <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-5">Saberes y Experiencias</h1>
   </div>
   <!-- Secciones agrupadas por fecha -->
   @for (group of groupedItems; track group.date) {
@@ -12,11 +12,11 @@
       <div class="flex items-center gap-4 mb-6">
         <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#830479]/30 to-transparent"></div>
         <div class="flex items-center gap-3">
-          <div class="w-2 h-2 rounded-full bg-[#830479]"></div>
-          <h2 class="text-xl sm:text-2xl font-bold text-[#830479] tracking-tight">
+          <div class="w-2 h-2 rounded-full bg-[#830479] dark:bg-[#FF7F02]"></div>
+          <h2 class="text-xl sm:text-2xl font-bold text-[#830479] dark:text-[#FF7F02] tracking-tight">
             {{ group.formattedDate }}
           </h2>
-          <div class="w-2 h-2 rounded-full bg-[#830479]"></div>
+          <div class="w-2 h-2 rounded-full bg-[#830479] dark:bg-[#FF7F02]"></div>
         </div>
         <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#830479]/30 to-transparent"></div>
       </div>

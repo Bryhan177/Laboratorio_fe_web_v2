@@ -5,7 +5,6 @@ import { NavigationMenuComponent } from '../navigation-menu/navigation-menu.comp
 import { FooterComponent } from '../components-landing/footer/footer.component';
 import { CalendarSectionComponent } from '../components-landing/calendar-section/calendar.component';
 import { VisitorContextService } from '../../service/visitor-context.service';
-import { PartTeamComponent } from "../components-landing/part-team/part-team.component";
 import { CoursesSectionComponent } from '../components-rendering/proyects/courses-section/courses-section.component';
 import { NavigationService } from '../../service/navigation.service';
 import { ArticlesSectionComponent } from "../components-rendering/proyects/articles-section/articles-section.component";
@@ -28,7 +27,6 @@ import { BackgroundAudioComponent } from '../background-audio/background-audio.c
     NavigationMenuComponent,
     FooterComponent,
     CalendarSectionComponent,
-    PartTeamComponent,
     GalerySectionComponent,
     CoursesSectionComponent,
     ArticlesSectionComponent,

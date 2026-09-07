@@ -5,35 +5,64 @@
                 Testimonios
             </p>
             <h2 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-3">
-                Lo que viven en el laboratorio
+                Lo que vivimos en el laboratorio
             </h2>
             <p class="text-lg text-neutral-800 dark:text-surface-200 font-medium leading-relaxed mb-3">
                 Voces de quienes han sentido el poder del juego, la recreación y el aprendizaje compartido.
             </p>
         </div>
-
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             @for (item of testimonials; track item.name) {
                 <article
-                    class="flex h-full flex-col rounded-2xl border border-[#830479]/10 dark:border-[#830479]/30 bg-white dark:bg-surface-900 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8"
+                    class="relative flex h-96 flex-col rounded-xl overflow-hidden shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8" [style]="'background-image: url(' + item.avatar + '); background-size: cover; background-position: center;'"
+                    (click)="openModal(item)"
                 >
-                    <i class="pi pi-quote-left mb-4 text-2xl text-[#f87e06]" aria-hidden="true"></i>
-                    <p class="mb-6 flex-grow text-base leading-relaxed text-surface-700 dark:text-surface-200">
-                        “{{ item.quote }}”
-                    </p>
-                    <div class="flex items-center gap-3 border-t border-surface-100 dark:border-surface-700 pt-5">
-                        <img
-                            [src]="item.avatar"
-                            [alt]="item.name"
-                            class="h-12 w-12 rounded-full object-cover ring-2 ring-[#28a0ae]/30"
-                        />
-                        <div>
-                            <p class="font-semibold text-surface-900 dark:text-surface-0">{{ item.name }}</p>
-                            <p class="text-sm text-[#830479] dark:text-[#D9B3E6]">{{ item.role }}</p>
-                        </div>
+                <div class="absolute inset-0 bg-black/30 dark:bg-black/35"></div>
+                <div class="relative flex-1 flex flex-col justify-end p-2 sm:p-3">
+                    <div class="border-b border-[#FF7F02] dark:border-[#FFDCC2]/70">
+                        <h3 class="text-2xl font-normal text-white drop-shadow-lg">{{ item.name }}</h3>
                     </div>
+                    <p class="text-lg font-semibold text-[#FF7F02] dark:text-[#FFDCC2] drop-shadow">{{ item.role }}</p>
+                </div>
                 </article>
             }
         </div>
     </div>
 </section>
+
+<div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+
+    <div 
+        class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
+        (click)="closeModal()">
+    </div>
+
+    <div class="relative z-10 w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl dark:bg-neutral-800">
+
+        <button 
+            (click)="closeModal()" 
+            class="absolute right-4 top-4 z-20 rounded-full bg-[#830479] p-2 text-white hover:bg-black/40 transition-colors">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div *ngIf="selectedItem">
+            <div 
+                class="h-96 w-full" 
+                [style]="'background-image: url(' + selectedItem.avatar + '); background-size: cover; background-position: center;'">
+            </div>
+            
+            <div class="p-6 text-center sm:p-8">
+                <h3 class="text-3xl font-bold text-neutral-800 dark:text-white">{{ selectedItem.name }}</h3>
+                <p class="mt-1 text-xl font-medium text-orange-500 dark:text-[#FFDCC2]">{{ selectedItem.role }}</p>
+                
+                <p class="mt-4 text-neutral-600 dark:text-neutral-300 leading-relaxed text-left">
+                    "{{ selectedItem.quote }}"
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+

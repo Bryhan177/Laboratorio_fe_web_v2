@@ -16,6 +16,21 @@ export interface Testimonial {
     styleUrl: './testimonials.component.scss'
 })
 export class TestimonialsComponent {
+
+    isModalOpen: boolean = false;
+
+    selectedItem: any = null;
+
+    openModal(item: any) {
+        this.selectedItem = item;
+        this.isModalOpen = true;
+    }
+
+    closeModal() {
+        this.isModalOpen = false;
+        this.selectedItem = null;
+    }
+
     readonly testimonials: Testimonial[] = [
         {
             quote: 'Participar en el laboratorio me ayudó a recuperar la alegría de enseñar. Las metodologías son cercanas, humanas y realmente transforman el aula.',
