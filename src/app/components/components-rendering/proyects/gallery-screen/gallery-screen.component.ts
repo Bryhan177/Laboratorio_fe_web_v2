@@ -31,6 +31,7 @@ export class GalleryScreenComponent {
 
   selectedItem: GalleryItem | null = null;
   activeArticle = signal<GalleryItem | null>(null);
+  activeAlbum = signal<GalleryGroup | null>(null);
 
   readonly items: GalleryItem[] = [
     ...november132025Data,
@@ -84,5 +85,13 @@ export class GalleryScreenComponent {
 
   goBack(): void {
     this.back.emit();
+  }
+
+  selectAlbum(group: GalleryGroup): void {
+    this.activeAlbum.set(group);
+  }
+
+  deselectAlbum(): void {
+    this.activeAlbum.set(null);
   }
 }

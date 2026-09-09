@@ -1,43 +1,87 @@
 <div class="max-w-full mx-auto p-4 sm:p-6 bg-[#FFDCC2]/20 min-h-screen">
   <div class="pt-20">
-     <div class="p-5">
-        <button class="hover:text-gray-500 dark:hover:text-surface-300 text-[#830479] dark:bg-[#830479]/80 dark:text-white p-5 rounded-sm" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
+     <div class="p-2 md:p-5 flex items-center gap-4">
+        @if (activeAlbum()) {
+          <button class="hover:text-gray-500 dark:hover:text-surface-300 text-[#830479] dark:bg-[#830479]/80 dark:text-white py-5 md:p-5 rounded-sm" (click)="deselectAlbum()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver a álbumes</button>
+        } @else {
+          <button class="hover:text-gray-500 dark:hover:text-surface-300 text-[#830479] dark:bg-[#830479]/80 dark:text-white py-5 md:p-5 rounded-sm" (click)="goBack()"><i class="pi pi-arrow-left w-5 h-5"></i> Volver al inicio</button>
+        }
     </div>
-    <h1 class="text-2xl sm:text-5xl font-bold text-[#28A0AE] tracking-tight leading-tight mb-5">Saberes y Experiencias</h1>
   </div>
-  <!-- Secciones agrupadas por fecha -->
-  @for (group of groupedItems; track group.date) {
-    <div class="mb-12">
-      <!-- Header de fecha profesional -->
-      <div class="flex items-center gap-4 mb-6">
-        <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#830479]/30 to-transparent"></div>
-        <div class="flex items-center gap-3">
-          <div class="w-2 h-2 rounded-full bg-[#830479] dark:bg-[#FF7F02]"></div>
-          <h2 class="text-xl sm:text-2xl font-bold text-[#830479] dark:text-[#FF7F02] tracking-tight">
-            {{ group.formattedDate }}
-          </h2>
-          <div class="w-2 h-2 rounded-full bg-[#830479] dark:bg-[#FF7F02]"></div>
+
+  <!-- Vista de álbumes (cuando no hay álbum seleccionado) -->
+  @if (!activeAlbum()) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (group of groupedItems; track group.date) {
+        <div
+          (click)="selectAlbum(group)"
+          class="relative rounded-2xl overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:z-10 select-none aspect-video">
+          <!-- Imagen de fondo (primera imagen del álbum) -->
+          @if (group.items[0]?.imageUrl) {
+            <img
+              [src]="group.items[0].imageUrl"
+              [alt]="group.formattedDate"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          } @else {
+            <div class="w-full h-full bg-gradient-to-br from-[#FFDCC2] to-[#D9B3E6]"></div>
+          }
+
+          <!-- Overlay con información del álbum -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6 flex flex-col justify-end">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-2 h-2 rounded-full bg-[#FF7F02]"></div>
+              <span class="text-xs font-mono text-white/80 uppercase tracking-wider">
+                {{ group.items.length }} fotos
+              </span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight drop-shadow">
+              {{ group.formattedDate }}
+            </h2>
+            <p>{{ group.items[0]?.description }}</p>
+          </div>
+
+          <!-- Overlay de hover -->
+          <div class="absolute inset-0 bg-[#830479]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
         </div>
-        <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#830479]/30 to-transparent"></div>
+      }
+    </div>
+  }
+
+  <!-- Vista de fotos del álbum seleccionado -->
+  @if (activeAlbum(); as album) {
+    <div class="mb-12">
+      <!-- Header del álbum -->
+      <div class="flex items-center gap-4 mb-6">
+        <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#FF7F02]/30 to-transparent"></div>
+        <div class="flex items-center gap-3">
+          <div class="w-2 h-2 rounded-full bg-[#FF7F02]"></div>
+          <h2 class="text-base sm:text-lg font-bold text-[#FF7F02] tracking-tight">
+            {{ album.formattedDate }}
+          </h2>
+          <div class="w-2 h-2 rounded-full bg-[#FF7F02]"></div>
+        </div>
+        <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#FF7F02]/30 to-transparent"></div>
       </div>
 
-      <!-- Grid de items para esta fecha -->
+      <!-- Grid de items del álbum -->
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-3">
-        @for (item of group.items; track item.id; let i = $index) {
-          <div 
+        @for (item of album.items; track item.id; let i = $index) {
+          <div
             (click)="openArticle(item)"
             class="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:z-10 select-none">
-            
+
             <!-- CASO 1: ÍTEM CON IMAGEN -->
             @if (item.type === 'image') {
-              <img 
-                [src]="item.imageUrl" 
-                [alt]="item.title || 'Gallery item'" 
+              <img
+                [src]="item.imageUrl"
+                [alt]="item.title || 'Gallery item'"
                 loading="lazy"
                 decoding="async"
                 fetchpriority="low"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              
+
               <!-- Capa o texto superpuesto si existe -->
               @if (item.title) {
                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 flex flex-col justify-end">
@@ -51,7 +95,7 @@
             <!-- CASO 2: ÍTEM DE SOLO TEXTO / TARJETA EDITORIAL -->
             @if (item.type === 'text') {
               <div [class]="'w-full h-full p-5 sm:p-6 flex flex-col justify-between ' + (item.bgColor || 'bg-[#FFDCC2]')">
-                
+
                 <!-- Encabezado / Tag opcional -->
                 <div class="flex justify-between items-center text-[10px] font-mono tracking-widest uppercase">
                   <span class="opacity-80">{{ item.subtitle || 'COMMUNITY' }}</span>
@@ -119,20 +163,17 @@
             <!-- Author Info -->
             <div class="flex items-center gap-3 pb-6 border-b border-neutral-800/80 mb-6">
               <div>
-                <p class="text-[11px] text-neutral-500">Design & Technology Strategist</p>
+                <p class="text-[11px] text-neutral-500">{{article.category}}</p>
               </div>
             </div>
 
             <!-- Full Article Paragraphs -->
             <div class="prose prose-invert max-w-none text-neutral-800/80 text-sm leading-relaxed space-y-4">
               <p class="text-base text-neutral-800 font-medium">
-                {{ article.description }}
+                {{ article.title }}
               </p>
               <p>
-                {{ article.fullContent }}
-              </p>
-              <p>
-                When building modern web applications, every millisecond and visual micro-interaction matters. Design systems must harmoniously combine aesthetics, layout grid consistency, and purposeful whitespace to foster trust and engagement.
+                {{ article.description}}
               </p>
             </div>
 

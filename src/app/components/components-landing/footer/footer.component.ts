@@ -30,10 +30,9 @@ export class FooterComponent {
     currentYear = new Date().getFullYear();
 
     socialLinks: SocialLink[] = [
-        { icon: 'pi-facebook', label: 'Facebook', url: 'https://facebook.com' },
-        { icon: 'pi-instagram', label: 'Instagram', url: 'https://instagram.com' },
-        { icon: 'pi-youtube', label: 'YouTube', url: 'https://youtube.com' },
-        { icon: 'pi-linkedin', label: 'LinkedIn', url: 'https://linkedin.com' }
+        { icon: 'pi-facebook', label: 'Facebook', url: 'https://www.facebook.com/LaboratorioMetodologiasParticipativas/' },
+        { icon: 'pi-instagram', label: 'Instagram', url: 'https://www.instagram.com/laboratoriometodologias/' },
+        { icon: 'pi-youtube', label: 'YouTube', url: 'https://www.youtube.com/@LaboratorioMetodologias/videos' },
     ];
 
     quickLinks: FooterLink[] = [

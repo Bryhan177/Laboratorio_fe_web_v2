@@ -3,7 +3,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export interface info {
     title: string;
     desc: string;
-    ubic: string;
 }
 
 @Component({
@@ -20,24 +19,12 @@ export class ContactSectionComponent {
     
     info: info[] = [
         {
-            title: 'Dirección',
-            desc: 'Calle 45 # 12-30',
-            ubic: 'Bogotá, Colombia'
-        },
-        {
             title: 'Teléfono',
-            desc: '+57 601 555 0134',
-            ubic: 'Lun a Vie'
+            desc: '+57 314 7454942',
         },
         {
             title: 'Correo',
-            desc: 'hola@fundacionrecrea.org',
-            ubic: 'Correo corporativo'
+            desc: 'laboratoriometologiasparti@gmail.com',
         },
-        {
-            title: 'Horario',
-            desc: 'Lun - Vie: 8:00 - 18:00',
-            ubic: 'Sáb: 9:00 - 13:00'
-        }
     ];
 }
